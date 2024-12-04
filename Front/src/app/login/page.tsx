@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ROUTES } from "@/constants/routes";
+import Image from "next/image";
+import google from "@/app/assets/google.png";
 
 export default function Login() {
 
@@ -27,9 +30,11 @@ export default function Login() {
 
     const style =
     {
-      main: "min-h-screen w-full bg-black flex justify-center items-center"
+        main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center",
+        inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
+        imagen: "w-7 h-7 rounded-t-3xl m-2",
     }
-  
+
     return (
       <>
         <main className={style.main}>
@@ -38,10 +43,10 @@ export default function Login() {
               <h2 className="text-pink-700 font-semibold text-2xl">Welcome,</h2>
               <h2 className="font-normal text-2xl">Glad to see you</h2></div>
             <div className="flex flex-col items-center gap-2 text-black">
-              <input type="email" className="rounded p-1" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-              <input type="password" className="rounded p-1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+              <input/>
+              <input/>
             </div>
-            <button type="button"  onClick={async() => await fetch(email,password)} className="bg-white text-black p-2">Login</button>
+            <button type="submit" className="bg-white text-black p-2">Login</button>
             <div className="flex flex-row items-center justify-center gap-4 w-full">
               <div className="bg-white h-1 w-1/4"></div>
               <h2 className="m-0">Or login with</h2>
@@ -59,5 +64,4 @@ export default function Login() {
         </main>
       </>
     );
-  }
-  
+}

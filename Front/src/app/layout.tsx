@@ -26,10 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-[#1E1E1E]">
+    // <html lang="en" className="bg-[#1E1E1E]">
+    //   <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    //     <Menu title={"Ryse"}/>
+    //     <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"}/>
+    //     {children}
+    //   </body>
+    // </html>
+    
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Menu title={"Ryse"}/>
-        <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"}/>
         {children}
       </body>
     </html>

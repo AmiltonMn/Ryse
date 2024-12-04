@@ -1,9 +1,9 @@
 export enum ROUTES {
+    login = "/",
+    register = "/cadastro",
     home = "/home",
     chats = "/chats",
     groups = "/groups",
     ideas = "/ideas",
-    profile = "/profile",
-    login = "/",
-    register =  "/cadastro",
+    profile = "/profile"
 }
