@@ -37,11 +37,13 @@ public class UserImplementations implements UserServices {
             var encoder = new BCryptPasswordEncoder();
 
             User newUser = new User();
+
             newUser.setName(data.name());
             newUser.setEmail(data.email());
             newUser.setEdv(data.EDV());
             newUser.setPassword(encoder.encode(data.password()));
             userRepo.save(newUser);
+            
             return "User created with sucess";
         
     }
