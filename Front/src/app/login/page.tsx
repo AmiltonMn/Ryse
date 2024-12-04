@@ -21,15 +21,14 @@ export default function Login() {
                         <h2 className="font-normal text-2xl">Glad to see you</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
                         <input className={style.inputz} type="email" placeholder="Email" />
-                        <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">Please provide a valid email address.</p>
                         <input className={style.inputz} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Login</button>
                     <div className="flex flex-col w-full items-center gap-3">
                         <div className="flex flex-row items-center justify-center gap-4 w-full">
-                            <div className="bg-white h-0.5 w-1/4"></div>
+                            <div className="bg-white h-[1px] w-1/4"></div>
                             <h2 className="m-0">Or login with</h2>
-                            <div className="bg-white h-0.5 w-1/4" ></div>
+                            <div className="bg-white h-[1px] w-1/4" ></div>
                         </div>
                         <div className="flex flex-row justify-between w-11/12 text-black">
                             <button className="bg-white p-1 ps-8 pe-8 rounded">
