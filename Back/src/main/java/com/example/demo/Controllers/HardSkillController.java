@@ -1,0 +1,68 @@
+package com.example.demo.Controllers;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.DTO.HardSkillName;
+import com.example.demo.Services.HardSkillService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.demo.DTO.addSkillUser;
+
+@RestController
+@RequestMapping("/hardSkill")
+public class HardSkillController {
+
+    @Autowired
+    HardSkillService hardSkillService;
+
+    @PostMapping
+    public ResponseEntity<String> createHardSkill(@RequestBody HardSkillName data) {
+        if (data.name().isEmpty())
+            return new ResponseEntity<>("Coloque um nome para o espaço", HttpStatus.NOT_ACCEPTABLE);
+
+        String response = hardSkillService.createSkill(data.name());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<String> postMethodName(@RequestBody addSkillUser data) {
+
+        boolean response = hardSkillService.addHardSkillToUser(data.idUser(), data.idHardSkill());
+
+        if (!response) {
+            return new ResponseEntity<>("A tentativa de adicionar falhou", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Adicionado", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idSkill}")
+    public ResponseEntity<String> deleteHardSkill(@PathVariable  Long idSkill) {
+
+        boolean response = hardSkillService.deleteHardSkill(idSkill);
+
+        if (!response) {
+            return new ResponseEntity<>("A tentativa de deletar falhou", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("deletado", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idUser}/{idSkill}")
+    public ResponseEntity<String> deleteHardSkillfromUser(@PathVariable  Long idUser,@PathVariable  Long idSkill) {
+
+        boolean response = hardSkillService.deleteHardSkillUser(idUser, idSkill);
+
+        if (!response) {
+            return new ResponseEntity<>("A tentativa de deletar falhou", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("deletado", HttpStatus.OK);
+    }
+
+}
