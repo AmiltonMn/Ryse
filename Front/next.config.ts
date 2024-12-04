@@ -12,7 +12,27 @@ const nextConfig = {
           source: "/cadastro",
           destination: "/register"
 
-        }
+        },
+        {
+          source: "/home",
+          destination: "/home"
+        },
+        {
+          source: "/chats",
+          destination: "/chats"
+        },
+        {
+          source: "/groups",
+          destination: "/groups"
+        },
+        {
+          source: "/ideas",
+          destination: "/ideas"
+        },
+        {
+          source: "/profile",
+          destination: "/profile"
+        },
       ]
   }
 };
