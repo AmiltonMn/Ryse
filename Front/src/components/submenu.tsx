@@ -6,6 +6,7 @@ import iconHome from "@/app/assets/home.png";
 import iconGroup from "@/app/assets/grupo.png";
 import iconMessage from "@/app/assets/mensagem.png";
 import iconIdea from "@/app/assets/luz.png";
+import iconMore from "@/app/assets/mais.png";
 
 interface SubmenuProps {
     home: string;
@@ -18,6 +19,7 @@ interface SubmenuProps {
     newIdea: string;
     ideas: string;
 }
+
 const styleSubmenu = {
     link: "text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
     div: "flex flex-col",
@@ -45,7 +47,7 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>GRUPOS</h5>
                     <Link href={ROUTES.groups} className={styleSubmenu.button}>
-                        <Image src={iconGroup} alt="ícone grupo" className={styleSubmenu.img}/>
+                        <Image src={iconMore} alt="ícone grupo" className={styleSubmenu.img}/>
                         {newGroup}
                     </Link>
                     <Link href={ROUTES.groups} className={styleSubmenu.link}>
@@ -73,7 +75,7 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>MURAL DE IDEIAS</h5> 
                     <Link href={ROUTES.ideas} className={styleSubmenu.button}>
-                        <Image src={iconIdea} alt="ícone ideia" className={styleSubmenu.img}/>
+                        <Image src={iconMore} alt="ícone ideia" className={styleSubmenu.img}/>
                         {newIdea}
                     </Link>
                     <Link href={ROUTES.ideas} className={styleSubmenu.link}>
