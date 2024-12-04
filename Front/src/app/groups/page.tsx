@@ -24,7 +24,7 @@ export default function Home() {
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <h2 className="text-3xl font-semibold">Groups</h2>
-                        <input className={style.inputz} placeholder="Search" />
+                        <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] "/>
                     </div>
                     <hr className="mt-4" />
                     <div className="w-full flex flex-wrap mt-8 ms-8 gap-8">
@@ -36,8 +36,9 @@ export default function Home() {
                                 </div>
                                 <p className="mt-5">Descrição sobre o hrupo legal ebva ebva, mais mensagens opa oena</p>
                             </div>
-                            <button className="bg-white text-black">Open</button>
+                            <button className="bg-white rounded-lg font-semibold p-1 text-black">Open</button>
                         </div>
+                        
                     </div>
                 </div>
             </div>
