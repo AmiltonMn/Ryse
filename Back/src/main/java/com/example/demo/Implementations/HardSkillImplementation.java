@@ -39,7 +39,7 @@ public class HardSkillImplementation implements HardSkillService {
     public ResponseEntity<HardSkillReturn> deleteHardSkill(Long idSkill) {
         var skill = hardSkillRepo.findById(idSkill);
         if (skill.isEmpty()) {
-            return  new ResponseEntity<>(new HardSkillReturn("Skill doesn't exist", true), HttpStatus.NO_CONTENT);
+            return  new ResponseEntity<>(new HardSkillReturn("Skill doesn't exist", false), HttpStatus.NO_CONTENT);
         }
        hardSkillRepo.delete(skill.get());
        return new ResponseEntity<>(new HardSkillReturn("Skill deleted with sucess", true), HttpStatus.OK);
@@ -52,7 +52,7 @@ public class HardSkillImplementation implements HardSkillService {
         var user = userRepo.findById(idUser);
 
         if(user.isEmpty()){
-            return new ResponseEntity<>(new HardSkillReturn("This user doesn't exist", true), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new HardSkillReturn("This user doesn't exist", false), HttpStatus.CONFLICT);
         }
 
         var skill = hardSkillRepo.findById(idSkill);
