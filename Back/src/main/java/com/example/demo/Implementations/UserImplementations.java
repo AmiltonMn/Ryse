@@ -60,7 +60,7 @@ public class UserImplementations implements UserServices {
 
         User user = userOptional.get();
 
-        if(!encode.validate(user.getPassword(), data.password()))
+        if(!encode.validate(data.password(), user.getPassword()))
             return new LoginReturn("Password incorrect", false);
 
         Token token = new Token();
