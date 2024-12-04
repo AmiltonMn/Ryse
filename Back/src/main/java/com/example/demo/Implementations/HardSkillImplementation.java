@@ -1,5 +1,7 @@
 package com.example.demo.Implementations;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.Models.HardSkill;
@@ -64,5 +66,17 @@ public class HardSkillImplementation implements HardSkillService {
     public boolean deleteHardSkillUser(Long idUser, Long idSkill ) {
         var deleted = userHardSkillRepo.excludeHardSkill(idUser, idSkill);
         return deleted;
+    }
+
+
+    @Override
+    public List<HardSkill> getAllHardSkill() {
+        return hardSkillRepo.findAll();
+    }
+
+
+    @Override
+    public List<HardSkill> getAllHardSkillUser(Long idUser) {
+       return userHardSkillRepo.getHardSkillUser(idUser);
     }
 }

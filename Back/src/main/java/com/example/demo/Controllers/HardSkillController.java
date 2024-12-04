@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.HardSkillName;
 import com.example.demo.Services.HardSkillService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.DTO.addSkillUser;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import com.example.demo.Models.HardSkill;
+
 
 @RestController
 @RequestMapping("/hardSkill")
@@ -65,4 +71,16 @@ public class HardSkillController {
         return new ResponseEntity<>("deletado", HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<HardSkill>>  getHardSkill() {
+        return  new ResponseEntity<>(hardSkillService.getAllHardSkill(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{idUser}")
+    public ResponseEntity<List<HardSkill>>  getHardSkillUser(@PathVariable  Long idUser) {
+        return  new ResponseEntity<>(hardSkillService.getAllHardSkillUser(idUser), HttpStatus.OK);
+    }
+    
+
 }
+
