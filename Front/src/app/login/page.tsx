@@ -1,16 +1,18 @@
+import { ROUTES } from "@/constants/routes";
+
 export default function Login() {
 
     const style =
     {
-      main: "min-h-screen w-full bg-black flex justify-center items-center"
+      main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center"
     }
   
     return (
       <>
         <main className={style.main}>
-          <form className="text-white h-1/2 w-96 bg-slate-700 flex flex-col items-center gap-7 p-10">
+          <form className="text-white h-1/2 w-96 bg-[#242424] rounded border-2 border-[#656565] flex flex-col items-center gap-7 p-10">
             <div className="flex flex-col items-center">
-              <h2 className="text-pink-700 font-semibold text-2xl">Welcome,</h2>
+              <h2 className="text-[#F41C54] font-semibold text-2xl">Welcome,</h2>
               <h2 className="font-normal text-2xl">Glad to see you</h2></div>
             <div className="flex flex-col items-center gap-2 text-black">
               <input/>
@@ -28,7 +30,7 @@ export default function Login() {
             </div>
             <div className="flex flex-row justify-center gap-2">
               <p>Don't have an account?</p>
-              <a href="">Sign Up Now</a>
+              <a href={ROUTES.register} className="text-[#F41C54] font-normal">Sign Up Now</a>
             </div>
           </form>
         </main>
