@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
+import com.example.demo.DTO.LoginReturn;
 import com.example.demo.DTO.RegisterData;
 import com.example.demo.DTO.Token;
 import com.example.demo.JWTCreate;
@@ -49,20 +50,20 @@ public class UserImplementations implements UserServices {
     }
 
     @Override
-    public String Login(LoginData data) {
+    public LoginReturn Login(LoginData data) {
         
         if(data.email().isEmpty() || data.password().isEmpty())
-            return "All fields must be filled in";
+            return new LoginReturn("All fields must be filled in", false);
 
         Optional<User> userOptional = userRepo.findByEmail(data.email());
 
         if(userOptional.isEmpty())
-            return "User not found";
+            return new LoginReturn("User not found", false);
 
         User user = userOptional.get();
 
-        if(!encode.validate(user.getPassword(), data.password()))
-            return "Password incorrect";
+        if(!encode.validate(data.password(), user.getPassword()))
+            return new LoginReturn("Password incorrect", false);
 
         Token token = new Token();
 
@@ -73,7 +74,7 @@ public class UserImplementations implements UserServices {
 
         String jwt = "Bearer " + jwtCreate.get(token);
 
-        return jwt;
+        return new LoginReturn(jwt, true);
     }
 
     @Override
