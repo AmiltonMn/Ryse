@@ -2,10 +2,10 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import iconHome from "@/app/assets/home.png";
-import iconGroup from "@/app/assets/grupo.png";
-import iconMessage from "@/app/assets/mensagem.png";
-import iconIdea from "@/app/assets/luz.png";
+import iconHome from "@/assets/home.png";
+import iconGroup from "@/assets/grupo.png";
+import iconMessage from "@/assets/mensagem.png";
+import iconIdea from "@/assets/luz.png";
 
 interface SubmenuProps {
     home: string;
@@ -19,16 +19,16 @@ interface SubmenuProps {
     ideas: string;
 }
 const styleSubmenu = {
-    link: "text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
+    link: "text-white text-[13px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
     div: "flex flex-col",
-    button: "text-white text-[16px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
-    img: "w-7 h-7 rounded-t-3xl m-2",
+    button: "text-white text-[13px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
+    img: "w-6 h-6 rounded-t-3xl m-2",
     hr: "mb-2 mt-2"
 }
 
 export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas}) => {
     return(
-        <div className="text-white h-full w-[300px] fixed font-robFont text-large border-[0.5px] border-[#656565] bg-[#292929]">
+        <div className="text-white h-full w-[250px] fixed font-robFont text-large border-[0.5px] border-[#656565] bg-[#292929]">
             <div className="flex flex-col p-6 mt-28">
                 <div className={styleSubmenu.div}>
                     <Link href={ROUTES.home} className={styleSubmenu.link}>
