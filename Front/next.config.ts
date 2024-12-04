@@ -3,11 +3,16 @@ const nextConfig = {
 
   rewrites: () => {
       return [
-          {
-              source: "/about",
-              destination: "/"
+        {
+            source: "/",
+            destination: "/login"
 
-          }
+        },
+        {
+          source: "/cadastro",
+          destination: "/register"
+
+        }
       ]
   }
 };
