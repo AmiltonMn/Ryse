@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.Filters.JWTAuthenticationFilter;
+import com.example.demo.Implementations.EncodeImplementations;
+import com.example.demo.Implementations.UserImplementations;
+import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.JWTService;
 import com.example.demo.Services.UserServices;
-import com.example.demo.Implementations.UserImplementations;
 
 @Configuration
 public class DependencyConfiguration {
@@ -26,5 +28,11 @@ public class DependencyConfiguration {
     public UserServices userServices(){
         return new UserImplementations();
     }
+
+    @Bean
+    public EncodeServices encodeServices(){
+        return new EncodeImplementations();
+    }
+
 
 }

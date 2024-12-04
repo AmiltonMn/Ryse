@@ -1,12 +1,17 @@
 package com.example.demo.Implementations;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.RegisterData;
+import com.example.demo.DTO.Token;
+import com.example.demo.JWTCreate;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.UserRepository;
+import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
 
 
@@ -14,6 +19,9 @@ public class UserImplementations implements UserServices {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    EncodeServices encode;
 
     @Override
     public String register(RegisterData data) {
@@ -51,7 +59,7 @@ public class UserImplementations implements UserServices {
 
         User user = userOptional.get();
 
-        if(!encoder.validate(user.getPassword(), data.password))
+        if(!encode.validate(user.getPassword(), data.password()))
             return "Password incorrect";
 
         Token token = new Token();
