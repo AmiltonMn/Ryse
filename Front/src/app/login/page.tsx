@@ -21,6 +21,7 @@ export default function Login() {
                         <h2 className="font-normal text-2xl">Glad to see you</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
                         <input className={style.inputz} type="email" placeholder="Email" />
+                        <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">Please provide a valid email address.</p>
                         <input className={style.inputz} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Login</button>
