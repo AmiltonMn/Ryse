@@ -20,7 +20,9 @@ export const Menu: React.FC<MenuProps> = ({title}) => {
             </div>
             <div className="flex">
                 <Image src={iconNotify} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2"/>
-                <Image src={iconProfile} alt="ícone perfil" className="w-7 h-7 rounded-t-3xl m-2"/>
+                <Link href={ROUTES.profile} className="">
+                    <Image src={iconProfile} alt="ícone perfil" className="w-7 h-7 rounded-t-3xl m-2"/>
+                </Link>
             </div>
           </div>
         </nav>

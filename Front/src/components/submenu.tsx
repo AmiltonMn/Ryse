@@ -18,6 +18,7 @@ interface SubmenuProps {
     newIdea: string;
     ideas: string;
 }
+
 const styleSubmenu = {
     link: "text-white text-[13px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
     div: "flex flex-col",
@@ -42,8 +43,9 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 </div>
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
+                    <h5 className={styleSubmenu.h5}>GRUPOS</h5>
                     <Link href={ROUTES.groups} className={styleSubmenu.button}>
-                        <Image src={iconGroup} alt="ícone grupo" className={styleSubmenu.img}/>
+                        <Image src={iconMore} alt="ícone grupo" className={styleSubmenu.img}/>
                         {newGroup}
                     </Link>
                     <Link href={ROUTES.groups} className={styleSubmenu.link}>
@@ -53,6 +55,7 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 </div>
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
+                    <h5 className={styleSubmenu.h5}>CHATS PRINCIPAIS</h5>
                     <Link href={ROUTES.chats} className={styleSubmenu.link}>
                         <Image src={iconMessage} alt="ícone chat" className={styleSubmenu.img}/>
                         {chatPrincipal1}
@@ -68,8 +71,9 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 </div>
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
+                    <h5 className={styleSubmenu.h5}>MURAL DE IDEIAS</h5> 
                     <Link href={ROUTES.ideas} className={styleSubmenu.button}>
-                        <Image src={iconIdea} alt="ícone ideia" className={styleSubmenu.img}/>
+                        <Image src={iconMore} alt="ícone ideia" className={styleSubmenu.img}/>
                         {newIdea}
                     </Link>
                     <Link href={ROUTES.ideas} className={styleSubmenu.link}>
@@ -77,7 +81,7 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                         {ideas}
                     </Link>
                 </div>
-                <a className={styleSubmenu.link}>Sair</a>
+                <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[40%]">Sair</a>
             </div>
         </div>
     )

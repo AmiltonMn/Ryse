@@ -35,6 +35,7 @@ public class SecurityConfigurations {
             .authorizeHttpRequests(authorize -> authorize
                 // Permite acesso livre ao endpoint de login
                 .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/register").permitAll()
                 // Permite acesso livre a todos os endpoints GET
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 // Restringe todos os POST para ADMIN
