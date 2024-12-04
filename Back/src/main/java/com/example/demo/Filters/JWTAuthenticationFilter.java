@@ -24,7 +24,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
         
-        if (path.startsWith("/user") || path.startsWith("/auth")) {
+        if (path.startsWith("/user") || path.startsWith("/login")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -43,9 +43,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String edv = token.getRole();
+        String role = token.getRole();
         
-        var authentication = new UsernamePasswordAuthenticationToken(edv, null, null);
+        var authentication = new UsernamePasswordAuthenticationToken(role, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         request.setAttribute("token", token);
