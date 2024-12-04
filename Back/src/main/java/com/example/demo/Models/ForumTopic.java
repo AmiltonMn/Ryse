@@ -10,8 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbTopicForum")
-public class TopicForum {
+@Table(name = "tbForumTopic")
+public class ForumTopic {
     
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

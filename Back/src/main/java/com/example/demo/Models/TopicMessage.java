@@ -2,6 +2,8 @@ package com.example.demo.Models;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,49 +11,47 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class Question {
+@Table(name = "tbTopicMessage")
+public class TopicMessage {
     
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idQuestion;
-
-    @ManyToOne
-    @JoinColumn(name = "idTopicForum", nullable = false)
-    private ForumTopic topicForumEntity;
+    private Long idTopicMessage;
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
-    private User userEntity;
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "idTopicChat", nullable = false)
+    private TopicChat chat;
 
     @Column
     private String text;
 
     @Column
-    private String title;
+    private Boolean deleted;
 
     @Column
     private Date date;
 
-    public Long getIdQuestion() {
-        return idQuestion;
+    public Long getIdTopicMessage() {
+        return idTopicMessage;
     }
 
-    public ForumTopic getTopicForumEntity() {
-        return topicForumEntity;
+    public void setIdTopicMessage(Long idTopicMessage) {
+        this.idTopicMessage = idTopicMessage;
     }
 
-    public void setTopicForumEntity(ForumTopic topicForumEntity) {
-        this.topicForumEntity = topicForumEntity;
+    public User getUser() {
+        return user;
     }
 
-    public User getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getText() {
@@ -62,12 +62,12 @@ public class Question {
         this.text = text;
     }
 
-    public String getTitle() {
-        return title;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Date getDate() {
@@ -77,4 +77,6 @@ public class Question {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    
 }
