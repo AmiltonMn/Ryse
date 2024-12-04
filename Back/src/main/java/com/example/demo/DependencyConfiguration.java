@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import com.example.demo.DTO.Token;
 import com.example.demo.Filters.JWTAuthenticationFilter;
 import com.example.demo.Services.JWTService;
+import com.example.demo.Services.UserServices;
+import com.example.demo.Implementations.UserImplementations;
 
 @Configuration
 public class DependencyConfiguration {
@@ -18,6 +20,11 @@ public class DependencyConfiguration {
     @Bean
     public JWTAuthenticationFilter JWTAuthenticationFilter() {
         return new JWTAuthenticationFilter();
+    }
+
+    @Bean
+    public UserServices userServices(){
+        return new UserImplementations();
     }
 
 }
