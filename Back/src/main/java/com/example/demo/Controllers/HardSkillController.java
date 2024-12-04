@@ -2,7 +2,8 @@ package com.example.demo.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.HardSkillName;
+import com.example.demo.DTO.HardSkillDTO.HardSkillName;
+import com.example.demo.DTO.HardSkillDTO.addSkillUser;
 import com.example.demo.Services.HardSkillService;
 
 import java.util.List;
@@ -15,12 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.example.demo.DTO.addSkillUser;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.demo.Models.HardSkill;
-
 
 @RestController
 @RequestMapping("/hardSkill")
@@ -50,7 +47,7 @@ public class HardSkillController {
     }
 
     @DeleteMapping("/{idSkill}")
-    public ResponseEntity<String> deleteHardSkill(@PathVariable  Long idSkill) {
+    public ResponseEntity<String> deleteHardSkill(@PathVariable Long idSkill) {
 
         boolean response = hardSkillService.deleteHardSkill(idSkill);
 
@@ -61,7 +58,7 @@ public class HardSkillController {
     }
 
     @DeleteMapping("/{idUser}/{idSkill}")
-    public ResponseEntity<String> deleteHardSkillfromUser(@PathVariable  Long idUser,@PathVariable  Long idSkill) {
+    public ResponseEntity<String> deleteHardSkillfromUser(@PathVariable Long idUser, @PathVariable Long idSkill) {
 
         boolean response = hardSkillService.deleteHardSkillUser(idUser, idSkill);
 
@@ -72,15 +69,13 @@ public class HardSkillController {
     }
 
     @GetMapping
-    public ResponseEntity<List<HardSkill>>  getHardSkill() {
-        return  new ResponseEntity<>(hardSkillService.getAllHardSkill(), HttpStatus.OK);
+    public ResponseEntity<List<HardSkill>> getHardSkill() {
+        return new ResponseEntity<>(hardSkillService.getAllHardSkill(), HttpStatus.OK);
     }
 
     @GetMapping("/{idUser}")
-    public ResponseEntity<List<HardSkill>>  getHardSkillUser(@PathVariable  Long idUser) {
-        return  new ResponseEntity<>(hardSkillService.getAllHardSkillUser(idUser), HttpStatus.OK);
+    public ResponseEntity<List<HardSkill>> getHardSkillUser(@PathVariable Long idUser) {
+        return new ResponseEntity<>(hardSkillService.getAllHardSkillUser(idUser), HttpStatus.OK);
     }
-    
 
 }
-

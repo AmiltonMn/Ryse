@@ -1,4 +1,4 @@
-package com.example.demo.DTO;
+package com.example.demo.DTO.RegisterDTO;
 
 public record RegisterData(
     String name,
