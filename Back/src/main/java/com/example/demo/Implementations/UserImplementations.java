@@ -7,9 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.LoginReturn;
-import com.example.demo.DTO.Token;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
 import com.example.demo.DTO.RegisterDTO.RegisterReturn;
+import com.example.demo.DTO.Token;
 import com.example.demo.JWTCreate;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.UserRepository;
@@ -30,13 +30,13 @@ public class UserImplementations implements UserServices {
         if (!checkPassword(data.password()))
             return new RegisterReturn("Password does not meet the criteria", false);
 
-        if (userRepo.findByEmail(data.email()).isEmpty())
+        if (!userRepo.findByEmail(data.email()).isEmpty())
             return new RegisterReturn("Already have a user with this email", false);
 
-        if (userRepo.findByName(data.name()).isEmpty())
+        if (!userRepo.findByName(data.name()).isEmpty())
             return new RegisterReturn("Already have a user with this name", false);
 
-        if (userRepo.findByEDV(data.name()).isEmpty())
+        if (!userRepo.findByedv(data.name()).isEmpty())
             return new RegisterReturn("Already have a user with this EDV", false);
 
         var encoder = new BCryptPasswordEncoder();

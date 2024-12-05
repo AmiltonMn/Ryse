@@ -1,24 +1,23 @@
 package com.example.demo.Controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.DTO.HardSkillDTO.HardSkillName;
-import com.example.demo.DTO.HardSkillDTO.HardSkillReturn;
-import com.example.demo.DTO.HardSkillDTO.addSkillUser;
-import com.example.demo.Services.HardSkillService;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.DTO.HardSkillDTO.HardSkillName;
+import com.example.demo.DTO.HardSkillDTO.HardSkillReturn;
+import com.example.demo.DTO.HardSkillDTO.addSkillUser;
 import com.example.demo.Models.HardSkill;
+import com.example.demo.Services.HardSkillService;
 
 @RestController
 @RequestMapping("/hardSkill")
@@ -29,6 +28,7 @@ public class HardSkillController {
 
     @PostMapping
     public ResponseEntity<HardSkillReturn> createHardSkill(@RequestBody HardSkillName data) {
+        System.err.println("entrou");
         if (data.name().isEmpty())
             return new ResponseEntity<>(new HardSkillReturn("Write a name for the skill", false), HttpStatus.NO_CONTENT);
 
