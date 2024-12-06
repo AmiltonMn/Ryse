@@ -6,6 +6,7 @@ import iconHome from "@/assets/home.png";
 import iconGroup from "@/assets/grupo.png";
 import iconMessage from "@/assets/mensagem.png";
 import iconIdea from "@/assets/luz.png";
+import iconMore from "@/assets/luz.png";
 
 interface SubmenuProps {
     home: string;

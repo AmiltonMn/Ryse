@@ -1,7 +1,7 @@
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 
-import google from "@/app/assets/google.png";
+import google from "@/assets/google.png";
 
 export default function Login() {
 
