@@ -18,6 +18,10 @@ const nextConfig = {
           destination: "/home"
         },
         {
+          source: "/forum",
+          destination: "/forum"
+        }, 
+        {
           source: "/chats",
           destination: "/chats"
         },

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import iconProfile from "../assets/user.png"
+import { CardAnswer } from "@/components/cardAnswer";
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full "
@@ -42,6 +43,9 @@ export default function Question() {
                                     <h3 className="text-[#F41C54] font-bold bg-[#D9D9D9] p-1 pr-5 pl-5 rounded-[10px]">Frontend</h3>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
                         </div>
                     </div>
                 </div>
