@@ -46,10 +46,6 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>GRUPOS</h5>
-                    <Link href={ROUTES.groups} className={styleSubmenu.button}>
-                        <Image src={iconMore} alt="ícone grupo" className={styleSubmenu.img}/>
-                        {newGroup}
-                    </Link>
                     <Link href={ROUTES.groups} className={styleSubmenu.link}>
                         <Image src={iconGroup} alt="ícone grupo" className={styleSubmenu.img}/>
                         {myGroup}
@@ -74,10 +70,6 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>MURAL DE IDEIAS</h5> 
-                    <Link href={ROUTES.ideas} className={styleSubmenu.button}>
-                        <Image src={iconMore} alt="ícone ideia" className={styleSubmenu.img}/>
-                        {newIdea}
-                    </Link>
                     <Link href={ROUTES.ideas} className={styleSubmenu.link}>
                         <Image src={iconIdea} alt="ícone ideia" className={styleSubmenu.img}/>
                         {ideas}
