@@ -17,7 +17,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "idTopicForum", nullable = false)
-    private TopicForum topicForumEntity;
+    private ForumTopic topicForumEntity;
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
@@ -36,11 +36,11 @@ public class Question {
         return idQuestion;
     }
 
-    public TopicForum getTopicForumEntity() {
+    public ForumTopic getTopicForumEntity() {
         return topicForumEntity;
     }
 
-    public void setTopicForumEntity(TopicForum topicForumEntity) {
+    public void setTopicForumEntity(ForumTopic topicForumEntity) {
         this.topicForumEntity = topicForumEntity;
     }
 

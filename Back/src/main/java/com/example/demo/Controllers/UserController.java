@@ -35,8 +35,9 @@ public class UserController {
 
         var response = userServices.Login(data);
 
-        return response.sucess() ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return response.result()? 
+            new ResponseEntity<>(response, HttpStatus.OK) : 
+            new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }
