@@ -13,5 +13,5 @@ public interface HardSkillService {
     ResponseEntity<HardSkillReturn> addHardSkillToUser(Long idUser, Long idSkill);
     ResponseEntity<HardSkillReturn> deleteHardSkillUser(Long idUser, Long idSkill);
     List<HardSkill> getAllHardSkill();
-    List<HardSkill> getAllHardSkillUser(Long idUser);
+    List<String> getAllHardSkillUser(Long idUser);
 }

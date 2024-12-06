@@ -66,7 +66,7 @@ public class HardSkillController {
     }
 
     @GetMapping("/{idUser}")
-    public ResponseEntity<List<HardSkill>> getHardSkillUser(@PathVariable Long idUser) {
+    public ResponseEntity<List<String>> getHardSkillUser(@PathVariable Long idUser) {
         return new ResponseEntity<>(hardSkillService.getAllHardSkillUser(idUser), HttpStatus.OK);
     }
 

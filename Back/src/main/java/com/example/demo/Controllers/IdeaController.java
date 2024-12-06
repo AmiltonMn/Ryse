@@ -1,8 +1,5 @@
 package com.example.demo.Controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
@@ -46,14 +45,14 @@ public class IdeaController {
         return response;
     }
     
-@DeleteMapping("/{idSkill}")
+@DeleteMapping("/{idIdea}")
     public ResponseEntity<IdeaReturn> deleteIdea(@PathVariable Long idIdea) {
 
         var response = ideaServices.deleteIdea(idIdea);
         return response;
     }
 
-    @DeleteMapping("/{idUser}/{idSkill}")
+    @DeleteMapping("/{idUser}/{idIdea}")
     public ResponseEntity<IdeaReturn> deleteLikefromIdea(@PathVariable Long idUser, @PathVariable Long idIdea) {
 
         var response = ideaServices.deleteLikeToIdea(idUser, idIdea);
