@@ -1,7 +1,5 @@
 package com.example.demo.Models;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,7 +30,7 @@ public class Question {
     private String title;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdQuestion() {
         return idQuestion;
@@ -70,11 +68,11 @@ public class Question {
         this.title = title;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
