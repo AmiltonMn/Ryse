@@ -6,8 +6,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import iconProfile from "../assets/user.png"
-import search from "../assets/lupaBlack.png"
+import iconProfile from "@/assets/user.png"
+import search from "@/assets/lupaBlack.png"
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full "

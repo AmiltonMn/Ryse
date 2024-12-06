@@ -5,7 +5,7 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import iconProfile from "../assets/user.png"
+import iconProfile from "@/assets/user.png"
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full "

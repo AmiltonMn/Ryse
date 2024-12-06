@@ -6,6 +6,7 @@ import iconHome from "@/assets/home.png";
 import iconGroup from "@/assets/grupo.png";
 import iconMessage from "@/assets/mensagem.png";
 import iconIdea from "@/assets/luz.png";
+import iconMore from "@/assets/mais.png";
 
 interface SubmenuProps {
     home: string;
@@ -24,7 +25,8 @@ const styleSubmenu = {
     div: "flex flex-col",
     button: "text-white text-[13px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2",
-    hr: "mb-2 mt-2"
+    hr: "mb-2 mt-2",
+    h5: "text-[#656565] mt-4",
 }
 
 export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas}) => {
