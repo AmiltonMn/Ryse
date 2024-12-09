@@ -1,6 +1,5 @@
 package com.example.demo.Models;
 
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +18,11 @@ public class TopicChat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTopicChat;
 
+
+    @ManyToOne
+    @JoinColumn(name = "idTopic", nullable = false)
+    private Topic topic;
+
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
     private User user;
@@ -27,7 +31,7 @@ public class TopicChat {
     private String name;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdTopicChat() {
         return idTopicChat;
@@ -53,12 +57,20 @@ public class TopicChat {
         this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     

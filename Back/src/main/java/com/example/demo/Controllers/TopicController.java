@@ -1,7 +1,5 @@
 package com.example.demo.Controllers;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.Topic.RegisterTopicData;
 import com.example.demo.DTO.Topic.RegisterTopicReturn;
+import com.example.demo.DTO.Topic.TopicCreate;
 import com.example.demo.DTO.Topic.TopicDTO;
 import com.example.demo.Services.TopicService;
 
 @RestController
+@RequestMapping("/topic")
 public class TopicController {
 
     @Autowired
     TopicService topicService;
 
-    @GetMapping("/topic")
+    @GetMapping
     public ResponseEntity<List<TopicDTO>> GetTopics(
-        @RequestParam(name = "page") Integer page, 
-        @RequestParam(name = "size") Integer size) 
+        @RequestParam(name = "page",defaultValue = "1") Integer page, 
+        @RequestParam(name = "size",defaultValue = "5") Integer size) 
     {
         List<TopicDTO> response = topicService.getTopics(page, size);
 
@@ -40,12 +41,14 @@ public class TopicController {
 
     }
     
-    @PostMapping("/topic")
+    @PostMapping
     public ResponseEntity<RegisterTopicReturn> Register(@RequestAttribute("token") Token token, @RequestBody RegisterTopicData data) {
 
         System.out.println(token);
 
-        RegisterTopicReturn response = topicService.createTopic(new TopicDTO(data.name(), Date.from(Instant.now()), token.getId()));
+
+
+        RegisterTopicReturn response = topicService.createTopic(new TopicCreate(data.name(), token.getId()));
 
         if(!response.result())
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

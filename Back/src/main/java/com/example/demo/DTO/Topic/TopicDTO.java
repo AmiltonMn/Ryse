@@ -1,9 +1,8 @@
 package com.example.demo.DTO.Topic;
 
-import java.util.Date;
 
 public record TopicDTO(
     String name,
-    Date date,
+    String date,
     Long idUser
 ) {}
