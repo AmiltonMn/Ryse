@@ -1,3 +1,5 @@
+'use client'
+
 import { CardForum } from "@/components/cardForum";
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
@@ -9,12 +11,16 @@ import { CardAnswer } from "@/components/cardAnswer";
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
+import { useState } from "react";
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full "
 }
 
 export default function Question() {
+
+    const [newAnswer, setNewAnswer] = useState<string>("");
+    
 
     return (
         <div>
@@ -48,6 +54,16 @@ export default function Question() {
                         </div>
                         <div>
                             <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
+                            <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
+                            <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
+                            <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
+                            <div className="bg-[#242424] fixed top-[82%] rounded-[10px] mt-16 w-[75%] text-white border-[#f8f8f8] border-[0.3px]">
+                                <div className="text-[20px] flex justify-center p-5">
+                                    <Image src={iconProfile.src} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl mr-6" width={1000} height={1000}/>
+                                    <input type="text" className="w-[97%] text-[18px] rounded-[10px] text-black p-2 h-10 mr-2" value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }}></input>
+                                    <button className="text-white w-[150px] h-10 text-[13px] hover:text-gray-500 black transition easy-in-out bg-[#F41C54] rounded-[10px] flex items-center justify-center">Add answer</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
