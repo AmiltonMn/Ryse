@@ -29,17 +29,33 @@ public class ForumController {
     @Autowired
     ForumService forumService;
 
+    @GetMapping()
+    ResponseEntity<List<ForumData>> getForuns(
+        @RequestAttribute("token") Token token, 
+        @RequestParam(name = "page", defaultValue = "1") Integer page, 
+        @RequestParam(name = "size", defaultValue = "5") Integer size)
+    {
+        List<ForumData> response = forumService.getForuns(token.getId(), page, size);
+
+        if(response.isEmpty())
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/{idForum}/questions")
-    ResponseEntity<List<QuestionData>> getForum(
+    ResponseEntity<List<QuestionData>> getQuestions(
         @RequestAttribute("token") Token token,
         @PathVariable Long idForum,
         @RequestParam(name = "topic", required = false) Long topic, 
-        @RequestParam(name = "page") Integer page, 
-        @RequestParam(name = "size") Integer size
+        @RequestParam(name = "page", defaultValue = "1") Integer page, 
+        @RequestParam(name = "size", defaultValue = "5") Integer size
         )
     {
-
         List<QuestionData> response = forumService.getQuestions(token.getId(), idForum, topic, page, size);
+
+        if(response.isEmpty())
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
