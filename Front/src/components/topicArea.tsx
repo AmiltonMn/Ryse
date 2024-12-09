@@ -8,7 +8,7 @@ export const TopicArea = ({ text }: {
 
         <>
         <div>
-            <h1 className="font-light text-[16px]">• {text}</h1>   
+            <h1 className="font-light text-[16px] mb-1">• {text}</h1>   
         </div>
         </>
     );
