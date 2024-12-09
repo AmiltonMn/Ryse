@@ -18,11 +18,13 @@ import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
+import com.example.demo.DTO.ForumDTO.QuestionWithAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
 import com.example.demo.Services.ForumService;
+
 
 @RestController
 @RequestMapping("/forum")
@@ -73,8 +75,14 @@ public class ForumController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("question/{idQuestion}")
+    ResponseEntity<QuestionWithAnswerData> getAnswer(@RequestAttribute("token") Token token, @PathVariable Long idQuestion){
 
-    
+        QuestionWithAnswerData response = forumService.getQuestion(token.getId(), idQuestion);
+            
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping()
     ResponseEntity<Return> createForum(@RequestAttribute("token") Token token, @RequestBody RegisterForumData data){
 

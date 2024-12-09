@@ -7,9 +7,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.DTO.ForumDTO.AnswerData;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
+import com.example.demo.DTO.ForumDTO.QuestionWithAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
@@ -174,6 +176,43 @@ public class ForumImplementation implements ForumService{
         answerRepo.save(newAnswer);
 
         return new Return("Answer created with sucess", true);
+    }
+
+    @Override
+    public QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion) {
+
+        Optional<Question> opQuestion = questionRepo.findById(idQuestion);
+
+        if(!opQuestion.isPresent())
+            return new QuestionWithAnswerData(null, null);
+
+        Question question = opQuestion.get();
+
+        QuestionData responseQuestion = new QuestionData(
+            idQuestion, 
+            question.getUser().getName(), 
+            question.getTitle(), 
+            question.getTopicForum().getName(), 
+            question.getDate(), 
+            question.getUser().getId().equals(idUser)? true: false
+        );
+
+        List<Answer> answers = question.getAnswers();
+
+        List<AnswerData> responseAnswer = new ArrayList<>();
+
+        for(Answer answer : answers){
+            responseAnswer.add(new AnswerData(
+                answer.getUser().getName(), 
+                answer.getDate(), 
+                answer.getText(), 
+                1, 
+                false, 
+                answer.getUser().getId().equals(idUser)? true: false
+            ));
+        }
+
+        return new QuestionWithAnswerData(responseQuestion, responseAnswer);
     }
     
 }
