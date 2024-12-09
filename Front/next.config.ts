@@ -40,6 +40,10 @@ const nextConfig = {
         {
           source: "/question",
           destination: "/question"
+        },
+        {
+          source: "/groupchat",
+          destination: "/groupchat"
         }
       ]
   }
