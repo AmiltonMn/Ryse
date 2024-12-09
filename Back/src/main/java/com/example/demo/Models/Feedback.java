@@ -29,6 +29,9 @@ public class Feedback {
     private Group groupEntity;
 
     @Column
+    private Boolean privacity;
+
+    @Column
     private String text;
 
     public Long getIdFeedback() {
@@ -65,6 +68,14 @@ public class Feedback {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Boolean getPrivacity() {
+        return privacity;
+    }
+
+    public void setPrivacity(Boolean privacity) {
+        this.privacity = privacity;
     }
 
 }

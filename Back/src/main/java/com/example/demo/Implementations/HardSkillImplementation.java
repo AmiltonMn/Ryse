@@ -68,7 +68,7 @@ public class HardSkillImplementation implements HardSkillService {
 
     @Override
     public ResponseEntity<HardSkillReturn> deleteHardSkillUser(Long idUser, Long idSkill ) {
-        userHardSkillRepo.excludeHardSkill(idUser, idSkill);
+        userHardSkillRepo.excludeHardSkill(idSkill, idUser);
         return new ResponseEntity<>(new HardSkillReturn("User skill deleted with sucess", true), HttpStatus.OK);
     }
 
@@ -80,7 +80,7 @@ public class HardSkillImplementation implements HardSkillService {
 
 
     @Override
-    public List<HardSkill> getAllHardSkillUser(Long idUser) {
+    public List<String> getAllHardSkillUser(Long idUser) {
        return userHardSkillRepo.getHardSkillUser(idUser);
     }
 }
