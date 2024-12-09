@@ -29,7 +29,7 @@ export default function Question() {
             <div className="pt-[180px] pl-[300px] flex">
                 <div className="w-[97%]">
                     <div className="flex justify-between">
-                        <h2 className="text-white font-bold text-[25px] mb-6">AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz</h2>
+                        <h2 className="text-white font-bold text-[16px] mb-6">AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz</h2>
                         <div className="flex text-white">
                             <Image src={iconProfile} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
                             <div>
@@ -39,12 +39,12 @@ export default function Question() {
                         </div>
                     </div>
                     <hr/>
-                    <div className="bg-[#242424] rounded-[10px] mt-16  text-white p-12 text-[20px]">
+                    <div className="bg-[#242424] rounded-[10px] mt-12  text-white p-12 text-[16px]">
                         <p>AAAA FDDDDDDDDDDDDDDD SSSSSSSSS DDDDDDDDDDDDDD RRRRRRR akfojdsogfjosdj ogkodjs gjskdjgkd jksjkdesjgk sjdgjfdkhgldfklh slkdlfk lkghfdjjhglsdkfsdl lgklsdklgk slsljfjdghj jhjas jgksdkgru ngnskerutidrjgbjdkjfkgjd sitoerki otkirg?</p>
                     </div>
-                    <div className="flex flex-col justify-center text-white mt-16 m-16">
+                    <div className="flex flex-col justify-center text-white mt-12 m-16">
                         <div className="flex justify-between">
-                            <h3 className="font-bold text-[18px]">Answers</h3>
+                            <h3 className="font-bold text-[16px]">Answers</h3>
                             <div className="flex items-center">
                                 <p className="pr-12">0 answers</p>
                                 <div>
@@ -57,10 +57,10 @@ export default function Question() {
                             <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
                             <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
                             <CardAnswer userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2023"} answer={"aaaaaaaaaa"}/>
-                            <div className="bg-[#242424] fixed top-[82%] rounded-[10px] mt-16 w-[75%] text-white border-[#f8f8f8] border-[0.3px]">
+                            <div className="bg-[#242424] fixed bottom-2 rounded-[10px] mt-16 w-[75%] text-white border-[#f8f8f8] border-[0.3px]">
                                 <div className="text-[20px] flex justify-center p-5">
                                     <Image src={iconProfile.src} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl mr-6" width={1000} height={1000}/>
-                                    <input type="text" className="w-[97%] text-[15px] rounded-[10px] text-black p-2 h-10 mr-2 pl-4" placeholder="Digitar uma resposta" value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }}></input>
+                                    <input type="text" className="w-[97%] text-[12px] rounded-[10px] text-black p-2 h-10 mr-2 pl-4" placeholder="Post answer" value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }}></input>
                                     <button className="text-white w-[150px] h-10 text-[13px] hover:text-gray-500 black transition easy-in-out bg-[#F41C54] rounded-[10px] flex items-center justify-center">Add answer</button>
                                 </div>
                             </div>
