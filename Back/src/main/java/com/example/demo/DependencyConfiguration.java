@@ -10,6 +10,7 @@ import com.example.demo.Implementations.FeedbackImplementations;
 import com.example.demo.Implementations.GroupImplementations;
 import com.example.demo.Implementations.HardSkillImplementation;
 import com.example.demo.Implementations.IdeaImplementations;
+import com.example.demo.Implementations.TopicChatImplementations;
 import com.example.demo.Implementations.TopicImplementation;
 import com.example.demo.Implementations.UserImplementations;
 import com.example.demo.Services.EncodeServices;
@@ -18,6 +19,7 @@ import com.example.demo.Services.GroupServices;
 import com.example.demo.Services.HardSkillService;
 import com.example.demo.Services.IdeaServices;
 import com.example.demo.Services.JWTService;
+import com.example.demo.Services.TopicChatServices;
 import com.example.demo.Services.TopicService;
 import com.example.demo.Services.UserServices;
 
@@ -67,6 +69,11 @@ public class DependencyConfiguration {
     @Bean
     public FeedbackServices feedbackServices() {
         return new FeedbackImplementations();
+    }
+
+    @Bean
+    public TopicChatServices topicChatServices() {
+        return new TopicChatImplementations();
     }
 
 }

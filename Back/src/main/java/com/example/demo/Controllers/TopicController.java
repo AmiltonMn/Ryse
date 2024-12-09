@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.Token;
-import com.example.demo.DTO.Topic.RegisterTopicData;
-import com.example.demo.DTO.Topic.RegisterTopicReturn;
-import com.example.demo.DTO.Topic.TopicCreate;
-import com.example.demo.DTO.Topic.TopicDTO;
+import com.example.demo.DTO.TopicDTO.RegisterTopicData;
+import com.example.demo.DTO.TopicDTO.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.TopicCreate;
+import com.example.demo.DTO.TopicDTO.TopicDTO;
 import com.example.demo.Services.TopicService;
 
 @RestController

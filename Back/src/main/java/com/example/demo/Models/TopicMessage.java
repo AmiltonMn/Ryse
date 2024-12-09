@@ -1,6 +1,8 @@
 package com.example.demo.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class TopicMessage {
 
     @ManyToOne
     @JoinColumn(name = "idTopicChat", nullable = false)
+    @JsonBackReference
     private TopicChat chat;
 
     @Column

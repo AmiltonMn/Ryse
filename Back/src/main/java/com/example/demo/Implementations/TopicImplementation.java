@@ -3,15 +3,14 @@ package com.example.demo.Implementations;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.DTO.Topic.TopicDTO;
-import com.example.demo.DTO.Topic.RegisterTopicReturn;
-import com.example.demo.DTO.Topic.TopicCreate;
+import com.example.demo.DTO.TopicDTO.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.TopicCreate;
+import com.example.demo.DTO.TopicDTO.TopicDTO;
 import com.example.demo.Models.Topic;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.TopicRepository;

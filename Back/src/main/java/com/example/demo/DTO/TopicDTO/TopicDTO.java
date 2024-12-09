@@ -1,4 +1,4 @@
-package com.example.demo.DTO.Topic;
+package com.example.demo.DTO.TopicDTO;
 
 
 public record TopicDTO(

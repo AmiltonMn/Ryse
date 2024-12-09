@@ -1,6 +1,11 @@
 package com.example.demo.Models;
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +32,10 @@ public class TopicChat {
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy="topicChat", cascade= CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<TopicMessage> messages;
 
     @Column
     private String name;
@@ -72,6 +82,16 @@ public class TopicChat {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
+
+    public List<TopicMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<TopicMessage> messages) {
+        this.messages = messages;
+    }
+
+  
 
     
     
