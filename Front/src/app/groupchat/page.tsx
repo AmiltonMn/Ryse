@@ -2,6 +2,7 @@ import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { MyMsg } from "@/components/myMsg";
 import { OtherMsg } from "@/components/otherMsg";
+import { GroupChat } from "@/components/groupChat";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 // import React, { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export default function Home() {
 
     const style =
     {
-        inputz: "rounded-md ps-4 h-10 text-base w-[90%] bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
+        inputz: "rounded-md ps-4 h-10 text-base w-[90%] bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999] hover:opacity-100 opacity-80 focus:opacity-100",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
         imagen2: "w-5 h-5 rounded-t-3xl m-2",
     }
@@ -34,7 +35,7 @@ export default function Home() {
                             <div className="flex w-full flex-col">
                                 <div className="flex w-full h-12 rounded-t bg-[#313131] items-center">
                                     <div className="w-[20%] h-full flex items-center justify-center">
-                                        <p className="text-xl font-semibold">Nome do Projeto</p>
+                                        <p className="text-[20px] font-semibold">Nome do Projeto</p>
                                     </div>
                                 </div>
                                 <hr className="" />
@@ -44,28 +45,22 @@ export default function Home() {
                                 <div className="flex flex-col w-[20%] bg-[#373737] rounded-l">
 
                                     <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2 hover:opacity-70 hover:bg-[#424242]">
+                                        <div className="flex flex-row items-center p-3 gap-2  hover:bg-[#505050]">
 
-                                            <div className=" rounded-[100%] h-4 w-4 bg-[#F41C54]"></div>
-                                            <p className="text-xl font-medium text-[#F41C54]">Back</p>
+                                            <div className=" rounded-[100%] h-3 w-3 bg-[#F41C54]"></div>
+                                            <p className="text-[16px] font-medium text-[#F41C54]">Back</p>
                                         </div>
                                         <hr />
                                     </div>
 
-                                    <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2 hover:opacity-70 hover:bg-[#424242]">
-                                            <div className="rounded-[100%] h-4 w-4 bg-[#D9D9D9]"></div>
-                                            <p className="text-xl font-medium">Front</p>
-                                        </div>
-                                        <hr />
-                                    </div>
+                                    <GroupChat name={"Front"}/>
 
-                                    <button className="flex flex-col bg-[#424242] hover:opacity-70" >
+                                    <button className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
                                             <Image src={more} alt="ícone ideia" className="w-4 h-4 " />
 
-                                            <p className="text-xl font-medium">New Chat</p>
+                                            <p className="text-[16px] font-medium">New Chat</p>
                                         </div>
 
                                     </button>
@@ -75,16 +70,26 @@ export default function Home() {
 
                                 <div className="flex flex-col h-full w-[80%]">
 
-                                    <div className="bg-[#1C1C1C] w-full h-[600px] flex flex-col">
+                                    <div className="bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto max-h-[600px] pb-4">
 
                                         {/* mensagem sua */}
                                         <MyMsg date={"10:20 09/12/2024"} message={"oie"} />
 
                                         <MyMsg date={"10:22 09/12/2024"} message={"Outra mensagem"} />
 
+                                        <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
+
+
+
+
                                         {/* mensagem do outro */}
 
                                         <OtherMsg foto={user.src} name={"Joao"} message={"memnsagem do outro"} date={"10:23 09/12/2024"} />
+
+                                        <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
+                                        <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
+
+                                        <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
 
                                         <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
 
@@ -93,11 +98,12 @@ export default function Home() {
                                     </div>
 
                                     <div className="flex w-full h-20 rounded-r bg-[#313131] flex-row justify-center gap-4 items-center p-4">
-                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
-                                            <Image src={file} alt="ícone ideia" className="w-7 h-7" />
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
+                                            <Image src={file} alt="ícone ideia" className="w-7 h-7 cursor-pointer" />
+                                            <input type="file" className="absolute h-7 w-7 opacity-0 cursor-pointer"/>
                                         </button>
                                         <input className={style.inputz} placeholder="Mensagem" />
-                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
                                             <Image src={send} alt="ícone ideia" className="w-7 h-7" />
                                         </button>
                                     </div>

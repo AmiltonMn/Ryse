@@ -23,7 +23,7 @@ export default function Home() {
     {
         inputz: "rounded-md ps-4 text-base w-4/12 bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
-        imagen2: "w-5 h-5 rounded-t-3xl m-2",
+        imagen2: "w-4 h-4 rounded-t-3xl m-2",
     }
 
     return (
@@ -34,7 +34,7 @@ export default function Home() {
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <div className="flex flex-row items-center">
-                        <h2 className="text-3xl font-semibold">Groups</h2>
+                        <h2 className="text-[20px] font-semibold">Groups</h2>
                         <Link href={""}>
                             <Image src={more} alt="ícone ideia" className={style.imagen2}/>
                         </Link>
