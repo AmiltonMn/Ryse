@@ -14,24 +14,24 @@ interface CardAnswerProps {
 
 export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date, answer}) => {
     return(
-        <div className="bg-[#242424] rounded-[10px] mt-16 w-full text-white ">
-            <div className="flex justify-between p-6">
+        <div className="bg-[#242424] rounded-[10px] mt-10 w-full text-white ">
+            <div className="flex justify-between p-4">
                 <div className="flex">
-                    <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
+                    <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
                     <div>
                         <h4>{username}</h4>
-                        <p className="text-[14px]">{date}</p>
+                        <p className="text-[12px]">{date}</p>
                     </div>
                 </div>
                 <div className="flex items-center">
-                    <h3 className="text-[#50aadf]">Resposta verificada</h3>
-                    <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
+                    <h3 className="text-[#50aadf] text-[14px]">Resposta verificada</h3>
+                    <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
                 </div>
             </div>
 
-            <div className="pl-8 pt-3 text-[20px] flex justify-between pb-8">
+            <div className="pl-8 pt-2 text-[14px] flex justify-between pb-6">
                 <p>{answer}</p>
-                <button><Image src={heart.src} alt="ícone notificação" className="flex justify-end  items-end mr-12 w-6 h-6" width={1000} height={1000}/></button>
+                <button></button>
             </div>
 
         </div>
