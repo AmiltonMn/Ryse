@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
@@ -77,6 +78,20 @@ public class ForumImplementation implements ForumService{
                 question.getDate(), 
                 question.getUser().getId().equals(idUser)? true : false
             ));
+        }
+
+        return response;
+    }
+
+    @Override
+    public List<ForumTopicData> getTopics(Long idUser){
+
+        List<ForumTopic> topics = topicRepo.findAll();
+
+        List<ForumTopicData> response = new ArrayList<>();
+
+        for(ForumTopic topic : topics){
+            response.add(new ForumTopicData(topic.getidTopicForum(), topic.getName()));
         }
 
         return response;

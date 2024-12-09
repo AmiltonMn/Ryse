@@ -18,7 +18,7 @@ public class ForumTopic {
     @Column
     private String name;
 
-    public Long getIdLikeIdea() {
+    public Long getidTopicForum() {
         return idTopicForum;
     }
 

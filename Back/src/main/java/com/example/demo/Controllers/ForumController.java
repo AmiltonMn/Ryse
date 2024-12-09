@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
@@ -29,7 +30,7 @@ public class ForumController {
     @Autowired
     ForumService forumService;
 
-    @GetMapping()
+    @GetMapping
     ResponseEntity<List<ForumData>> getForuns(
         @RequestAttribute("token") Token token, 
         @RequestParam(name = "page", defaultValue = "1") Integer page, 
@@ -53,6 +54,17 @@ public class ForumController {
         )
     {
         List<QuestionData> response = forumService.getQuestions(token.getId(), idForum, topic, page, size);
+
+        if(response.isEmpty())
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/topics")
+    ResponseEntity<List<ForumTopicData>> getTopics(@RequestAttribute("token") Token token){
+
+        List<ForumTopicData> response = forumService.getTopics(token.getId());
 
         if(response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
