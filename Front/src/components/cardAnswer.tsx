@@ -2,8 +2,8 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import verify from "../app/assets/verificado.png"
-import heart from "../app/assets/coracao.png"
+import verify from "@/assets/verificado.png"
+import heart from "@/assets/coracao.png"
 
 interface CardAnswerProps {
     userPhoto: string;
