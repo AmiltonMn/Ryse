@@ -29,7 +29,7 @@ export default function Home() {
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <h2 className="text-[20px] font-medium">Nome do Projeto</h2>
-                        <a href={ROUTES.groupchat} className="hover:opacity-90 hover:scale-105 bg-[#F41C54] rounded-lg w-40 text-[16px] text-white flex justify-center items-center">Chats</a>
+                        <a href={ROUTES.groupchat} className="opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200   bg-[#F41C54] rounded-lg w-40 text-[16px] text-white flex justify-center items-center">Chats</a>
                     </div>
                     <hr className="mt-4" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center ">
@@ -79,7 +79,7 @@ export default function Home() {
                                 </tbody>
                             </table>
                             <div className="w-full mt-8 flex justify-end">
-                                <button className="border-[#F41C54] h-10 rounded-lg border w-40 text-[#F41C54] flex justify-center items-center text-[16px] opacity-85 hover:opacity-100 hover:scale-105">Delete Group</button>
+                                <button className="border-[#F41C54] h-10 rounded-lg border w-40 text-[#F41C54] flex justify-center items-center text-[16px] opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200 ">Delete Group</button>
                             </div>
                         </div>
                     </div>

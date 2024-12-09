@@ -21,7 +21,7 @@ export const CardGroup: React.FC<CardGroupProps> = ({ foto, name, description })
                     <p className="mt-5 text-[14px]">{description}</p>
                 </div>
             </div>
-            <a href={ROUTES.group} className="bg-white rounded-lg font-semibold p-1 text-[16px] text-black flex justify-center">Open</a>
+            <a href={ROUTES.group} className="bg-white rounded-lg font-semibold p-1 text-[16px] text-black flex justify-center hover:bg-[#F41C54] hover:text-white transition ease-in-out duration-500 delay-75">Open</a>
         </div>
     );
 }
