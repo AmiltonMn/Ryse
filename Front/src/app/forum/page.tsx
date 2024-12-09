@@ -43,7 +43,7 @@ export default function Home() {
             <div className="pt-[180px] pl-[300px] flex">
                 <div className="w-[97%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[25px] mb-6">Java project forum</h2>
+                        <h2 className="text-white font-bold text-[20px] mb-6">Java project forum</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             New question
@@ -52,10 +52,10 @@ export default function Home() {
                     <hr />
                     <div className="w-full pt-10 flex justify-between">
                         <div className="flex w-[80%]">
-                            <input type="text" placeholder="Search" className="text-black p-1 pl-4 rounded-[3px] w-full" />
+                            <input type="text" placeholder="Search" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
                             <Image src={search} alt="" className="w-5 h-5 m-2 relative right-8 cursor-pointer" id="search" />
                         </div>
-                        <select className="rounded-[3px] p-1 w-[20%]">
+                        <select className="rounded-[3px] p-1 w-[20%] text-[14px]">
                             <option value="topic1" hidden>Filter by topic</option>
                             <option value="topic1">Topic 1</option>
                             <option value="topic1">Topic 1</option>
