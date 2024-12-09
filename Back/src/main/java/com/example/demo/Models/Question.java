@@ -7,8 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "tbQuestion")
 public class Question {
     
     @Id 
@@ -21,11 +23,11 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "idTopicForum", nullable = false)
-    private ForumTopic topicForumEntity;
+    private ForumTopic topicForum;
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
-    private User userEntity;
+    private User user;
 
     @Column
     private String text;
@@ -40,20 +42,20 @@ public class Question {
         return idQuestion;
     }
 
-    public ForumTopic getTopicForumEntity() {
-        return topicForumEntity;
+    public ForumTopic getTopicForum() {
+        return topicForum;
     }
 
-    public void setTopicForumEntity(ForumTopic topicForumEntity) {
-        this.topicForumEntity = topicForumEntity;
+    public void setTopicForum(ForumTopic topicForum) {
+        this.topicForum = topicForum;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getText() {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
+import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
 import com.example.demo.Services.ForumService;
 
@@ -33,7 +34,8 @@ public class ForumController {
         @PathVariable Long idForum,
         @RequestParam(name = "topic") String topic, 
         @RequestParam(name = "page") Integer page, 
-        @RequestParam(name = "size") Integer size)
+        @RequestParam(name = "size") Integer size
+        )
     {
 
         var response = forumService.getForum(token.getId(), topic, page, size);
@@ -47,7 +49,7 @@ public class ForumController {
         if(data.name().isEmpty())
         return new ResponseEntity<>(new Return("Please send a name", false), HttpStatus.BAD_REQUEST);
         
-        Return response = forumService.createForum(data.name(), token.getId());
+        Return response = forumService.createForum(token.getId(), data);
 
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -56,8 +58,15 @@ public class ForumController {
 
     }
 
-    // @PostMapping("/{idForum}/question") createQuestion(@RequestAttribute("token") Token token, @RequestBody RegisterQuestionData data){
+    @PostMapping("/question") 
+    ResponseEntity<Return> createQuestion(@RequestAttribute("token") Token token, @RequestBody RegisterQuestionData data){
 
+        Return response = forumService.createQuestion(token.getId(), data);
 
-    // }
+        if (response.result())
+            return new ResponseEntity<>(response, HttpStatus.OK);
+            
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+    }
 }
