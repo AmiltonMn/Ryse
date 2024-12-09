@@ -3,7 +3,6 @@ export const HardSkils = ({ text }: {
 
     text: string;
 
-
 }) => {
 
     return (

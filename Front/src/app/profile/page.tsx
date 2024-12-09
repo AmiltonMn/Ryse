@@ -1,15 +1,17 @@
 "use client"
 
+import { TopicArea } from "@/components/topicArea";
 import { CardProfile } from "@/components/cardProfile";
 import { SelectProfile } from "@/components/selectProfile";
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { CardFeed } from "@/components/feedbacks";
 import { HardSkils } from "@/components/hardSkils";
-import Image from "next/image";
-
 import profile from "@/assets/saiba.jpeg"
 import cover from "@/assets/cover.png";
+
+
+import Image from "next/image";
 import React, { useState } from "react";
 
 
@@ -80,6 +82,12 @@ const Profile: React.FC = () => {
                             <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
                             <a className="font-medium text-[20px] pl-4" href="#">+</a>
                         </div>
+                        <TopicArea text="Desenvolvimento Web"></TopicArea>
+                        <TopicArea text="Desenvolvimento Web"></TopicArea>
+                        <TopicArea text="Desenvolvimento Web"></TopicArea>
+                        <TopicArea text="Desenvolvimento Web"></TopicArea>
+                        <TopicArea text="Desenvolvimento Web"></TopicArea>
+
                     </div>
                 </div>
 
