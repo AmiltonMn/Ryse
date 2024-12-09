@@ -13,6 +13,6 @@ public interface ForumRepository extends JpaRepository<Forum, Long>{
 
     Optional<Forum> findByName(String name);
 
-    @Query(value = "SELECT * FROM tb_forum WHERE id_user = :id_user ORDER BY id_forum OFFSET :page ROWS FETCH NEXT :size ROWS ONLY", nativeQuery = true)
-    List<Forum> findForumWithPagination(@Param("page") int page, @Param("size") int size, @Param("id_user") Long idUser);
+    @Query(value = "SELECT * FROM tb_forum ORDER BY id_forum OFFSET :page ROWS FETCH NEXT :size ROWS ONLY", nativeQuery = true)
+    List<Forum> findForumWithPagination(@Param("page") int page, @Param("size") int size);
 }

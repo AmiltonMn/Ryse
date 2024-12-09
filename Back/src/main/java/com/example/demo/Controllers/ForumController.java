@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
@@ -28,19 +29,19 @@ public class ForumController {
     @Autowired
     ForumService forumService;
 
-    @GetMapping("/{idForum}")
-    ResponseEntity<List<ForumData>> getForum(
+    @GetMapping("/{idForum}/questions")
+    ResponseEntity<List<QuestionData>> getForum(
         @RequestAttribute("token") Token token,
         @PathVariable Long idForum,
-        @RequestParam(name = "topic") String topic, 
+        @RequestParam(name = "topic", required = false) Long topic, 
         @RequestParam(name = "page") Integer page, 
         @RequestParam(name = "size") Integer size
         )
     {
 
-        var response = forumService.getForum(token.getId(), topic, page, size);
+        List<QuestionData> response = forumService.getQuestions(token.getId(), idForum, topic, page, size);
             
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping("/create")

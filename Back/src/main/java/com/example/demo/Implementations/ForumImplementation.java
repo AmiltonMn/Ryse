@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
@@ -36,11 +37,27 @@ public class ForumImplementation implements ForumService{
     QuestionRepository questionRepo;
 
     @Override
-    public List<ForumData> getForum(Long idUser, String query, Integer page, Integer size) {
+    public List<QuestionData> getQuestions(Long idUser, Long id_forum, Long id_topic, Integer page, Integer size) {
 
-        forumRepo.findForumWithPagination((page -1) * size, size, idUser);
-        
-        List<ForumData> response = new ArrayList<>();
+        List<Question> questions;
+
+        if(id_topic == null)
+            questions = questionRepo.findQuestionWithPagination((page -1) * size, size, id_forum);
+        else
+            questions = questionRepo.findQuestionWithPaginationTopic((page -1) * size, size, id_forum, id_topic);
+
+        List<QuestionData> response = new ArrayList<>();
+
+        for(Question question : questions){
+            response.add(new QuestionData(
+                question.getIdQuestion(), 
+                question.getUser().getName(), 
+                question.getTitle(), 
+                question.getTopicForum().getName(), 
+                question.getDate(), 
+                question.getUser().getId().equals(idUser)? true : false
+            ));
+        }
 
         return response;
     }
