@@ -60,7 +60,7 @@ export default function Question() {
                             <div className="bg-[#242424] fixed top-[82%] rounded-[10px] mt-16 w-[75%] text-white border-[#f8f8f8] border-[0.3px]">
                                 <div className="text-[20px] flex justify-center p-5">
                                     <Image src={iconProfile.src} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl mr-6" width={1000} height={1000}/>
-                                    <input type="text" className="w-[97%] text-[18px] rounded-[10px] text-black p-2 h-10 mr-2" value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }}></input>
+                                    <input type="text" className="w-[97%] text-[15px] rounded-[10px] text-black p-2 h-10 mr-2 pl-4" placeholder="Digitar uma resposta" value={newAnswer} onChange={(e) => { setNewAnswer(e.target.value) }}></input>
                                     <button className="text-white w-[150px] h-10 text-[13px] hover:text-gray-500 black transition easy-in-out bg-[#F41C54] rounded-[10px] flex items-center justify-center">Add answer</button>
                                 </div>
                             </div>
