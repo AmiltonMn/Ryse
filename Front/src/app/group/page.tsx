@@ -29,11 +29,11 @@ export default function Home() {
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <h2 className="text-3xl font-medium">Nome do Projeto</h2>
-                        <a href={ROUTES.group} className="bg-[#F41C54] rounded-lg w-40 text-white flex justify-center items-center">Chats</a>
+                        <a href={ROUTES.groupchat} className="bg-[#F41C54] rounded-lg w-40 text-white flex justify-center items-center">Chats</a>
                     </div>
                     <hr className="mt-4" />
-                    <div className="w-full flex flex-wrap mt-8 gap-6 justify-between ">
-                        <div className="w-[48%] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
+                    <div className="w-full flex flex-wrap mt-8 gap-6 justify-center ">
+                        <div className="w-[48%] min-w-[280px] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
                             <div className="w-full flex flex-col items-center pb-3">
                                 <div className="w-full flex justify-start items-center">
                                     <p className="text-2xl">Description</p>
@@ -44,7 +44,7 @@ export default function Home() {
                             </div>
                         </div>
 
-                        <div className="w-[48%] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
+                        <div className="w-[48%] min-w-[280px] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
                             <div className="w-full flex flex-col items-center pb-3">
                                 <div className="w-full flex justify-start items-center">
                                     <p className="text-2xl">Goals</p>
