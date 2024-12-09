@@ -1,6 +1,6 @@
 package com.example.demo.DTO;
 
-public record LoginReturn(
+public record Return(
     String message,
     Boolean result
 ) {}

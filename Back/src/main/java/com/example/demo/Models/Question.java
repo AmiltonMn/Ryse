@@ -16,6 +16,10 @@ public class Question {
     private Long idQuestion;
 
     @ManyToOne
+    @JoinColumn(name = "idForum", nullable = false)
+    private Forum forum;
+
+    @ManyToOne
     @JoinColumn(name = "idTopicForum", nullable = false)
     private ForumTopic topicForumEntity;
 
@@ -74,5 +78,17 @@ public class Question {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setIdQuestion(Long idQuestion) {
+        this.idQuestion = idQuestion;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }

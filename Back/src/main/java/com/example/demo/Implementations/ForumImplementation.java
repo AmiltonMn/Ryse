@@ -1,19 +1,15 @@
 package com.example.demo.Implementations;
 
-import java.time.DateTimeException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.example.demo.DTO.ForumDTO.RegisterForumReturn;
-import com.example.demo.DTO.Topic.RegisterTopicReturn;
+import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.Return;
 import com.example.demo.Models.Forum;
-import com.example.demo.Models.Topic;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.ForumRepository;
 import com.example.demo.Repositories.UserRepository;
@@ -28,18 +24,22 @@ public class ForumImplementation implements ForumService{
     ForumRepository forumRepo;
 
     @Override
-    public String getForum(String query, Integer page, Integer size) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getForum'");
+    public List<ForumData> getForum(Long idUser, String query, Integer page, Integer size) {
+
+        forumRepo.findForumWithPagination((page -1) * size, size, idUser);
+        
+        List<ForumData> response = new ArrayList<>();
+
+        return response;
     }
 
     @Override
-    public RegisterForumReturn createForum(String forumName, Long idUser) {
+    public Return createForum(String forumName, Long idUser) {
         
         var forum = forumRepo.findByName(forumName);
 
         if(forum.isPresent())
-            return new RegisterForumReturn("This name is already in use", false);
+            return new Return("This name is already in use", false);
 
         Optional<User> user = userRepo.findById(idUser);
 
@@ -51,7 +51,7 @@ public class ForumImplementation implements ForumService{
 
         forumRepo.save(newForum);
 
-        return new RegisterForumReturn("Forum created with sucess!", true);
+        return new Return("Forum created with sucess!", true);
     }
     
 }

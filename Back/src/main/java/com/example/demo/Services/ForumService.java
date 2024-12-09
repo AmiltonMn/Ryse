@@ -1,8 +1,12 @@
 package com.example.demo.Services;
 
-import com.example.demo.DTO.ForumDTO.RegisterForumReturn;
+import java.util.List;
+
+import com.example.demo.DTO.ForumDTO.ForumData;
+import com.example.demo.DTO.Return;
 
 public interface ForumService {
-    String getForum(String query, Integer page, Integer size);
-    RegisterForumReturn createForum(String forumName, Long idUser);
+    List<ForumData> getForum(Long idUser, String query, Integer page, Integer size);
+    Return createForum(String forumName, Long idUser);
+    // Return createQuestion();
 }
