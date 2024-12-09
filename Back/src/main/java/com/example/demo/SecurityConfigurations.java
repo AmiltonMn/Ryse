@@ -40,6 +40,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 // Restringe todos os POST para ADMIN
                 // .requestMatchers(HttpMethod.POST, "/**").hasRole("Instrutor")
+                .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 // Restringe PUT para ADMIN
                 .requestMatchers(HttpMethod.PUT, "/**").hasRole("Instrutor")
                 // Restringe DELETE para ADMIN
