@@ -14,7 +14,7 @@ import iconMore from "@/assets/mais.png";
 
 const styles = {
     chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px]",
-    button: "text-white text-[16px] hover:text-gray-500 black pl-4 pr-8 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
+    button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
