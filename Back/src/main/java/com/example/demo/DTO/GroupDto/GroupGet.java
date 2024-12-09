@@ -1,7 +1,8 @@
 package com.example.demo.DTO.GroupDto;
 
-public record NewGroupData(
+public record GroupGet(
     String name,
     String description,
-    String objective
+    String objective,
+    boolean isOwner
 ) {}

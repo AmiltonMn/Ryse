@@ -8,13 +8,11 @@ import com.example.demo.Filters.JWTAuthenticationFilter;
 import com.example.demo.Implementations.EncodeImplementations;
 import com.example.demo.Implementations.HardSkillImplementation;
 import com.example.demo.Implementations.IdeaImplementations;
-import com.example.demo.Implementations.TopicImplementation;
 import com.example.demo.Implementations.UserImplementations;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.HardSkillService;
 import com.example.demo.Services.IdeaServices;
 import com.example.demo.Services.JWTService;
-import com.example.demo.Services.TopicService;
 import com.example.demo.Services.UserServices;
 
 @Configuration
@@ -53,5 +51,10 @@ public class DependencyConfiguration {
     @Bean
     public TopicService topicService(){
         return new TopicImplementation();
+    }    @Bean
+    public GroupServices groupServices (){
+        return new GroupImplementations();
     }
+
+
 }
