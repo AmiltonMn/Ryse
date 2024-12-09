@@ -33,7 +33,9 @@ export default function Home() {
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
                                 <div className="flex w-full h-12 rounded-t bg-[#313131] items-center">
-                                    <div className="w-[20%] h-full flex items-center justify-center"><p className="text-xl font-medium">Nome do Projeto</p></div>
+                                    <div className="w-[20%] h-full flex items-center justify-center">
+                                        <p className="text-xl font-semibold">Nome do Projeto</p>
+                                    </div>
                                 </div>
                                 <hr className="" />
                             </div>
@@ -42,31 +44,32 @@ export default function Home() {
                                 <div className="flex flex-col w-[20%] bg-[#373737] rounded-l">
 
                                     <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2">
+                                        <div className="flex flex-row items-center p-3 gap-2 hover:opacity-70 hover:bg-[#424242]">
 
-                                            <div className=" rounded-[100%] h-4 w-4 bg-[#D9D9D9]"></div>
-                                            <p className="text-xl font-medium">Back</p>
+                                            <div className=" rounded-[100%] h-4 w-4 bg-[#F41C54]"></div>
+                                            <p className="text-xl font-medium text-[#F41C54]">Back</p>
                                         </div>
                                         <hr />
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2">
+                                        <div className="flex flex-row items-center p-3 gap-2 hover:opacity-70 hover:bg-[#424242]">
                                             <div className="rounded-[100%] h-4 w-4 bg-[#D9D9D9]"></div>
                                             <p className="text-xl font-medium">Front</p>
                                         </div>
                                         <hr />
                                     </div>
 
-                                    <Link className="flex flex-col bg-[#424242] hover:bg-[#484848] hover:text-[#dddddd]" href="">
+                                    <button className="flex flex-col bg-[#424242] hover:opacity-70" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
                                             <Image src={more} alt="ícone ideia" className="w-4 h-4 " />
 
                                             <p className="text-xl font-medium">New Chat</p>
                                         </div>
-                                        <hr />
-                                    </Link>
+
+                                    </button>
+                                    <hr />
 
                                 </div>
 
@@ -90,13 +93,13 @@ export default function Home() {
                                     </div>
 
                                     <div className="flex w-full h-20 rounded-r bg-[#313131] flex-row justify-center gap-4 items-center p-4">
-                                        <div className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
                                             <Image src={file} alt="ícone ideia" className="w-7 h-7" />
-                                        </div>
+                                        </button>
                                         <input className={style.inputz} placeholder="Mensagem" />
-                                        <div className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center ">
                                             <Image src={send} alt="ícone ideia" className="w-7 h-7" />
-                                        </div>
+                                        </button>
                                     </div>
                                 </div>
 
