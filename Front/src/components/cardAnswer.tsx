@@ -2,7 +2,8 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import verify from "../app/assets/lupa.png"
+import verify from "../app/assets/verificado.png"
+import heart from "../app/assets/coracao.png"
 
 interface CardAnswerProps {
     userPhoto: string;
@@ -23,16 +24,16 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date
                     </div>
                 </div>
                 <div className="flex items-center">
-                    <h3 className="text-[#2278aa]">Resposta verificada</h3>
+                    <h3 className="text-[#50aadf]">Resposta verificada</h3>
                     <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
                 </div>
             </div>
 
-            <div className="pl-8 pt-3 text-[20px]">
+            <div className="pl-8 pt-3 text-[20px] flex justify-between pb-8">
                 <p>{answer}</p>
+                <button><Image src={heart.src} alt="ícone notificação" className="flex justify-end  items-end mr-12 w-6 h-6" width={1000} height={1000}/></button>
             </div>
 
-            <Image src={verify.src} alt="ícone notificação" className="flex justify-end p-6 w-7 h-7" width={1000} height={1000}/>
         </div>
     );
 }
