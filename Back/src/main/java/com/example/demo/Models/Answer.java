@@ -19,11 +19,11 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
-    private User userEntity;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "idQuestion", nullable = false)
-    private Question questionEntity;
+    private Question question;
 
     @Column
     private String text;
@@ -35,20 +35,20 @@ public class Answer {
         return idAnswer;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Question getQuestionEntity() {
-        return questionEntity;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuestionEntity(Question questionEntity) {
-        this.questionEntity = questionEntity;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getText() {

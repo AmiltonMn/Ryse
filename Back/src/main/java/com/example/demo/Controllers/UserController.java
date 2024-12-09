@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.LoginReturn;
+import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
-import com.example.demo.DTO.RegisterDTO.RegisterReturn;
 import com.example.demo.Services.UserServices;
 
 @RestController
@@ -20,10 +19,10 @@ public class UserController {
     UserServices userServices;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterReturn> Register(@RequestBody RegisterData data) {
+    public ResponseEntity<Return> Register(@RequestBody RegisterData data) {
 
         if (data.EDV().isEmpty() || data.email().isEmpty() || data.name().isEmpty()) {
-            return new ResponseEntity<>(new RegisterReturn("Enter all fields correctly", false), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new Return("Enter all fields correctly", false), HttpStatus.NO_CONTENT);
         }
 
         var response = userServices.register(data);
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginReturn> Login(@RequestBody LoginData data) {
+    public ResponseEntity<Return> Login(@RequestBody LoginData data) {
 
         var response = userServices.Login(data);
 
