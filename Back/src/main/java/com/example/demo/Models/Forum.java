@@ -54,4 +54,5 @@ public class Forum {
     public void setName(String name) {
         this.name = name;
     }
+
 }

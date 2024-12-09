@@ -18,6 +18,7 @@ import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
+import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
@@ -71,8 +72,10 @@ public class ForumController {
             
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
     
-    @PostMapping("/create")
+    @PostMapping()
     ResponseEntity<Return> createForum(@RequestAttribute("token") Token token, @RequestBody RegisterForumData data){
 
         if(data.name().isEmpty())
@@ -87,15 +90,26 @@ public class ForumController {
 
     }
 
-    @PostMapping("/question") 
-    ResponseEntity<Return> createQuestion(@RequestAttribute("token") Token token, @RequestBody RegisterQuestionData data){
+    @PostMapping("/{idForum}/question")
+    ResponseEntity<Return> createQuestion(@RequestAttribute("token") Token token, @PathVariable Long idForum, @RequestBody RegisterQuestionData data){
 
-        Return response = forumService.createQuestion(token.getId(), data);
+        Return response = forumService.createQuestion(token.getId(), idForum, data);
 
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
             
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
+    }
+
+    @PostMapping("/question/{idQuestion}/answer")
+    ResponseEntity<Return> createAnswer(@RequestAttribute("token") Token token, @PathVariable Long idQuestion, @RequestBody RegisterAnswerData data){
+
+        Return response = forumService.createAnswer(token.getId(), idQuestion, data);
+
+        if (response.result())
+            return new ResponseEntity<>(response, HttpStatus.OK);
+            
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

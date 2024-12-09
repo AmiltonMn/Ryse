@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
+import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
+import com.example.demo.Models.Answer;
 import com.example.demo.Models.Forum;
 import com.example.demo.Models.ForumTopic;
 import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
+import com.example.demo.Repositories.AnswerRepository;
 import com.example.demo.Repositories.ForumRepository;
 import com.example.demo.Repositories.ForumTopicRepository;
 import com.example.demo.Repositories.QuestionRepository;
@@ -36,6 +39,9 @@ public class ForumImplementation implements ForumService{
 
     @Autowired
     QuestionRepository questionRepo;
+
+    @Autowired
+    AnswerRepository answerRepo;
 
     @Override
     public List<ForumData> getForuns(Long idUser, Integer page, Integer size) {
@@ -119,9 +125,9 @@ public class ForumImplementation implements ForumService{
     }
 
     @Override
-    public Return createQuestion(Long idUser, RegisterQuestionData data) {
+    public Return createQuestion(Long idUser, Long idForum, RegisterQuestionData data) {
 
-        Optional<Forum> forum = forumRepo.findById(data.idForum());
+        Optional<Forum> forum = forumRepo.findById(idForum);
 
         if (!forum.isPresent())
             return new Return("This forum does not exist", false);
@@ -145,6 +151,29 @@ public class ForumImplementation implements ForumService{
         questionRepo.save(newQuestion);
         
         return new Return("Question created with sucess", true);
+    }
+
+    @Override
+    public Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data) {
+        
+        Optional<Question> question = questionRepo.findById(idQuestion);
+
+        if (!question.isPresent()) {
+            return new Return("Question not found", false);
+        }
+
+        Optional<User> user = userRepo.findById(idUser);
+
+        Answer newAnswer = new Answer();
+
+        newAnswer.setUser(user.get());
+        newAnswer.setQuestion(question.get());
+        newAnswer.setDate(LocalDateTime.now().toString());
+        newAnswer.setText(data.text());
+
+        answerRepo.save(newAnswer);
+
+        return new Return("Answer created with sucess", true);
     }
     
 }
