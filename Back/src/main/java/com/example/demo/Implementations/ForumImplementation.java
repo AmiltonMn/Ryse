@@ -19,11 +19,13 @@ import com.example.demo.DTO.Return;
 import com.example.demo.Models.Answer;
 import com.example.demo.Models.Forum;
 import com.example.demo.Models.ForumTopic;
+import com.example.demo.Models.LikeAnswer;
 import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.AnswerRepository;
 import com.example.demo.Repositories.ForumRepository;
 import com.example.demo.Repositories.ForumTopicRepository;
+import com.example.demo.Repositories.LikeAnswerRepository;
 import com.example.demo.Repositories.QuestionRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.ForumService;
@@ -44,6 +46,9 @@ public class ForumImplementation implements ForumService{
 
     @Autowired
     AnswerRepository answerRepo;
+
+    @Autowired
+    LikeAnswerRepository likeRepo;
 
     @Override
     public List<ForumData> getForuns(Long idUser, Integer page, Integer size) {
@@ -213,6 +218,37 @@ public class ForumImplementation implements ForumService{
         }
 
         return new QuestionWithAnswerData(responseQuestion, responseAnswer);
+    }
+
+    @Override
+    public Return likeAnswer(Long idUser, Long idAnswer) {
+
+        Optional<LikeAnswer> opLike = likeRepo.findByUserIdUserAndAnswerIdAnswer(idUser, idAnswer);
+
+        if(opLike.isPresent()){
+            userRepo.deleteById(opLike.get().getIdLikeAnswer());
+
+            return new Return("Like removed", true);
+        }
+        
+        Optional<User> user = userRepo.findById(idUser);
+
+        if(!user.isPresent())
+        return new Return("User not found", false);
+
+        Optional<Answer> answer = answerRepo.findById(idAnswer);
+
+        if(!answer.isPresent())
+            return new Return("Answer not found", false);
+
+        LikeAnswer newLike = new LikeAnswer();
+
+        newLike.setAnswer(answer.get());
+        newLike.setUser(user.get());
+
+        likeRepo.save(newLike);
+
+        return new Return("Like added", true);
     }
     
 }

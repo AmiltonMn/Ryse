@@ -120,4 +120,15 @@ public class ForumController {
             
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/like/{idAnswer}")
+    ResponseEntity<Return> likeAnswer(@RequestAttribute("token") Token token, @PathVariable Long idAnswer){
+
+        Return response = forumService.likeAnswer(token.getId(), idAnswer);
+
+        if(response.result())
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
