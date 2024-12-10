@@ -1,3 +1,5 @@
+'use client'
+
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { MyMsg } from "@/components/myMsg";
@@ -5,7 +7,7 @@ import { OtherMsg } from "@/components/otherMsg";
 import { GroupChat } from "@/components/groupChat";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 
@@ -16,6 +18,18 @@ import file from "@/assets/file.png";
 
 
 export default function Home() {
+
+    const [modal, setModal] = useState(false);
+    const [name, setName] = useState<string>("");
+
+    const closeModal = () => {
+        setName("");
+        setModal(false);
+    }
+
+    const openModal = () => {
+        setModal(true);
+    }
 
     const style =
     {
@@ -55,7 +69,7 @@ export default function Home() {
 
                                     <GroupChat name={"Front"}/>
 
-                                    <button className="flex flex-col hover:bg-[#505050]" >
+                                    <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
                                             <Image src={more} alt="ícone ideia" className="w-4 h-4 " />
@@ -110,6 +124,23 @@ export default function Home() {
                                 </div>
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal novo chat*/}
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-semibold">New Chat</h2>
+                        <form className="flex flex-col">
+                            <label htmlFor="" className="mt-8">Name</label>
+                            <input type="text" placeholder="Chat name" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
+                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
