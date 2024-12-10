@@ -18,6 +18,29 @@ export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const[ pag, setPag ] = useState<string>("1")
+
+    const pagina = Number(pag)
+
+    const next = () => {
+        if (!Number.isInteger(pagina) || pagina < 1) {
+            setPag("1")
+        }
+        else{
+            setPag((pagina+1).toString())
+        }
+    }
+
+    const prev = () => {
+
+        if (!Number.isInteger(pagina)) {
+            setPag("1")
+        }
+
+        if (pagina > 1) {
+            setPag((pagina-1).toString())
+        }
+    }
 
     const closeModal = () => {
         setName("");
@@ -66,9 +89,9 @@ export default function Home() {
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
                     </div>
                     <div className="w-full flex justify-center mt-3 gap-3 mb-2">
-                        <button className="bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 ">◀</button>
-                        <input className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                        <button onClick={() => prev()} className={ pagina <=1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input value={pag} onChange={(e) => setPag(e.target.value)}  className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
                     </div>
                 </div>
             </div>
