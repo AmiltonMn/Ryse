@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ROUTES } from "@/constants/routes";
+import { useRouter } from 'next/navigation'
 import Image from "next/image";
 
 import google from "@/assets/google.png";
@@ -11,8 +12,10 @@ export default function Login() {
 
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-
+  const router = useRouter();
   const fetch = async (email: string,password: string) => {
+    console.log("entrou");
+    
     try {
       const response = await axios.post("http://localhost:8080/login",{
         "email" : email,
@@ -22,9 +25,10 @@ export default function Login() {
           'Content-Type': 'application/json'
         }
       })
-      console.log(response.data)
+      localStorage.setItem("token", response.data.message)
+      router.push("/home")
     } catch (error) {
-      console.error("Erro ao dar fetch", error);
+      console.log("erro ao dar fecth", error)
     }
   }
 
@@ -39,15 +43,17 @@ export default function Login() {
     return (
         <>
             <main className={style.main}>
-                <form className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-10 p-10">
+                <form  onSubmit={async(e) => {
+                  e.preventDefault();
+                  await fetch(email,password)}} className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-10 p-10">
                     <div className="flex flex-col items-center">
                         <h2 className="text-[#F41C54] font-semibold text-2xl">Welcome,</h2>
                         <h2 className="font-normal text-2xl">Glad to see you</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
-                        <input className={style.inputz} type="email" placeholder="Email" />
-                        <input className={style.inputz} type="password" placeholder="Password" />
+                        <input className={style.inputz} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                        <input className={style.inputz} type="password"  value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                     </div>
-                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Login</button>
+                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold" >Login</button>
                     <div className="flex flex-col w-full items-center gap-3">
                         <div className="flex flex-row items-center justify-center gap-4 w-full">
                             <div className="bg-white h-[1px] w-1/4"></div>
@@ -55,10 +61,10 @@ export default function Login() {
                             <div className="bg-white h-[1px] w-1/4" ></div>
                         </div>
                         <div className="flex flex-row justify-between w-11/12 text-black">
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
+                            <button className="bg-white p-1 ps-8 pe-8 rounded">
                                 <Image src={google} alt="ícone ideia" className={style.imagen} />
                             </button>
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
+                            <button className="bg-white p-1 ps-8 pe-8 rounded">
                                 <Image src={google} alt="ícone ideia" className={style.imagen} />
                             </button>
                         </div>

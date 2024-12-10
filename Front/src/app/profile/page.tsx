@@ -16,7 +16,8 @@ import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
 import edita from "@/assets/edita.png";
 import Image from "next/image";
-
+import { CheckCircleIcon } from "@heroicons/react/16/solid";
+import { Checkbox } from "@headlessui/react";
 
 const Profile: React.FC = () => {
 
@@ -25,6 +26,23 @@ const Profile: React.FC = () => {
     const [feedbackTab, setFeedbackTab] = useState("received");
     const [interactionTab, setInteractionTab] = useState("likes");
     const editableRef = useRef(null);
+    const [modalAreaa, setModalArea] = useState(false);
+    const [modalSkils, setModalSkils] = useState(false);
+    const [name, setName] = useState<string>("");
+
+    const closeModal = () => {
+        setName("");
+        setModalArea(false);
+        setModalSkils(false);
+    }
+
+    const modalHardSkils = () => {
+        setModalSkils(true);
+    }
+
+    const modalArea = () => {
+        setModalArea(true);
+    }
 
     const handleEdit = () => {
         if (editableRef.current) {
@@ -93,7 +111,7 @@ const Profile: React.FC = () => {
                             <div className="flex flex-col pb-8 pt-4">
                                 <div className="flex flex-row items-start">
                                     <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skils</h1>
-                                    <a className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                    <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                                 </div>
                                 <div className="flex flex-wrap order-4 gap-4 pt-6">
                                     <HardSkils text="Java" />
@@ -105,7 +123,7 @@ const Profile: React.FC = () => {
                         <div className="w-2/5">
                             <div className="flex flex-row pb-4 pt-4 items-start">
                                 <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
-                                <a className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                             </div>
                             <TopicArea text="Desenvolvimento Web" refe="" />
                             <TopicArea text="Desenvolvimento Frontend" refe="" />
@@ -147,6 +165,59 @@ const Profile: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Modal Hard Skils */}
+            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-medium">Hard Skils</h2>
+                        <form className="flex flex-col">
+                            <div className="scroll-smooth text-[15px] p-4 flex flex-col">
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                                <div className="flex flex-row mb-2">
+                                    <input className="mr-4" type="checkbox" />Java
+                                </div>
+                            </div>
+                            </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button onClick={() => setModalArea(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal areas of interest */}
+            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
+                        <form className="flex flex-col">
+                            <label htmlFor="" className="mt-8">Name</label>
+                            <input type="text" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button onClick={() => setModalSkils(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </>
     );
 };
