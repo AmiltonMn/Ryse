@@ -1,9 +1,11 @@
+'use client'
+
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { TeamList } from "@/components/teamList";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 
@@ -13,6 +15,18 @@ import user from "@/assets/user.png";
 
 
 export default function Home() {
+
+    const [modal, setModal] = useState(false);
+    const [name, setName] = useState<string>("");
+
+    const closeModal = () => {
+        setName("");
+        setModal(false);
+    }
+
+    const openModal = () => {
+        setModal(true);
+    }
 
     const style =
     {
@@ -79,8 +93,22 @@ export default function Home() {
                                 </tbody>
                             </table>
                             <div className="w-full mt-8 flex justify-end">
-                                <button className="border-[#F41C54] h-10 rounded-lg border w-40 text-[#F41C54] flex justify-center items-center text-[16px] opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200 ">Delete Group</button>
+                                <button onClick={() => openModal()} className="border-[#F41C54] h-10 rounded-lg border w-40 text-[#F41C54] flex justify-center items-center text-[16px] opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200 ">Delete Group</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal deletar grupo*/}
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-5 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-80 bg-opacity-50 z-50 items-center">
+                        <h2 className="text-xl font-semibold text-center">You will delete permanently</h2>
+                        <p className="text-xl font-semibold text-center">Are you sure?</p>
+                        <div className="flex w-10/12 justify-between mt-8">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-white text-black py-2 px-4 rounded-md hover:bg-gray-300">Cancel</button>
+                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Confirm</button>
                         </div>
                     </div>
                 </div>
