@@ -1,6 +1,6 @@
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
-import { CardGroup } from "@/components/cardGroup";
+import { CardChat } from "@/components/cardChat";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 // import React, { useEffect, useState } from "react";
@@ -33,8 +33,8 @@ export default function Home() {
             <div className="pt-36 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
-                        <div className="flex flex-row items-center">
-                        <h2 className="text-[20px] font-semibold">Groups</h2>
+                    <div className="flex flex-row items-center">
+                        <h2 className="text-[20px] font-semibold">Chats</h2>
                         <button>
                             <Image src={more} alt="ícone ideia" className={style.imagen2}/>
                         </button>
@@ -42,16 +42,17 @@ export default function Home() {
                         <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] "/>
                     </div>
                     <hr className="mt-4" />
-                    <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
+                    <div className="w-full flex flex-wrap mt-8 gap-8 justify-center">
+                        <CardChat name={"Front"}/>
+                        <CardChat name={"Back"}/>
+                        <CardChat name={"Python"}/>
+                        <CardChat name={"Java"}/>
+                        <CardChat name={"C"}/>
+                        <CardChat name={"C#"}/>
+                        <CardChat name={"C++"}/>
+                        <CardChat name={"Html"}/>
+                        <CardChat name={"SQL Server e mais texto"}/>
+                        <CardChat name={"Html"}/>
                     </div>
                     <div className="w-full flex justify-center mt-3 gap-3 mb-2">
                         <button className="bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 ">◀</button>

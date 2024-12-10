@@ -33,11 +33,11 @@ export default function Home() {
                     <div className="w-full h-full flex justify-center ">
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
-                                <Link href={ROUTES.group} className="flex w-full h-12 rounded-t bg-[#313131] items-center group">
+                                <div className="flex w-full h-12 rounded-t bg-[#313131] items-center ">
                                     <div className="w-[20%] h-full flex items-center justify-center">
-                                        <p className="text-[20px] font-semibold z-20">Nome do Projeto</p>
+                                        <p className="text-[20px] font-semibold z-20 group-hover:animate-pulse">Nome do Chat</p>
                                     </div>
-                                </Link>
+                                </div>
                                 <hr className="" />
                             </div>
                             <div className="w-full h-full flex flex-row">
