@@ -28,25 +28,48 @@ interface ForumInfo{
     dateCriation: string
 }
 
+const getForum = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/forum", {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error("Erro ao dar fetch", error);
+    }
+  }
+
+  const getChats = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/topicChat", {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error("Erro ao dar fetch", error);
+    }
+  }
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
     const [forum, setForum] = useState<ForumInfo[]>([]);
-
-    const fetch = async () => {
-        try {
-          const response = await axios.post("http://localhost:8080/register", {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          console.log(response.data)
-        } catch (error) {
-          console.error("Erro ao dar fetch", error);
-        }
+    const [chat, setChat] = useState("");
+    
+    
+    
+    useEffect(() => {
+      
+    
+      return () => {
+        
       }
+    }, [])
     
 
 

@@ -25,11 +25,15 @@ import com.example.demo.DTO.TopicChatDTO.TopicChatReturn;
 import com.example.demo.DTO.TopicChatDTO.TopicChatUpdate;
 import com.example.demo.Models.TopicChat;
 import com.example.demo.Models.TopicMessage;
+import com.example.demo.Repositories.TopicChatRepository;
 import com.example.demo.Services.TopicChatServices;
 
 @RestController
 @RequestMapping("/topicChat")
 public class TopicChatController {
+
+    @Autowired
+    TopicChatRepository topicChatRepo;
 
     @Autowired
     TopicChatServices topicChatServices;
@@ -70,7 +74,8 @@ public class TopicChatController {
     }
 
     @PutMapping("/message/{idTopicChatMessage}")
-    public ResponseEntity<TopicChatReturn> InativeMessage(@RequestAttribute("token") Token token,@PathVariable Long idTopicChatMessage) {
+    public ResponseEntity<TopicChatReturn> InativeMessage(@RequestAttribute("token") Token token,
+            @PathVariable Long idTopicChatMessage) {
         var response = topicChatServices.inativeMessageTopicChat(idTopicChatMessage, token.getId());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -79,6 +84,11 @@ public class TopicChatController {
     @GetMapping("/{idTopic}")
     public ResponseEntity<List<TopicChat>> getTopicChat(@PathVariable Long idTopic) {
         return new ResponseEntity<>(topicChatServices.getTopicChats(idTopic), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TopicChat>> getTopicChats() {
+        return new ResponseEntity<>(topicChatRepo.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/message/{idTopicChat}")

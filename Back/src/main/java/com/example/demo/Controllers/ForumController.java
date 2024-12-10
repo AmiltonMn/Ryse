@@ -80,7 +80,7 @@ public class ForumController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Return> createForum(@RequestAttribute("token") Token token,
             @RequestBody RegisterForumData data) {
 
