@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
 import com.example.demo.DTO.GroupDTO.CreateGroupData;
 import com.example.demo.DTO.GroupDTO.GroupGet;
 import com.example.demo.DTO.GroupDTO.NewGroupData;

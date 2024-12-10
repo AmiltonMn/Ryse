@@ -1,6 +1,7 @@
 package com.example.demo.Models;
 
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +26,7 @@ public class TopicMessage {
 
     @ManyToOne
     @JoinColumn(name = "idTopicChat", nullable = false)
+    @JsonBackReference
     private TopicChat chat;
 
     @Column
@@ -34,7 +36,7 @@ public class TopicMessage {
     private Boolean deleted;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdTopicMessage() {
         return idTopicMessage;
@@ -68,12 +70,20 @@ public class TopicMessage {
         this.deleted = deleted;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public TopicChat getChat() {
+        return chat;
+    }
+
+    public void setChat(TopicChat chat) {
+        this.chat = chat;
     }
 
     

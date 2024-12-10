@@ -1,13 +1,16 @@
 package com.example.demo.Implementations;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.DTO.Topic.TopicDTO;
-import com.example.demo.DTO.Topic.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.TopicCreate;
+import com.example.demo.DTO.TopicDTO.TopicDTO;
 import com.example.demo.Models.Topic;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.TopicRepository;
@@ -25,7 +28,7 @@ public class TopicImplementation implements TopicService {
     @Override
     public List<TopicDTO> getTopics(Integer page, Integer size) {
         
-        List<Topic> topics = topicRepo.findQuestionsWithPagination((page - 1) * size, size);
+        List<Topic> topics = topicRepo.findQuestionsWithPagination(((page-1)*size), size);
 
         List<TopicDTO> topicsReturn = new ArrayList<>();
 
@@ -37,7 +40,7 @@ public class TopicImplementation implements TopicService {
     }
 
     @Override
-    public RegisterTopicReturn createTopic(TopicDTO data) {
+    public RegisterTopicReturn createTopic(TopicCreate data) {
         
         var topic = topicRepo.findByName(data.name());
 
@@ -48,8 +51,11 @@ public class TopicImplementation implements TopicService {
 
         Topic newTopic = new Topic();
 
+
+        String now = LocalDateTime.now().toString();
+
         newTopic.setName(data.name());
-        newTopic.setDate(data.date());
+        newTopic.setDate(now);
         newTopic.setUser(user.get());
 
         topicRepo.save(newTopic);
