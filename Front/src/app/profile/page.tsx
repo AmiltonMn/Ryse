@@ -21,7 +21,7 @@ import Image from "next/image";
 const Profile: React.FC = () => {
 
     const [activeTab, setActiveTab] = useState("profile");
-    const [activeTab, setActiveTab] = useState("profile");
+    const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
     const [interactionTab, setInteractionTab] = useState("likes");
     const editableRef = useRef(null);
@@ -66,6 +66,7 @@ const Profile: React.FC = () => {
                 ideas={"Ideas"}
             />
 
+
             <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white">
                 <div className="font-medium text-[16px] flex flex-row pb-8">
                     <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
@@ -81,11 +82,10 @@ const Profile: React.FC = () => {
                     <button onClick={handleEdit}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button>
                 </div>
 
-                <p contentEditable="true" className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onInput={(e) => setText(e.currentTarget.textContent)} onKeyDown={closeEdit}> 
+                <p contentEditable="true" className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onInput={(e) => setText(e.currentTarget.textContent)} onKeyDown={closeEdit}>
                     Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
                     Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
                 </p>
-
 
                 {activeTab === "profile" && (
                     <div className="flex flex-row justify-between">
