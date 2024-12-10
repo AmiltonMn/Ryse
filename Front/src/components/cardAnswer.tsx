@@ -31,9 +31,10 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date
 
             <div className="pl-8 pt-2 text-[14px] flex justify-between pb-6">
                 <p>{answer}</p>
-                <button></button>
+                <button>
+                    <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 mr-8" width={1000} height={1000}/>
+                </button>
             </div>
-
         </div>
     );
 }
