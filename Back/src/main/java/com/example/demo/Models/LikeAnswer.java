@@ -18,30 +18,30 @@ public class LikeAnswer {
 
     @ManyToOne
     @JoinColumn(name = "idAnswer", nullable= false)
-    private Idea answerEntity; 
+    private Answer answer; 
     
     @ManyToOne
     @JoinColumn(name = "idUser", nullable= false)
-    private User userEntity;
+    private User user;
 
-    public Long getIdLikeIdea() {
+    public Long getIdLikeAnswer() {
         return idLikeAnswer;
     }
 
-    public Idea getAnswerEntity() {
-        return answerEntity;
+    public Answer getAnswer() {
+        return answer;
     }
 
-    public void setAnswerEntity(Idea answerEntity) {
-        this.answerEntity = answerEntity;
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }
