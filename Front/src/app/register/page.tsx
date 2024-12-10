@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
+<<<<<<< HEAD
 import google from "@/app/assets/google.png";
+=======
+
+import google from "@/assets/google.png";
+>>>>>>> ideas
 
 export default function Register() {
 

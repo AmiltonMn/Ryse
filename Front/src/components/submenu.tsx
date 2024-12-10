@@ -2,11 +2,11 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import iconHome from "@/app/assets/home.png";
-import iconGroup from "@/app/assets/grupo.png";
-import iconMessage from "@/app/assets/mensagem.png";
-import iconIdea from "@/app/assets/luz.png";
-import iconMore from "@/app/assets/mais.png";
+import iconHome from "@/assets/home.png";
+import iconGroup from "@/assets/grupo.png";
+import iconMessage from "@/assets/mensagem.png";
+import iconIdea from "@/assets/luz.png";
+import iconMore from "@/assets/mais.png";
 
 interface SubmenuProps {
     home: string;
@@ -21,12 +21,12 @@ interface SubmenuProps {
 }
 
 const styleSubmenu = {
-    link: "text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
+    link: "text-white text-[13px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
     div: "flex flex-col",
-    button: "text-white text-[16px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
-    img: "w-7 h-7 rounded-t-3xl m-2",
+    button: "text-white text-[13px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
+    img: "w-6 h-6 rounded-t-3xl m-2",
     hr: "mb-2 mt-2",
-    h5: "text-[#656565] mt-4"
+    h5: "text-[#656565] mt-4",
 }
 
 export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas}) => {
@@ -46,10 +46,6 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>GRUPOS</h5>
-                    <Link href={ROUTES.groups} className={styleSubmenu.button}>
-                        <Image src={iconMore} alt="ícone grupo" className={styleSubmenu.img}/>
-                        {newGroup}
-                    </Link>
                     <Link href={ROUTES.groups} className={styleSubmenu.link}>
                         <Image src={iconGroup} alt="ícone grupo" className={styleSubmenu.img}/>
                         {myGroup}
@@ -74,10 +70,6 @@ export const Submenu: React.FC<SubmenuProps> = ({home, chats, newGroup, myGroup,
                 <hr className={styleSubmenu.hr}/>
                 <div className={styleSubmenu.div}>
                     <h5 className={styleSubmenu.h5}>MURAL DE IDEIAS</h5> 
-                    <Link href={ROUTES.ideas} className={styleSubmenu.button}>
-                        <Image src={iconMore} alt="ícone ideia" className={styleSubmenu.img}/>
-                        {newIdea}
-                    </Link>
                     <Link href={ROUTES.ideas} className={styleSubmenu.link}>
                         <Image src={iconIdea} alt="ícone ideia" className={styleSubmenu.img}/>
                         {ideas}

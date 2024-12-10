@@ -12,7 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-    },
+      fontFamily: {
+        popFont : "var(--poppins)",
+      },
+    }
   },
   plugins: [],
 } satisfies Config;
