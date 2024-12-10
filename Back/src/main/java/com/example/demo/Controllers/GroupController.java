@@ -76,7 +76,7 @@ public class GroupController {
     }
 
     @PatchMapping
-    public ResponseEntity<CreateGroupData> updateInfoGroup(@RequestAttribute("token") Token token,@RequestBody UpdateGroupData data) {
+    public ResponseEntity<CreateGroupData> updateInfo(@RequestAttribute("token") Token token,@RequestBody UpdateGroupData data) {
 
         var response = groupService.updateGroup(data);
         return response;

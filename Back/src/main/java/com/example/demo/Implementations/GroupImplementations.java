@@ -67,7 +67,7 @@ public class GroupImplementations implements GroupServices {
 
     @Override
     public ResponseEntity<CreateGroupData> updateGroup(UpdateGroupData data) {
-        groupRepo.updateGroup(data.newDescription(), data.newName(), data.newObjective(), data.idGroup());
+        groupRepo.updateGroups(data.newDescription(), data.newName(), data.newObjective(), data.idGroup());
         return new ResponseEntity<>(new CreateGroupData("The group was successfully updated!", true), HttpStatus.OK);
     }
 

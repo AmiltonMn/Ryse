@@ -17,7 +17,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE tb_group SET description = :newDescription, name = :newName, objective = :newObjective WHERE id_group = :idGroup", nativeQuery = true)
-    void updateGroup(@Param("newDescription") String newDescription, @Param("newName") String newName, @Param("newObjective") String newObjective, @Param("idGroup") Long idGroup);
+    void updateGroups(@Param("newDescription") String newDescription, @Param("newName") String newName, @Param("newObjective") String newObjective, @Param("idGroup") Long idGroup);
 
 
     @Query(value = "SELECT * FROM tb_group ORDER BY id_group OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)

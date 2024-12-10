@@ -1,26 +1,27 @@
-<<<<<<< HEAD
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\FeedbackController.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\ForumController.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\GroupController.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\HardSkillController.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\IdeaController.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\TopicChatController.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\TopicController.java
-=======
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\GroupController.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\HardSkillController.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\IdeaController.java
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Controllers\UserController.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\CorsConfiguration.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DemoApplication.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DependencyConfiguration.java
-<<<<<<< HEAD
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\FeedbackDTO\CreateFeedback.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\FeedbackDTO\FeedbackGet.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\FeedbackDTO\FeedbackGetData.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\FeedbackDTO\FeedbackReturn.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\FeedbackDTO\returnGetFeedback.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\AnswerData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\ForumData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\ForumTopicData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\QuestionData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\QuestionWithAnswerData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\RegisterAnswerData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\RegisterForumData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\ForumDTO\RegisterQuestionData.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\GroupDTO\addUserGroup.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\GroupDTO\CreateGroupData.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\GroupDTO\getGroupAll.java
@@ -35,38 +36,37 @@ C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\IdeaDTO\Ide
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\IdeaDTO\IdeaReturn.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\IdeaDTO\LikeData.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\LoginData.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\LoginReturn.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\RegisterDTO\RegisterData.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\RegisterDTO\RegisterReturn.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\Return.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\Token.java
-<<<<<<< HEAD
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\Topic\RegisterTopicData.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\Topic\RegisterTopicReturn.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\Topic\TopicDTO.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\CreateChat.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\CreateChatInfo.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\CreateMessage.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\CreateMessageInfo.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\TopicChatReturn.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\TopicChatUpdate.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicChatDTO\TopicMessageDTO.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicDTO\RegisterTopicData.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicDTO\RegisterTopicReturn.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicDTO\TopicCreate.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\DTO\TopicDTO\TopicDTO.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Filters\JWTAuthenticationFilter.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\EncodeImplementations.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\FeedbackImplementations.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\ForumImplementation.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\GroupImplementations.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\HardSkillImplementation.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\IdeaImplementations.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\TopicChatImplementations.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\TopicImplementation.java
-=======
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Filters\JWTAuthenticationFilter.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\EncodeImplementations.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\GroupImplementations.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\HardSkillImplementation.java
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\IdeaImplementations.java
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Implementations\UserImplementations.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\JWTCreate.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Answer.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\ChatGroup.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Feedback.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Forum.java
-<<<<<<< HEAD
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\ForumTopic.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Group.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\GroupChatMessage.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\GroupMessage.java
@@ -76,45 +76,38 @@ C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\LikeAnsw
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\LikeIdea.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Notification.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Question.java
-<<<<<<< HEAD
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\Topic.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\TopicChat.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\TopicMessage.java
-=======
-C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\TopicForum.java
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\User.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\UserForum.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\UserGroup.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Models\UserHardSkill.java
-<<<<<<< HEAD
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\AnswerRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\FeedbackRepository.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\ForumRepository.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\ForumTopicRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\GroupRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\HardSkillRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\IdeaRepository.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\LikeAnswerRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\LikeIdeaRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\NotificationRepository.java
-<<<<<<< HEAD
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\QuestionRepository.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\TopicChatRepository.java
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\TopicMessagesRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\TopicRepository.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\UserGroupRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\UserHardSkillRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Repositories\UserRepository.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\SecurityConfigurations.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\EncodeServices.java
-<<<<<<< HEAD
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\FeedbackServices.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\ForumService.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\GroupServices.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\HardSkillService.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\IdeaServices.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\JWTService.java
-<<<<<<< HEAD
+C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\TopicChatServices.java
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\TopicService.java
-=======
->>>>>>> 5efd21c11eaac5ad24a3a4dfe467045232e3270d
 C:\Users\disrct\Desktop\Ryse\Back\src\main\java\com\example\demo\Services\UserServices.java
