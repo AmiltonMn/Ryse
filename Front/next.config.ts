@@ -48,7 +48,20 @@ const nextConfig = {
         {
           source: "/groupchat",
           destination: "/groupchat"
-        }
+        },
+        {
+          source: "/hardSkills",
+          destination: "/hardSkills"
+        },
+        {
+          source: "/events",
+          destination: "/events"
+        },
+        {
+          source: "/news",
+          destination: "/news"
+        },
+
       ]
   }
 };
