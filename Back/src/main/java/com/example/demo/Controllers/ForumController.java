@@ -25,7 +25,6 @@ import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
 import com.example.demo.Services.ForumService;
 
-
 @RestController
 @RequestMapping("/forum")
 public class ForumController {
@@ -34,99 +33,100 @@ public class ForumController {
     ForumService forumService;
 
     @GetMapping
-    ResponseEntity<List<ForumData>> getForuns(
-        @RequestAttribute("token") Token token, 
-        @RequestParam(name = "page", defaultValue = "1") Integer page, 
-        @RequestParam(name = "size", defaultValue = "5") Integer size)
-    {
+    public ResponseEntity<List<ForumData>> getForuns(
+            @RequestAttribute("token") Token token,
+            @RequestParam(name = "page", defaultValue = "1") Integer page,
+            @RequestParam(name = "size", defaultValue = "5") Integer size) {
         List<ForumData> response = forumService.getForuns(token.getId(), page, size);
 
-        if(response.isEmpty())
+        if (response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{idForum}/questions")
-    ResponseEntity<List<QuestionData>> getQuestions(
-        @RequestAttribute("token") Token token,
-        @PathVariable Long idForum,
-        @RequestParam(name = "topic", required = false) Long topic, 
-        @RequestParam(name = "page", defaultValue = "1") Integer page, 
-        @RequestParam(name = "size", defaultValue = "5") Integer size
-        )
-    {
+    public ResponseEntity<List<QuestionData>> getQuestions(
+            @RequestAttribute("token") Token token,
+            @PathVariable Long idForum,
+            @RequestParam(name = "topic", required = false) Long topic,
+            @RequestParam(name = "page", defaultValue = "1") Integer page,
+            @RequestParam(name = "size", defaultValue = "5") Integer size) {
         List<QuestionData> response = forumService.getQuestions(token.getId(), idForum, topic, page, size);
 
-        if(response.isEmpty())
+        if (response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/topics")
-    ResponseEntity<List<ForumTopicData>> getTopics(@RequestAttribute("token") Token token){
+    public ResponseEntity<List<ForumTopicData>> getTopics(@RequestAttribute("token") Token token) {
 
         List<ForumTopicData> response = forumService.getTopics(token.getId());
 
-        if(response.isEmpty())
+        if (response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("question/{idQuestion}")
-    ResponseEntity<QuestionWithAnswerData> getAnswer(@RequestAttribute("token") Token token, @PathVariable Long idQuestion){
+    public ResponseEntity<QuestionWithAnswerData> getAnswer(@RequestAttribute("token") Token token,
+            @PathVariable Long idQuestion) {
 
         QuestionWithAnswerData response = forumService.getQuestion(token.getId(), idQuestion);
-            
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping()
-    ResponseEntity<Return> createForum(@RequestAttribute("token") Token token, @RequestBody RegisterForumData data){
+    public ResponseEntity<Return> createForum(@RequestAttribute("token") Token token,
+            @RequestBody RegisterForumData data) {
 
-        if(data.name().isEmpty())
-        return new ResponseEntity<>(new Return("Please send a name", false), HttpStatus.BAD_REQUEST);
-        
+        if (data.name().isEmpty())
+            return new ResponseEntity<>(new Return("Please send a name", false), HttpStatus.BAD_REQUEST);
+
         Return response = forumService.createForum(token.getId(), data);
 
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
-            
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
 
     @PostMapping("/{idForum}/question")
-    ResponseEntity<Return> createQuestion(@RequestAttribute("token") Token token, @PathVariable Long idForum, @RequestBody RegisterQuestionData data){
+    public ResponseEntity<Return> createQuestion(@RequestAttribute("token") Token token, @PathVariable Long idForum,
+            @RequestBody RegisterQuestionData data) {
 
         Return response = forumService.createQuestion(token.getId(), idForum, data);
 
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
-            
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
 
     @PostMapping("/question/{idQuestion}/answer")
-    ResponseEntity<Return> createAnswer(@RequestAttribute("token") Token token, @PathVariable Long idQuestion, @RequestBody RegisterAnswerData data){
+    public ResponseEntity<Return> createAnswer(@RequestAttribute("token") Token token, @PathVariable Long idQuestion,
+            @RequestBody RegisterAnswerData data) {
 
         Return response = forumService.createAnswer(token.getId(), idQuestion, data);
 
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
-            
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/like/{idAnswer}")
-    ResponseEntity<Return> likeAnswer(@RequestAttribute("token") Token token, @PathVariable Long idAnswer){
+    public ResponseEntity<Return> likeAnswer(@RequestAttribute("token") Token token, @PathVariable Long idAnswer) {
 
         Return response = forumService.likeAnswer(token.getId(), idAnswer);
 
-        if(response.result())
+        if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

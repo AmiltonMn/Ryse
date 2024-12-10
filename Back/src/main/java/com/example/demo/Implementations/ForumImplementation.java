@@ -30,7 +30,7 @@ import com.example.demo.Repositories.QuestionRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.ForumService;
 
-public class ForumImplementation implements ForumService{
+public class ForumImplementation implements ForumService {
 
     @Autowired
     UserRepository userRepo;
@@ -53,18 +53,17 @@ public class ForumImplementation implements ForumService{
     @Override
     public List<ForumData> getForuns(Long idUser, Integer page, Integer size) {
 
-        List<Forum> foruns = forumRepo.findForumWithPagination((page -1) * size, size);
+        List<Forum> foruns = forumRepo.findForumWithPagination((page - 1) * size, size);
 
         List<ForumData> response = new ArrayList<>();
 
-        for(Forum forum : foruns){
+        for (Forum forum : foruns) {
             response.add(new ForumData(
-                forum.getIdForum(), 
-                forum.getUser().getName(), 
-                forum.getDate(), 
-                forum.getName(), 
-                forum.getUser().getId().equals(idUser)? true: false
-            ));
+                    forum.getIdForum(),
+                    forum.getUser().getName(),
+                    forum.getDate(),
+                    forum.getName(),
+                    forum.getUser().getId().equals(idUser) ? true : false));
         }
 
         return response;
@@ -75,35 +74,34 @@ public class ForumImplementation implements ForumService{
 
         List<Question> questions;
 
-        if(id_topic == null)
-            questions = questionRepo.findQuestionWithPagination((page -1) * size, size, id_forum);
+        if (id_topic == null)
+            questions = questionRepo.findQuestionWithPagination((page - 1) * size, size, id_forum);
         else
-            questions = questionRepo.findQuestionWithPaginationTopic((page -1) * size, size, id_forum, id_topic);
+            questions = questionRepo.findQuestionWithPaginationTopic((page - 1) * size, size, id_forum, id_topic);
 
         List<QuestionData> response = new ArrayList<>();
 
-        for(Question question : questions){
+        for (Question question : questions) {
             response.add(new QuestionData(
-                question.getIdQuestion(), 
-                question.getUser().getName(), 
-                question.getTitle(), 
-                question.getTopicForum().getName(), 
-                question.getDate(), 
-                question.getUser().getId().equals(idUser)? true : false
-            ));
+                    question.getIdQuestion(),
+                    question.getUser().getName(),
+                    question.getTitle(),
+                    question.getTopicForum().getName(),
+                    question.getDate(),
+                    question.getUser().getId().equals(idUser) ? true : false));
         }
 
         return response;
     }
 
     @Override
-    public List<ForumTopicData> getTopics(Long idUser){
+    public List<ForumTopicData> getTopics(Long idUser) {
 
         List<ForumTopic> topics = topicRepo.findAll();
 
         List<ForumTopicData> response = new ArrayList<>();
 
-        for(ForumTopic topic : topics){
+        for (ForumTopic topic : topics) {
             response.add(new ForumTopicData(topic.getidTopicForum(), topic.getName()));
         }
 
@@ -112,10 +110,10 @@ public class ForumImplementation implements ForumService{
 
     @Override
     public Return createForum(Long idUser, RegisterForumData data) {
-        
+
         Optional<Forum> forum = forumRepo.findByName(data.name());
 
-        if(forum.isPresent())
+        if (forum.isPresent())
             return new Return("This name is already in use", false);
 
         Optional<User> user = userRepo.findById(idUser);
@@ -145,7 +143,7 @@ public class ForumImplementation implements ForumService{
             return new Return("This topic does not exist", false);
 
         Optional<User> user = userRepo.findById(idUser);
-        
+
         Question newQuestion = new Question();
 
         newQuestion.setTitle(data.title());
@@ -156,13 +154,13 @@ public class ForumImplementation implements ForumService{
         newQuestion.setDate(LocalDateTime.now().toString());
 
         questionRepo.save(newQuestion);
-        
+
         return new Return("Question created with sucess", true);
     }
 
     @Override
     public Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data) {
-        
+
         Optional<Question> question = questionRepo.findById(idQuestion);
 
         if (!question.isPresent()) {
@@ -188,33 +186,31 @@ public class ForumImplementation implements ForumService{
 
         Optional<Question> opQuestion = questionRepo.findById(idQuestion);
 
-        if(!opQuestion.isPresent())
+        if (!opQuestion.isPresent())
             return new QuestionWithAnswerData(null, null);
 
         Question question = opQuestion.get();
 
         QuestionData responseQuestion = new QuestionData(
-            idQuestion, 
-            question.getUser().getName(), 
-            question.getTitle(), 
-            question.getTopicForum().getName(), 
-            question.getDate(), 
-            question.getUser().getId().equals(idUser)? true: false
-        );
+                idQuestion,
+                question.getUser().getName(),
+                question.getTitle(),
+                question.getTopicForum().getName(),
+                question.getDate(),
+                question.getUser().getId().equals(idUser) ? true : false);
 
         List<Answer> answers = question.getAnswers();
 
         List<AnswerData> responseAnswer = new ArrayList<>();
 
-        for(Answer answer : answers){
+        for (Answer answer : answers) {
             responseAnswer.add(new AnswerData(
-                answer.getUser().getName(), 
-                answer.getDate(), 
-                answer.getText(), 
-                1, 
-                false, 
-                answer.getUser().getId().equals(idUser)? true: false
-            ));
+                    answer.getUser().getName(),
+                    answer.getDate(),
+                    answer.getText(),
+                    1,
+                    false,
+                    answer.getUser().getId().equals(idUser) ? true : false));
         }
 
         return new QuestionWithAnswerData(responseQuestion, responseAnswer);
@@ -225,20 +221,20 @@ public class ForumImplementation implements ForumService{
 
         Optional<LikeAnswer> opLike = likeRepo.findByUserIdUserAndAnswerIdAnswer(idUser, idAnswer);
 
-        if(opLike.isPresent()){
+        if (opLike.isPresent()) {
             userRepo.deleteById(opLike.get().getIdLikeAnswer());
 
             return new Return("Like removed", true);
         }
-        
+
         Optional<User> user = userRepo.findById(idUser);
 
-        if(!user.isPresent())
-        return new Return("User not found", false);
+        if (!user.isPresent())
+            return new Return("User not found", false);
 
         Optional<Answer> answer = answerRepo.findById(idAnswer);
 
-        if(!answer.isPresent())
+        if (!answer.isPresent())
             return new Return("Answer not found", false);
 
         LikeAnswer newLike = new LikeAnswer();
@@ -250,5 +246,5 @@ public class ForumImplementation implements ForumService{
 
         return new Return("Like added", true);
     }
-    
+
 }

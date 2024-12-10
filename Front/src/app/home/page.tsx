@@ -11,6 +11,7 @@ import Image from "next/image";
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
+import axios from "axios";
 
 const styles = {
     chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px]",
@@ -18,10 +19,36 @@ const styles = {
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
+
+interface ForumInfo{
+    questionsNumber: number,
+    forumName: string,
+    photo: string,
+    userName: string,
+    dateCriation: string
+}
+
+
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const [forum, setForum] = useState<ForumInfo[]>([]);
+
+    const fetch = async () => {
+        try {
+          const response = await axios.post("http://localhost:8080/register", {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          console.log(response.data)
+        } catch (error) {
+          console.error("Erro ao dar fetch", error);
+        }
+      }
+    
+
 
     const closeModal = () => {
         setName("");
