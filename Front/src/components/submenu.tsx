@@ -6,12 +6,8 @@ import iconHome from "@/assets/home.png";
 import iconGroup from "@/assets/grupo.png";
 import iconMessage from "@/assets/mensagem.png";
 import iconIdea from "@/assets/luz.png";
-<<<<<<< HEAD
-import iconMore from "@/assets/mais.png";
-=======
 import iconMore from "@/assets/luz.png";
 import { useState } from "react";
->>>>>>> origin/perfil
 
 interface SubmenuProps {
     home: string;
@@ -31,11 +27,7 @@ const styleSubmenu = {
     button: "text-white text-[13px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2",
     hr: "mb-2 mt-2",
-<<<<<<< HEAD
     h5: "text-[#656565] mt-4",
-=======
-    h5: ""
->>>>>>> origin/perfil
 }
 
 export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas }) => {
@@ -62,13 +54,6 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                 </div>
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
-<<<<<<< HEAD
-                    <h5 className={styleSubmenu.h5}>GRUPOS</h5>
-                    <Link href={ROUTES.groups} className={styleSubmenu.link}>
-                        <Image src={iconGroup} alt="ícone grupo" className={styleSubmenu.img}/>
-                        {myGroup}
-                    </Link>
-=======
                     <div className="flex flex-row justify-between">
                         <h5 className={styleSubmenu.h5}>GROUPS</h5><button className="text-[13px]" onClick={() => setIsGroup(!isGroup)}>{!isGroup ? baixo : cima}</button>
                     </div>
@@ -82,7 +67,6 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                             {myGroup}
                         </Link>
                     </div>}
->>>>>>> origin/perfil
                 </div>
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
@@ -106,13 +90,6 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                 </div>
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
-<<<<<<< HEAD
-                    <h5 className={styleSubmenu.h5}>MURAL DE IDEIAS</h5> 
-                    <Link href={ROUTES.ideas} className={styleSubmenu.link}>
-                        <Image src={iconIdea} alt="ícone ideia" className={styleSubmenu.img}/>
-                        {ideas}
-                    </Link>
-=======
                     <div className="flex flex-row justify-between">
                         <h5 className={styleSubmenu.h5}>IDEAS WALL</h5><button className="text-[13px]" onClick={() => setIsIdeia(!isIdeia)}>{!isIdeia ? baixo : cima}</button>
                     </div>
@@ -127,7 +104,6 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                         </Link>
                     </div>}
 
->>>>>>> origin/perfil
                 </div>
             </div>
                 <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>
