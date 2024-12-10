@@ -46,6 +46,8 @@ public class UserImplementations implements UserServices {
         newUser.setEmail(data.email());
         newUser.setEdv(data.EDV());
         newUser.setPassword(encoder.encode(data.password()));
+        newUser.setUserState("Student");
+
         userRepo.save(newUser);
 
         return new Return("User created with sucess", true);
