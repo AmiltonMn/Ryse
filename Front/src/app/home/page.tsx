@@ -70,7 +70,7 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Modal novo fórum*/}
             <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
