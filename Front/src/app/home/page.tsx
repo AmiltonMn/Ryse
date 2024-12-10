@@ -41,18 +41,7 @@ const getForum = async () => {
     }
   }
 
-  const getChats = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/topicChat", {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      console.log(response.data)
-    } catch (error) {
-      console.error("Erro ao dar fetch", error);
-    }
-  }
+
 
 export default function Home() {
 
@@ -64,14 +53,35 @@ export default function Home() {
     
     
     useEffect(() => {
-      
-    
-      return () => {
-        
-      }
-    }, [])
-    
 
+      const getForum = async () => {
+        try {
+          const response = await axios.post("http://localhost:8080/forum", {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          console.log(response.data)
+        } catch (error) {
+          console.error("Erro ao dar fetch", error);
+        }
+      }
+      
+      const getChats = async () => {
+        try {
+          const response = await axios.post("http://localhost:8080/topicChat", {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          console.log(response.data)
+        } catch (error) {
+          console.error("Erro ao dar fetch", error);
+        }
+      }
+      
+      
+    }, [])
 
     const closeModal = () => {
         setName("");
@@ -81,7 +91,7 @@ export default function Home() {
     const openModal = () => {
         setModal(true);
     }
-
+    
     return (
         <div>
             <Menu title={"Ryse"} />
@@ -138,4 +148,6 @@ export default function Home() {
             </div>
         </div>
     );
+
+
 }

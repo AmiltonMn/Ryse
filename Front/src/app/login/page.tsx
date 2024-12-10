@@ -17,7 +17,7 @@ export default function Login() {
     console.log("entrou");
     
     try {
-      const response = await axios.post("http://localhost:8080/login",{
+      const response = await axios.post("https://sodeploy-production.up.railway.app/login",{
         "email" : email,
         "password": password
       }, {
