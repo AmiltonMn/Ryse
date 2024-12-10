@@ -31,8 +31,8 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
 
     return (
         <div>
-            <nav className="flex flex-col fixed w-full z-10 font-robFont text-large justify-center align-center border-[0.5px] border-[#656565] bg-[#292929]">
-                <div className="p-2 pl-6 pr-6 justify-between w-full font-robFont text-large flex flex-row align-center">
+            <nav className="flex flex-col fixed w-full z-10 font-robFont text-large justify-center items-center border-[0.5px] border-[#656565] bg-[#292929]">
+                <div className="p-2 pl-6 pr-6 justify-between w-full font-robFont text-large flex flex-row items-center">
                     <div className="flex flex-row items-center justify-center">
                         <Image src={logo} alt="logo" className="w-9 h-9 rounded-t-3xl m-2" />
                         <Link href={ROUTES.home} className="font-extrabold text-[#F41C54] text-[22px]">{title}</Link>
