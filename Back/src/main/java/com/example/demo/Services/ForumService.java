@@ -19,4 +19,5 @@ public interface ForumService {
     Return createForum(Long idUser, RegisterForumData data);
     Return createQuestion(Long idUser, Long idForum, RegisterQuestionData data);
     Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data);
+    Return likeAnswer(Long idUser, Long idAnswer);
 }
