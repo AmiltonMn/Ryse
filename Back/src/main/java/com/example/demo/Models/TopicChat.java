@@ -33,7 +33,7 @@ public class TopicChat {
     @JoinColumn(name = "idUser", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy="topicChat", cascade= CascadeType.REMOVE)
+    @OneToMany(mappedBy="chat", cascade= CascadeType.REMOVE)
     @JsonManagedReference
     private List<TopicMessage> messages;
 

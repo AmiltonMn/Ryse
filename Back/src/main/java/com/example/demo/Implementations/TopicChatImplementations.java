@@ -74,7 +74,7 @@ public class TopicChatImplementations implements TopicChatServices {
 
         topicMessageRepo.save(newMessage);
 
-        return new TopicChatReturn("Created chat with sucess", true);
+        return new TopicChatReturn("Created Message with sucess", true);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TopicChatImplementations implements TopicChatServices {
         var message = topicMessageRepo.findById(idTopicChatMessage).get();
         message.setDeleted(true);
         topicMessageRepo.save(message);
-        return new TopicChatReturn("updated name chat with sucess", true);
+        return new TopicChatReturn("inativated message with sucess", true);
     }
 
     @Override

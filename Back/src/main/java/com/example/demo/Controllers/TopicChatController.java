@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.TopicChatDTO.CreateChat;
 import com.example.demo.DTO.TopicChatDTO.CreateChatInfo;
+import com.example.demo.DTO.TopicChatDTO.CreateMessage;
 import com.example.demo.DTO.TopicChatDTO.CreateMessageInfo;
 import com.example.demo.DTO.TopicChatDTO.TopicChatReturn;
+import com.example.demo.DTO.TopicChatDTO.TopicChatUpdate;
 import com.example.demo.Models.TopicChat;
+import com.example.demo.Models.TopicMessage;
 import com.example.demo.Services.TopicChatServices;
 
 @RestController
@@ -32,47 +35,55 @@ public class TopicChatController {
     TopicChatServices topicChatServices;
 
     @PostMapping
-    public ResponseEntity<TopicChatReturn> createChat(@RequestAttribute("token") Token token, @RequestBody CreateChatInfo data) {
+    public ResponseEntity<TopicChatReturn> createChat(@RequestAttribute("token") Token token,
+            @RequestBody CreateChatInfo data) {
 
-       return new ResponseEntity<>(topicChatServices.createTopicChat(new CreateChat(token.getId(), data.idTopic(), data.name())), HttpStatus.OK);
+        return new ResponseEntity<>(
+                topicChatServices.createTopicChat(new CreateChat(token.getId(), data.idTopic(), data.name())),
+                HttpStatus.OK);
     }
 
     @PostMapping("/message")
-    public ResponseEntity<TopicChatReturn> createMessage(@RequestAttribute("token") Token token, @RequestBody CreateMessageInfo data) {
-        
+    public ResponseEntity<TopicChatReturn> createMessage(@RequestAttribute("token") Token token,
+            @RequestBody CreateMessageInfo data) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        CreateMessage info = new CreateMessage(token.getId(), data.idChatTopic(), data.text());
+        var response = topicChatServices.createTopicChatMessage(info);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idTopicChat}")
-    public ResponseEntity<TopicChatReturn> deleteChat(@RequestBody String entity) {
-        // TODO: process POST request
+    public ResponseEntity<TopicChatReturn> deleteChat(@RequestAttribute("token") Token token,
+            @PathVariable Long idTopicChat) {
+        var response = topicChatServices.deleteTopicChat(idTopicChat, token.getId());
 
-        return entity;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{idTopicChat}")
-    public ResponseEntity<TopicChatReturn> updateNameChatTopic(@PathVariable Long id, @RequestBody String entity) {
-        // TODO: process PUT request
+    public ResponseEntity<TopicChatReturn> updateNameChatTopic(@RequestAttribute("token") Token token,
+            @PathVariable Long idTopicChat, @RequestParam(value = "newName", required = true) String newName) {
+        TopicChatUpdate info = new TopicChatUpdate(token.getId(), idTopicChat, newName);
+        var response = topicChatServices.updateNameChatTopic(info);
 
-        return entity;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/message/{idTopicChat}")
-    public ResponseEntity<TopicChatReturn> InativeMessage(@PathVariable Long id, @RequestBody String entity) {
-        // TODO: process PUT request
+    @PutMapping("/message/{idTopicChatMessage}")
+    public ResponseEntity<TopicChatReturn> InativeMessage(@RequestAttribute("token") Token token,@PathVariable Long idTopicChatMessage) {
+        var response = topicChatServices.inativeMessageTopicChat(idTopicChatMessage, token.getId());
 
-        return entity;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<TopicChat>> getTopicChat(@RequestParam String param) {
-        return topicChatServices.getTopicChats();
+    @GetMapping("/{idTopic}")
+    public ResponseEntity<List<TopicChat>> getTopicChat(@PathVariable Long idTopic) {
+        return new ResponseEntity<>(topicChatServices.getTopicChats(idTopic), HttpStatus.OK);
     }
 
     @GetMapping("/message/{idTopicChat}")
-    public ResponseEntity<List<TopicChat>> getChatMessages(@PathVariable Long id) {
-        return new String();
+    public ResponseEntity<List<TopicMessage>> getChatMessages(@PathVariable Long idTopicChat) {
+        return new ResponseEntity<>(topicChatServices.getTopicMessage(idTopicChat), HttpStatus.OK);
     }
 
 }
