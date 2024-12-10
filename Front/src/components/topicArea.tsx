@@ -12,11 +12,6 @@ export const TopicArea = ({ text, refe }: {
     return (
 
         <>
-<<<<<<< HEAD
-        <div>
-            <h1 className="font-light text-[16px] mb-1">• {text}</h1>   
-        </div>
-=======
             <div className="group/item flex flex-row border-0 rounded-[10px] justify-between mr-20 hover:bg-[#292929] p-2 items-center">
                 <div>
                     <h1 className="font-light text-[16px]">• {text}</h1>
@@ -25,7 +20,6 @@ export const TopicArea = ({ text, refe }: {
                     <Image src={del.src} width={20} height={20} alt="Delete area of interest"></Image>
                 </a>
             </div>
->>>>>>> origin/perfil
         </>
     );
 
