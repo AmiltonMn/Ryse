@@ -36,10 +36,12 @@ public class ForumController {
     @GetMapping
     ResponseEntity<List<ForumData>> getForuns(
         @RequestAttribute("token") Token token, 
+        @RequestParam(name = "query", required = false) String query,
         @RequestParam(name = "page", defaultValue = "1") Integer page, 
         @RequestParam(name = "size", defaultValue = "5") Integer size)
     {
-        List<ForumData> response = forumService.getForuns(token.getId(), page, size);
+        System.out.println(query);
+        List<ForumData> response = forumService.getForuns(token.getId(), query, page, size);
 
         if(response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

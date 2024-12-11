@@ -15,4 +15,7 @@ public interface ForumRepository extends JpaRepository<Forum, Long>{
 
     @Query(value = "SELECT * FROM tb_forum ORDER BY id_forum OFFSET :page ROWS FETCH NEXT :size ROWS ONLY", nativeQuery = true)
     List<Forum> findForumWithPagination(@Param("page") int page, @Param("size") int size);
+
+    @Query(value = "SELECT * FROM tb_forum WHERE name LIKE %:query% ORDER BY id_forum OFFSET :page ROWS FETCH NEXT :size ROWS ONLY", nativeQuery = true)
+    List<Forum> findForumWithPaginationAndQuery(@Param("query") String query, @Param("page") int page, @Param("size") int size);
 }

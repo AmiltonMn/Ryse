@@ -33,6 +33,8 @@ export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const [query, setQuery] = useState<string>("");
+    const [size, setSize] = useState<number>(5);
     const [data, setData] = useState<ForumData[]>([]);
 
     const closeModal = () => {
@@ -66,17 +68,17 @@ export default function Home() {
 
     useEffect(() => {
         api.get(
-            "/forum", 
+            `/forum?query=${query}&size=${size}`, 
             {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
             }
         ).then((res) => {
-            console.log(res.data)
             setData(res.data)
         })
-    }, [])
+        .catch((e) => {})
+    }, [query, size])
 
     return (
         <div>
@@ -94,7 +96,7 @@ export default function Home() {
                     <hr />
                     <div className="w-[101.5%] pt-10 flex">
                         <div className="flex w-full justify-center items-center">
-                            <input type="text" placeholder="Search" className="text-black text-[14px] p-1.5 pl-4 rounded-[3px] w-[100%]" />
+                            <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} className="text-black text-[14px] p-1.5 pl-4 rounded-[3px] w-[100%]" />
                             <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                         </div>
                     </div>
@@ -102,6 +104,7 @@ export default function Home() {
                         {data.map((item) => (
                             <CardForum key={item.idForum} linkForum={"/forum"} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={0} />
                         ))}
+                        <button onClick={() => setSize(size + 5)} className="mt-8 bg-[#5B5B5B] p-2 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</button>
                         {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
                         {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
                     </div>

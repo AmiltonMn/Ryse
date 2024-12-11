@@ -52,9 +52,9 @@ public class ForumImplementation implements ForumService{
     LikeAnswerRepository likeRepo;
 
     @Override
-    public List<ForumData> getForuns(Long idUser, Integer page, Integer size) {
+    public List<ForumData> getForuns(Long idUser, String query, Integer page, Integer size) {
 
-        List<Forum> foruns = forumRepo.findForumWithPagination((page -1) * size, size);
+        List<Forum> foruns = forumRepo.findForumWithPaginationAndQuery(query, (page -1) * size, size);
 
         List<ForumData> response = new ArrayList<>();
 

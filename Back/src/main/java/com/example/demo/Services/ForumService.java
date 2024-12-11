@@ -12,7 +12,7 @@ import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
 
 public interface ForumService {
-    List<ForumData> getForuns(Long idUser, Integer page, Integer size);
+    List<ForumData> getForuns(Long idUser, String query, Integer page, Integer size);
     List<QuestionData> getQuestions(Long idUser, Long id_forum, Long id_topic, Integer page, Integer size);
     List<ForumTopicData> getTopics(Long idUser);
     QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion);
