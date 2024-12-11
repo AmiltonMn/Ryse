@@ -62,7 +62,7 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
                     <div className="flex flex-row justify-between">
-                        <h5 className={styleSubmenu.h5}>GROUPS</h5><button className="text-[13px]" onClick={() => setIsGroup(!isGroup)}>{!isGroup ? baixo : cima}</button>
+                        <h5>GROUPS</h5><button className="text-[13px]" onClick={() => setIsGroup(!isGroup)}>{!isGroup ? baixo : cima}</button>
                     </div>
                     {isGroup && <div>
                         <Link href={ROUTES.groups} className={styleSubmenu.link}>
@@ -74,7 +74,7 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
                     <div className="flex flex-row justify-between">
-                        <h5 className={styleSubmenu.h5}>MAIN CHATS</h5><button className="text-[13px]" onClick={() => setIsChats(!isChats)}>{!isChats ? baixo : cima}</button>
+                        <h5>MAIN CHATS</h5><button className="text-[13px]" onClick={() => setIsChats(!isChats)}>{!isChats ? baixo : cima}</button>
                     </div>
                     {isChats && <div>
                         <Link href={ROUTES.chats} className={styleSubmenu.link}>
@@ -94,7 +94,7 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
                     <div className="flex flex-row justify-between">
-                        <h5 className={styleSubmenu.h5}>IDEAS WALL</h5><button className="text-[13px]" onClick={() => setIsIdeia(!isIdeia)}>{!isIdeia ? baixo : cima}</button>
+                        <h5>IDEAS WALL</h5><button className="text-[13px]" onClick={() => setIsIdeia(!isIdeia)}>{!isIdeia ? baixo : cima}</button>
                     </div>
                     {isIdeia && <div>
                         <Link href={ROUTES.ideas} className={styleSubmenu.link}>

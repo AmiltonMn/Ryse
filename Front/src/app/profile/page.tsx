@@ -1,6 +1,5 @@
 "use client"
 
-
 import { useRef, useState } from "react";
 import { CardCommentProfile } from "@/components/cardCommentProfile";
 import { CardAnswerProfile } from "@/components/cardAnswerProfile";
@@ -11,24 +10,41 @@ import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { CardFeed } from "@/components/cardFeedbacks";
 import { HardSkils } from "@/components/hardSkils";
+import { SelectHardSkils } from "@/components/selectHardSkils";
 import { CardLike } from "@/components/cardLike";
 import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
 import edita from "@/assets/edita.png";
 import Image from "next/image";
-import { CheckCircleIcon } from "@heroicons/react/16/solid";
-import { Checkbox } from "@headlessui/react";
+
+import search from "@/assets/lupa.png"
 
 const Profile: React.FC = () => {
 
+    
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
     const [interactionTab, setInteractionTab] = useState("likes");
-    const editableRef = useRef(null);
+    const editableRef = useRef<HTMLInputElement>(null);
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
     const [name, setName] = useState<string>("");
+    const [editBio, setEditBio] = useState(false)
+    const [hardSkils, setHardSkils] = useState(false);
+
+    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+    const handleSkillClick = (skill: string) => {
+        setSelectedSkills((prevSkills) => {
+
+            if (prevSkills.includes(skill)) {
+                return prevSkills.filter(item => item !== skill);
+            } else {
+                return [...prevSkills, skill];
+            }
+        });
+    };
 
     const closeModal = () => {
         setName("");
@@ -47,13 +63,16 @@ const Profile: React.FC = () => {
     const handleEdit = () => {
         if (editableRef.current) {
             editableRef.current.focus();
+            setEditBio(true)
         }
     }
 
-    const closeEdit = (event) => {
+    const closeEdit = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key == 'Enter') {
             event.preventDefault();
+
             editableRef.current.blur();
+            setEditBio(false)
         }
     }
 
@@ -68,6 +87,8 @@ const Profile: React.FC = () => {
     const handleInteractionTabChange = (tab: string) => {
         setInteractionTab(tab);
     };
+
+    const hardSkills = ["Java", "Python", "JavaScript", "React", "Node.js"];
 
     return (
         <>
@@ -90,7 +111,7 @@ const Profile: React.FC = () => {
                     <button onClick={handleEdit}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button>
                 </div>
 
-                <p contentEditable="true" className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onInput={(e) => setText(e.currentTarget.textContent)} onKeyDown={closeEdit}>
+                <p contentEditable={editBio} suppressContentEditableWarning={true} className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onKeyDown={closeEdit}>
                     Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
                     Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
                 </p>
@@ -157,42 +178,36 @@ const Profile: React.FC = () => {
             </div>
 
             {/* Modal Hard Skils */}
-            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
-                        <h2 className="text-xl font-medium">Hard Skils</h2>
+                        <h2 className="text-[16px] font-medium">Hard Skils</h2>
+                        <div className="flex w-full justify-center items-center mt-4">
+                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-zinc-800 border border-white" />
+                            <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                        </div>
                         <form className="flex flex-col">
-                            <div className="scroll-smooth text-[15px] p-4 flex flex-col">
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
+                            <div className="flex flex-wrap order-4 gap-4 pt-6">
+
+                            {/* Aqui implementação de comparção quando estive integrado */}
+
+                            {hardSkills.map((skill) => (
+                                
+                                <SelectHardSkils text={skill} key={skill} click={handleSkillClick} classe={selectedSkills.includes(skill)}/>
+
+                            ))}
                             </div>
-                            </form>
+                        </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalArea(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModalArea(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Modal areas of interest */}
-            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
@@ -202,7 +217,7 @@ const Profile: React.FC = () => {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalSkils(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -213,3 +228,5 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+
+

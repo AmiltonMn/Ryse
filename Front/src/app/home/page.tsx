@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import iconProfile from "@/assets/user.png"
-import search from "@/assets/lupaBlack.png"
+import search from "@/assets/lupa.png"
 import iconMore from "@/assets/mais.png";
 
 const styles = {
@@ -71,7 +71,7 @@ export default function Home() {
                     <hr />
                     <div className="w-[101.5%] pt-10 flex">
                         <div className="flex w-full justify-center items-center">
-                            <input type="text" placeholder="Search" className="text-black text-[14px] p-1.5 pl-4 rounded-[3px] w-[100%]" />
+                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
                             <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                         </div>
                     </div>
@@ -109,7 +109,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

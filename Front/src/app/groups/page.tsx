@@ -11,7 +11,7 @@ import Image from "next/image";
 
 import google from "@/assets/user.png";
 import more from "@/assets/mais.png";
-import search from "@/assets/lupaBlack.png"
+import search from"@/assets/lupa.png";
 
 
 export default function Home() {
@@ -71,12 +71,12 @@ export default function Home() {
                             <Image src={more} alt="ícone ideia" className={style.imagen2}/>
                         </button>
                         </div>
-                        <div className="w-full flex justify-end items-center">
-                        <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] "/>
-                        <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+                        <div className="flex w-1/3 justify-center items-center">
+                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
                         </div>
                     </div>
-                    <hr className="mt-4" />
+                    <hr className="mt-4 w-[99%]" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>

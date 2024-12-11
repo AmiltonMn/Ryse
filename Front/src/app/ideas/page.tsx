@@ -5,7 +5,7 @@ import { Submenu } from "@/components/submenu";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 
-import search from "@/assets/lupaBlack.png"
+import search from "@/assets/lupa.png"
 import iconMore from "@/assets/mais.png";
 import iconProfile from "@/assets/user.png"
 
@@ -55,9 +55,9 @@ export default function Ideas() {
                     <hr />
 
                     <div className="border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px]">
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0}/>
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2}/>
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1}/>
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0} />
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} />
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@ export default function Ideas() {
                 </div>
             </div>
 
-            
+
             {/* Modal */}
             <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
@@ -85,7 +85,7 @@ export default function Ideas() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
