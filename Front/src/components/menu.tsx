@@ -11,6 +11,7 @@ import iconMoon from "@/assets/lua.png";
 import iconSun from "@/assets/sol.png";
 import { useState } from "react";
 import { CardNotification } from "./cardNotification";
+import { useDarkMode } from "@/context/darkMode";
 
 interface MenuProps {
     title: string;
@@ -20,6 +21,9 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const { darkMode, setDarkMode } = useDarkMode();
+
+    const toggleDarkMode = () => setDarkMode(!darkMode);
 
     const openModal = () => {
         if(modal) {
@@ -46,8 +50,8 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
                         <Link href={ROUTES.profile} className="">
                             <Image src={iconProfile} alt="ícone perfil" className="w-7 h-7 rounded-t-3xl m-2" />
                         </Link>
-                        <button>
-                            <Image src={iconSun} alt="ícone sol" className="w-7 h-7 rounded-t-3xl m-2" />
+                        <button onClick={toggleDarkMode}>
+                            <Image src={darkMode ? iconMoon : iconSun} alt="ícone sol" className="w-7 h-7 rounded-t-3xl m-2" />
                         </button>
                     </div>
                 </div>
