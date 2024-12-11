@@ -30,9 +30,14 @@ public class FeedbackImplementations implements FeedbackServices {
 
     @Override
     public FeedbackReturn createFeedback(CreateFeedback data) {
+
         User userSender = userRepo.findById(data.idUserSender()).get();
         User userReceiver = userRepo.findById(data.idUserReceiver()).get();
         Group group = groupRepo.findById(data.idGroup()).get();
+
+        if (data.text().isEmpty()) {
+            return new FeedbackReturn("Please write something in your feedback", false);
+        }
 
         Feedback newFeedback = new Feedback();
         newFeedback.setUserSender(userSender);
@@ -43,7 +48,6 @@ public class FeedbackImplementations implements FeedbackServices {
 
         feedbackRepo.save(newFeedback);
         return new FeedbackReturn("Created with sucess", true);
-
     }
 
     @Override
@@ -52,6 +56,10 @@ public class FeedbackImplementations implements FeedbackServices {
         List<FeedbackGet> listFeedbacks = new ArrayList<>();
         for (Feedback feedback : FeedbacksReturn) {
             listFeedbacks.add(new FeedbackGet(feedback.getText(), feedback.getUserSender()));
+        }
+
+        if (listFeedbacks.isEmpty()) {
+            return new returnGetFeedback(listFeedbacks, new FeedbackReturn("There are no feedbacks here!", false));
         }
 
         return new returnGetFeedback(listFeedbacks, new FeedbackReturn("get done with sucess", true));

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.Filters.JWTAuthenticationFilter;
+import com.example.demo.Implementations.AreaOfInteresstImplementations;
 import com.example.demo.Implementations.ChatGroupImplementations;
 import com.example.demo.Implementations.EncodeImplementations;
 import com.example.demo.Implementations.FeedbackImplementations;
@@ -16,6 +17,7 @@ import com.example.demo.Implementations.IdeaImplementations;
 import com.example.demo.Implementations.TopicChatImplementations;
 import com.example.demo.Implementations.TopicImplementation;
 import com.example.demo.Implementations.UserImplementations;
+import com.example.demo.Services.AreasOfInterestServices;
 import com.example.demo.Services.ChatGroupServices;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.FeedbackServices;
@@ -88,5 +90,10 @@ public class DependencyConfiguration {
     @Bean
     public ChatGroupServices chatGroupService () {
         return new ChatGroupImplementations();
+    }
+
+    @Bean
+    public AreasOfInterestServices areasOfInterestService() {
+        return new AreaOfInteresstImplementations();
     }
 }
