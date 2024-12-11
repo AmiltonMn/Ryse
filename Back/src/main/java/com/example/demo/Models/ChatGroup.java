@@ -21,6 +21,10 @@ public class ChatGroup {
     @JoinColumn(name= "idGroup", nullable= false)
     private Group groupEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "idUser", nullable= false)
+    private User userEntity;
+
     @Column
     private String name;
 
@@ -53,6 +57,14 @@ public class ChatGroup {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
     }
 
     
