@@ -184,10 +184,6 @@ public class ChatGroupImplementations implements ChatGroupServices {
             groupMessageRepo.save(newMessage);
         }
 
-        ArrayList<GroupMessage> groupMessagesRaw = groupMessageRepo.getAllMessagesByIdChat(idChat);
-
-        System.out.println(groupMessagesRaw.get(2));
-
         for (GroupMessage groupMessage : groupMessagesRaw) {
 
             String text = "";
@@ -216,8 +212,6 @@ public class ChatGroupImplementations implements ChatGroupServices {
         if (messageText.isEmpty()) {
             return new ResponseEntity<>(new NewMessageResponse(messages, "You can't send an empty message!", false), HttpStatus.BAD_REQUEST);
         }
-
-        String now = LocalDateTime.now().toString();
 
         newMessage.setText(messageText);
         newMessage.setDeleted(false);
