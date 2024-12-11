@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.GroupDto.CreateGroupData;
 import com.example.demo.DTO.GroupDto.GetGroupsResponse;
 import com.example.demo.DTO.GroupDto.GroupGet;
-import com.example.demo.DTO.GroupDto.addUserGroup;
 import com.example.demo.DTO.GroupDto.NewGroupData;
 import com.example.demo.DTO.GroupDto.UpdateGroupData;
+import com.example.demo.DTO.GroupDto.addUserGroup;
 import com.example.demo.DTO.Token;
 import com.example.demo.Services.GroupServices;
 
@@ -56,9 +56,6 @@ public class GroupController {
         var response =  groupService.deletePersonOnGroup(idUser, idGroup);
         return response;
     }
-
-
-
 
     @GetMapping
     public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "1") Integer page) {

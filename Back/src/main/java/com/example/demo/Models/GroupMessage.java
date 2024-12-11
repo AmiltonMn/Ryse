@@ -1,7 +1,5 @@
 package com.example.demo.Models;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +21,10 @@ public class GroupMessage {
     @JoinColumn(name= "idUser", nullable= false)
     private User userEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "idChat")
+    private ChatGroup chatGroupEntity;
+
     @Column
     private String text;
 
@@ -30,7 +32,7 @@ public class GroupMessage {
     private Boolean deleted;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdGroupMessage() {
         return idGroupMessage;
@@ -60,11 +62,20 @@ public class GroupMessage {
         this.deleted = deleted;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
+
+    public ChatGroup getChatGroupEntity() {
+        return chatGroupEntity;
+    }
+
+    public void setChatGroupEntity(ChatGroup chatGroupEntity) {
+        this.chatGroupEntity = chatGroupEntity;
+    }
+
 }

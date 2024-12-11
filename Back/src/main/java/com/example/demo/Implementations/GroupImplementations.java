@@ -64,8 +64,6 @@ public class GroupImplementations implements GroupServices {
         return new ResponseEntity<>(new CreateGroupData("The group was successfully deleted!", true), HttpStatus.OK);
     }
 
-    // ! Fazer depois a função de atualização de um grupo!
-
     @Override
     public ResponseEntity<CreateGroupData> updateGroup(UpdateGroupData data) {
         groupRepo.updateGroup(data.newDescription(), data.newName(), data.newObjective(), data.idGroup());
@@ -127,5 +125,4 @@ public class GroupImplementations implements GroupServices {
         return new ResponseEntity<>(new GroupGet(group.getName(), group.getDescription(), group.getObjective(),
                 Objects.equals(group.getUserEntity().getId(), idUser)), HttpStatus.OK);
     }
-
 }
