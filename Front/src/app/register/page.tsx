@@ -21,6 +21,7 @@ export default function Register() {
                         <h2 className="font-normal text-2xl">to get started now!</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
                         <input className={style.inputz} placeholder="Name" />
+                        <input className={style.inputz} placeholder="Username" />
                         <input className={style.inputz} type="email" placeholder="Email" />
                         <input className={style.inputz} placeholder="EDV" />
                         <input className={style.inputz} type="password" placeholder="Password" />
