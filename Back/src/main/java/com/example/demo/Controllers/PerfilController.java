@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.LoginData;
@@ -19,7 +20,8 @@ import com.example.demo.Services.UserServices;
 
 
 @RestController
-public class UserController {
+@RequestMapping("/perfil")
+public class PerfilController {
 
     @Autowired
     UserServices userServices;
@@ -27,27 +29,12 @@ public class UserController {
     @Autowired
     HardSkillService hardSkillService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Return> Register(@RequestBody RegisterData data) {
-
-        if (data.EDV().isEmpty() || data.email().isEmpty() || data.name().isEmpty()) {
-            return new ResponseEntity<>(new Return("Enter all fields correctly", false), HttpStatus.NO_CONTENT);
-        }
-
-        var response = userServices.register(data);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+ 
+    @GetMapping
+    public ResponseEntity<UserInfoReturn> getMethodName(@RequestAttribute("token") Token token) {
+        UserInfoReturn info = new UserInfoReturn(userServices.getPerfilData(token.getId()), hardSkillService.getAllHardSkill(), hardSkillService.getAllHardSkillUser(token.getId()));
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<Return> Login(@RequestBody LoginData data) {
-
-        var response = userServices.Login(data);
-
-        return response.result()? 
-            new ResponseEntity<>(response, HttpStatus.OK) : 
-            new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
     
 
 }

@@ -63,7 +63,7 @@ export default function Home() {
             setData(res.data)
         })
 
-        api.get("/topicChat", 
+        api.get("/topicChat/1", 
             {
                 headers: {
                     "Authorization": localStorage.getItem("token")

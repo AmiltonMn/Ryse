@@ -1,7 +1,7 @@
 "use client"
 
 
-import { useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { CardCommentProfile } from "@/components/cardCommentProfile";
 import { CardAnswerProfile } from "@/components/cardAnswerProfile";
 import { TopicArea } from "@/components/topicArea";
@@ -18,6 +18,9 @@ import edita from "@/assets/edita.png";
 import Image from "next/image";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { Checkbox } from "@headlessui/react";
+import { api } from "@/constants/api";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Profile: React.FC = () => {
 
@@ -28,8 +31,21 @@ const Profile: React.FC = () => {
     const editableRef = useRef(null);
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
-    const [name, setName] = useState<string>("");
 
+
+
+
+
+
+    const [name, setName] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [bio, setBio] = useState<string>("");
+    const [publicId, setPublicId] = useState<string>("");
+
+    const [hardSkills, sethardSkills] = useState<string[]>([])
+    const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
+
+    
     const closeModal = () => {
         setName("");
         setModalArea(false);
@@ -69,6 +85,53 @@ const Profile: React.FC = () => {
         setInteractionTab(tab);
     };
 
+
+
+
+    useEffect(() => {
+        api.get(
+            "/perfil", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log(res.data)
+
+
+            sethardSkillsUser(res.data.HardSkillUser)
+            console.log(res.data.HardSkillUser)
+
+            sethardSkills(res.data.HardSkills)
+            console.log(res.data.HardSkills)
+
+            setBio(res.data.info.bio)
+
+            if (res.data.info.photo === null) {
+                setPublicId(`${res.data.info.username}Photo`)
+            }else{
+                setPublicId(res.data.info.photo)
+            }
+            setName(res.data.info.name)
+            setUsername(res.data.info.username)
+
+            console.log(res.data.info.name);
+            console.log(res.data.info.photo);
+            console.log(res.data.info.username);
+            console.log(res.data.info.bio);
+
+        })
+        // const loadImage = async () => {
+        //     const url = await fetchImageUrl(publicId);
+        //     setImageUrl(url);
+        //   };
+      
+        //   if (publicId) {
+        //     loadImage();
+        //   }
+    }, [])
+
     return (
         <>
             <Menu title={"Ryse"} />
@@ -93,7 +156,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div className="flex">
-                    <CardProfile imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
+                    <CardProfile imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />
                 </div>
 
                 <div className="flex justify-end">
@@ -101,8 +164,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 <p contentEditable="true" className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onInput={(e) => setText(e.currentTarget.textContent)} onKeyDown={closeEdit}>
-                    Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
-                    Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
+                    {bio}
                 </p>
 
                 {activeTab === "profile" && (
@@ -111,19 +173,17 @@ const Profile: React.FC = () => {
                             <div className="flex flex-col pb-8 pt-4">
                                 <div className="flex flex-row items-start">
                                     <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skils</h1>
-                                    <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                    <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                                 </div>
                                 <div className="flex flex-wrap order-4 gap-4 pt-6">
-                                    <HardSkils text="Java" />
-                                    <HardSkils text="JavaScript" />
-                                    <HardSkils text="React" />
+                                    {hardSkillsUser.map((item, index)=> (<HardSkils text={item} key={index} />))}
                                 </div>
                             </div>
                         </div>
                         <div className="w-2/5">
                             <div className="flex flex-row pb-4 pt-4 items-start">
                                 <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
-                                <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                             </div>
                             <TopicArea text="Desenvolvimento Web" refe="" />
                             <TopicArea text="Desenvolvimento Frontend" refe="" />
@@ -173,24 +233,11 @@ const Profile: React.FC = () => {
                         <h2 className="text-xl font-medium">Hard Skils</h2>
                         <form className="flex flex-col">
                             <div className="scroll-smooth text-[15px] p-4 flex flex-col">
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
-                                <div className="flex flex-row mb-2">
-                                    <input className="mr-4" type="checkbox" />Java
-                                </div>
+
+                        {hardSkills.map((item,index)=> (                                
+                            <div className="flex flex-row mb-2" key={index}>
+                                    <input className="mr-4" type="checkbox" />{item.name}
+                                </div>))}
                             </div>
                             </form>
                         <div className="flex justify-between mt-10">

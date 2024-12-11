@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
+import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
+import com.example.demo.DTO.UserDTO.perfilInfo;
 import com.example.demo.JWTCreate;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.UserRepository;
@@ -93,6 +94,13 @@ public class UserImplementations implements UserServices {
         }
 
         return true;
+    }
+
+    @Override
+    public perfilInfo getPerfilData(Long idUser) {
+       var user = userRepo.findById(idUser).get();
+       
+        return new perfilInfo("teste", user.getName(), "teste", "Oie! Seja bem-vindo(a) ao meu perfil 😁 Sou o Amilton, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...", user.getBio());
     }
 
 }
