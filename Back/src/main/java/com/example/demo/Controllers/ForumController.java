@@ -94,7 +94,7 @@ public class ForumController {
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
             
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 
     }
 

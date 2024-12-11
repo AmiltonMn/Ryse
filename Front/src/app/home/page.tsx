@@ -13,6 +13,7 @@ import { api } from "@/constants/api";
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
+import { responseCookiesToRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 const styles = {
     chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px]",
@@ -41,6 +42,26 @@ export default function Home() {
 
     const openModal = () => {
         setModal(true);
+    }
+
+    const handleNewForum = async () => {
+        await api.post("/forum",
+            {
+                "name": name
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert("Fórum cadastrado com sucesso")
+                window.location.reload()   
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
     }
 
     useEffect(() => {
@@ -105,11 +126,11 @@ export default function Home() {
                         <h2 className="text-xl font-semibold">New forum</h2>
                         <form className="flex flex-col">
                             <label className="mt-8">Name</label>
-                            <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                            <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewForum()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
