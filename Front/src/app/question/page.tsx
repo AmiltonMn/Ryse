@@ -25,16 +25,16 @@ export default function Question() {
     return (
         <div>
             <Menu title={"Ryse"}/>
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"}/>
-            <div className="pt-[180px] pl-[300px] flex">
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
+            <div className="pt-36 pl-[300px] flex">
                 <div className="w-[97%]">
-                    <div className="flex justify-between">
-                        <h2 className="text-white font-bold text-[16px] mb-6">AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz</h2>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-white font-bold text-[16px] mb-3">AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz</h2>
                         <div className="flex text-white">
                             <Image src={iconProfile} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
-                            <div>
+                            <div className="mb-4">
                                 <h4>Ingrid</h4>
-                                <p className="text-[14px]">12/12/2012</p>
+                                <p className="text-[12px]">12/12/2012</p>
                             </div>
                         </div>
                     </div>
