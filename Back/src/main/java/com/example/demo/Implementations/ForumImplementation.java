@@ -54,17 +54,18 @@ public class ForumImplementation implements ForumService{
     @Override
     public List<ForumData> getForuns(Long idUser, String query, Integer page, Integer size) {
 
-        List<Forum> foruns = forumRepo.findForumWithPaginationAndQuery(query, (page -1) * size, size);
+        List<Object[]> foruns = forumRepo.findForumWithQueryAndSize(query, size, idUser);
 
         List<ForumData> response = new ArrayList<>();
 
-        for(Forum forum : foruns){
+        for(Object[] forum : foruns){
             response.add(new ForumData(
-                forum.getIdForum(), 
-                forum.getUser().getName(), 
-                forum.getDate(), 
-                forum.getName(), 
-                forum.getUser().getId().equals(idUser)? true: false
+                (Long) forum[0], 
+                (String) forum[1], 
+                (String) forum[2],
+                (String) forum[3],
+                forum[4].equals(1),
+                (Integer) forum[5]
             ));
         }
 

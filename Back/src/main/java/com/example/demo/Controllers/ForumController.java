@@ -40,7 +40,6 @@ public class ForumController {
         @RequestParam(name = "page", defaultValue = "1") Integer page, 
         @RequestParam(name = "size", defaultValue = "5") Integer size)
     {
-        System.out.println(query);
         List<ForumData> response = forumService.getForuns(token.getId(), query, page, size);
 
         if(response.isEmpty())
