@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import google from "@/assets/user.png";
-import more from "@/assets/mais.png";
+import more from "@/assets/maisrosa.png";
 import search from "@/assets/lupaBlack.png"
 
 
@@ -18,6 +18,8 @@ export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [goal, setGoal] = useState<string>("");
     const[ pag, setPag ] = useState<string>("1")
 
     const pagina = Number(pag)
@@ -55,13 +57,13 @@ export default function Home() {
     {
         inputz: "rounded-md ps-4 text-base w-4/12 bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
-        imagen2: "w-4 h-4 rounded-t-3xl m-2 hover:scale-110",
+        imagen2: "w-6 h-6 rounded-t-3xl m-2 hover:scale-110",
     }
 
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
             <div className="pt-36 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
@@ -105,9 +107,9 @@ export default function Home() {
                             <label htmlFor="" className="mt-8">Name</label>
                             <input type="text" placeholder="Group name" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
                             <label htmlFor="" className="mt-3">Description</label>
-                            <input type="text" placeholder="Description here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                            <input type="text" placeholder="Description here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={description} onChange={(e) => { setDescription(e.target.value) }} ></input>
                             <label htmlFor="" className="mt-3">Goals</label>
-                            <input type="text" placeholder="Goals here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                            <input type="text" placeholder="Goals here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={goal} onChange={(e) => { setGoal(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>

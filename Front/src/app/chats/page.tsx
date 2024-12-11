@@ -10,14 +10,16 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import google from "@/assets/user.png";
-import more from "@/assets/mais.png";
+import more from "@/assets/maisrosa.png";
+import search from "@/assets/lupaBlack.png"
 
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
-    const[ pag, setPag ] = useState<string>("1")
+    const [pag, setPag] = useState<string>("1")
+
 
     const pagina = Number(pag)
 
@@ -25,8 +27,8 @@ export default function Home() {
         if (!Number.isInteger(pagina) || pagina < 1) {
             setPag("1")
         }
-        else{
-            setPag((pagina+1).toString())
+        else {
+            setPag((pagina + 1).toString())
         }
     }
 
@@ -37,7 +39,7 @@ export default function Home() {
         }
 
         if (pagina > 1) {
-            setPag((pagina-1).toString())
+            setPag((pagina - 1).toString())
         }
     }
 
@@ -54,40 +56,44 @@ export default function Home() {
     {
         inputz: "rounded-md ps-4 text-base w-4/12 bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
-        imagen2: "w-4 h-4 rounded-t-3xl m-2 hover:scale-110",
+        imagen2: "w-6 h-6 rounded-t-3xl m-2 hover:scale-110",
     }
 
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-36 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
-                    <div className="flex flex-row items-center">
-                        <h2 className="text-[20px] font-semibold">Chats</h2>
-                        <button onClick={() => openModal()}>
-                            <Image src={more} alt="ícone ideia" className={style.imagen2}/>
-                        </button>
+                        <div className="flex flex-row items-center">
+                            <h2 className="text-[20px] font-semibold">Chats</h2>
+                            <button onClick={() => openModal()}>
+                                <Image src={more} alt="ícone ideia" className={style.imagen2} />
+                            </button>
                         </div>
-                        <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] "/>
+                        <div className="w-full flex justify-end items-center">
+                            <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] " />
+                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+                        </div>
                     </div>
                     <hr className="mt-4" />
                     <div className="w-full flex flex-wrap mt-8 gap-9 justify-center">
-                        <CardChat name={"Front"}/>
-                        <CardChat name={"Back"}/>
-                        <CardChat name={"Python"}/>
-                        <CardChat name={"Java"}/>
-                        <CardChat name={"C"}/>
-                        <CardChat name={"C#"}/>
-                        <CardChat name={"C++"}/>
-                        <CardChat name={"Html"}/>
-                        <CardChat name={"SQL Server e mais texto"}/>
-                        <CardChat name={"Micro Python, Java Avancado"}/>
+                        <CardChat name={"Front"} />
+                        <CardChat name={"Back"} />
+                        <CardChat name={"Python"} />
+                        <CardChat name={"Java"} />
+                        <CardChat name={"C"} />
+                        <CardChat name={"C#"} />
+                        <CardChat name={"C++"} />
+                        <CardChat name={"SQL Server e mais texto"} />
+                        <CardChat name={"MicroPython, Java Avancado"} />
+                        <CardChat name={"Muito texto, enche de texto "} />
+                        <CardChat name={"Muitotextoenche de texto "} />
                     </div>
-                    <div className="w-full flex justify-center mt-3 gap-3 mb-2">
-                        <button onClick={() => prev()} className={ pagina <=1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => setPag(e.target.value)}  className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                    <div className="w-full fixed items-center left-1/2 flex bottom-12 gap-3 ">
+                        <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
                         <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
                     </div>
                 </div>
@@ -104,7 +110,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
