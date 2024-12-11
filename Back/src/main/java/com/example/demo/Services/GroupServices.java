@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
 
-import com.example.demo.DTO.GroupDTO.CreateGroupData;
-import com.example.demo.DTO.GroupDTO.GroupGet;
-import com.example.demo.DTO.GroupDTO.NewGroupData;
-import com.example.demo.DTO.GroupDTO.UpdateGroupData;
-import com.example.demo.DTO.GroupDTO.getGroupAll;
+import com.example.demo.DTO.GroupDto.CreateGroupData;
+import com.example.demo.DTO.GroupDto.GroupGet;
+import com.example.demo.DTO.GroupDto.NewGroupData;
+import com.example.demo.DTO.GroupDto.UpdateGroupData;
+import com.example.demo.DTO.GroupDto.getGroupAll;
 
 public interface GroupServices {
     ResponseEntity<CreateGroupData> createGroup(NewGroupData data, Long idUser);

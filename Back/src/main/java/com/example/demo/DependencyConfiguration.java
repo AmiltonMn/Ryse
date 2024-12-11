@@ -85,6 +85,7 @@ public class DependencyConfiguration {
         return new ForumImplementation();
     }
     
+    @Bean
     public ChatGroupServices chatGroupService () {
         return new ChatGroupImplementations();
     }
