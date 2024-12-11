@@ -69,6 +69,8 @@ export default function Home() {
 
                                     <GroupChat name={"Front"}/>
 
+                                    <GroupChat name={"Outra coisa"}/>
+
                                     <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
