@@ -8,6 +8,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { api } from "@/constants/api";
+
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
@@ -18,10 +20,19 @@ const styles = {
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
+interface ForumData {
+    idForum: number;
+    title: string;
+    username: string;
+    date: string;
+    isOwner: boolean;
+}
+
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const [data, setData] = useState<ForumData[]>([]);
 
     const closeModal = () => {
         setName("");
@@ -31,6 +42,20 @@ export default function Home() {
     const openModal = () => {
         setModal(true);
     }
+
+    useEffect(() => {
+        api.get(
+            "/forum", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            console.log(res.data)
+            setData(res.data)
+        })
+    }, [])
 
     return (
         <div>
@@ -53,8 +78,11 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex flex-col justify-center items-center gap-10 mt-12">
-                        <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} />
-                        <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} />
+                        {data.map((item) => (
+                            <CardForum key={item.idForum} linkForum={"/forum"} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={0} />
+                        ))}
+                        {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
+                        {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
                     </div>
                 </div>
 
@@ -76,7 +104,7 @@ export default function Home() {
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New forum</h2>
                         <form className="flex flex-col">
-                            <label htmlFor="" className="mt-8">Name</label>
+                            <label className="mt-8">Name</label>
                             <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">

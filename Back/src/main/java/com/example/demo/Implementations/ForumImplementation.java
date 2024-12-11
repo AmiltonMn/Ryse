@@ -1,6 +1,7 @@
 package com.example.demo.Implementations;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -123,7 +124,7 @@ public class ForumImplementation implements ForumService{
         Forum newForum = new Forum();
 
         newForum.setName(data.name());
-        newForum.setDate(LocalDateTime.now().toString());
+        newForum.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")).toString());
         newForum.setUser(user.get());
 
         forumRepo.save(newForum);
