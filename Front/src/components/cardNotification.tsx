@@ -21,7 +21,7 @@ export const CardNotification: React.FC<CardNotificationProps> = ({userPhoto, us
                 <div className="flex justify-center items-center">
                     <Image src={userPhoto} alt="ícone foto" className="w-7 h-7 rounded-t-3xl mr-4" width={1000} height={1000}/>
                     <h4 className="text-[14px]">{username}</h4>
-                </div>
+                </div> 
                 <p className="text-[12px] p-2">{date}</p>
             </div>
             <div className="flex justify-between">

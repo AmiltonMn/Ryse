@@ -103,13 +103,16 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                         </Link>
                     </div>}
                 </div>
+
+
+                {/* PARTE QUE SÓ VAI APARECER PARA OS INSTRUTORES */}
                 <hr className={styleSubmenu.hr} />
                 <div className={styleSubmenu.div}>
                     <div className="flex flex-row justify-between">
                         <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
                     </div>
                     {isSettings && <div>
-                        <Link href={ROUTES.ideas} className={styleSubmenu.link}>
+                        <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
                             <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
                             {hardSkills}
                         </Link>

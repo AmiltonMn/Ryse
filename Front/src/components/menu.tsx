@@ -7,6 +7,8 @@ import Image from "next/image";
 import logo from "@/assets/user.png";
 import iconNotify from "@/assets/sino.png";
 import iconProfile from "@/assets/user.png";
+import iconMoon from "@/assets/lua.png";
+import iconSun from "@/assets/sol.png";
 import { useState } from "react";
 import { CardNotification } from "./cardNotification";
 
@@ -37,13 +39,16 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
                         <Image src={logo} alt="logo" className="w-9 h-9 rounded-t-3xl m-2" />
                         <Link href={ROUTES.home} className="font-extrabold text-[#F41C54] text-[22px]">{title}</Link>
                     </div>
-                    <div className="flex">
+                    <div className="flex gap-4">
                         <button onClick={() => openModal()}>
                             <Image src={iconNotify} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2" />
                         </button>
                         <Link href={ROUTES.profile} className="">
                             <Image src={iconProfile} alt="ícone perfil" className="w-7 h-7 rounded-t-3xl m-2" />
                         </Link>
+                        <button>
+                            <Image src={iconSun} alt="ícone sol" className="w-7 h-7 rounded-t-3xl m-2" />
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -55,9 +60,14 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
                         <h2 className="text-[16px] font-semibold text-[#F41C54]">Notifications</h2>
                         <button><p className="text-[12px] text-[#ffa4bb] hover:text-[#d3748c]">Mark all as read</p></button>
                     </div>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 overflow-x-auto max-h-full pr-3">
                         <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
                         <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"true5/01/2005"} title={"Liked your comment"} state={false}/>
+                        <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
+                        <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
+                        <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
+                        <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
+                        <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
                         <CardNotification userPhoto={iconProfile.src} username={"ingrid"} date={"15/01/2005"} title={"Liked your comment"} state={true}/>
                     </div>
                 </div>
