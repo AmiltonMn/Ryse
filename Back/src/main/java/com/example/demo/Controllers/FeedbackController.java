@@ -27,7 +27,6 @@ public class FeedbackController {
     @Autowired
     FeedbackServices feedbackServices;
 
-
     @PostMapping
     public ResponseEntity<FeedbackReturn> postFeedback(@RequestBody CreateFeedback data) {
         var response = feedbackServices.createFeedback(data);
@@ -46,7 +45,4 @@ public class FeedbackController {
         var response = feedbackServices.getFeedbackSender(token.getId(), idGroup);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
-    
-    
 }
