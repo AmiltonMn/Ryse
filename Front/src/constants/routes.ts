@@ -4,10 +4,14 @@ export enum ROUTES {
     home = "/home",
     forum = "/forum",
     chats = "/chats",
+    chat = "/chat",
     groups = "/groups",
     group = "/group",
     groupchat = "/groupchat",
     ideas = "/ideas",
     profile = "/profile",
-    question = "/question"
+    question = "/question",
+    hardSkills = "/hardSkills",
+    events = "/events",
+    news = "/news"
 }

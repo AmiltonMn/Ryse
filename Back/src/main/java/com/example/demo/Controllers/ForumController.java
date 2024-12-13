@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
+import com.example.demo.DTO.ForumDTO.ForumWithQuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionWithAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
@@ -36,12 +37,30 @@ public class ForumController {
     @GetMapping
     ResponseEntity<List<ForumData>> getForuns(
         @RequestAttribute("token") Token token, 
+        @RequestParam(name = "query", required = false) String query,
         @RequestParam(name = "page", defaultValue = "1") Integer page, 
         @RequestParam(name = "size", defaultValue = "5") Integer size)
     {
-        List<ForumData> response = forumService.getForuns(token.getId(), page, size);
+        List<ForumData> response = forumService.getForuns(token.getId(), query, page, size);
 
         if(response.isEmpty())
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{idForum}")
+    ResponseEntity<ForumWithQuestionData> getForum(
+        @RequestAttribute("token") Token token,
+        @PathVariable Long idForum,
+        @RequestParam(name = "topic", required = false) Long topic, 
+        @RequestParam(name = "page", defaultValue = "1") Integer page, 
+        @RequestParam(name = "size", defaultValue = "5") Integer size
+        )
+    {
+        ForumWithQuestionData response = forumService.getForum(token.getId(), idForum, topic, page, size);
+
+        if(response.forum() == null)
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -94,7 +113,7 @@ public class ForumController {
         if (response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
             
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 
     }
 

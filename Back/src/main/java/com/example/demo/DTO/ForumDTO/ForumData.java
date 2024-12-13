@@ -5,5 +5,6 @@ public record ForumData(
     String username,
     String date,
     String title,
-    Boolean isOwner
+    Boolean isOwner,
+    Integer questionsCount
 ) {}

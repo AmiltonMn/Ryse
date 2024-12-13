@@ -41,8 +41,7 @@ public class Question {
     @Column
     private String date;
 
-    @OneToMany
-    @JoinColumn(name = "idAnswer")
+    @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
     public List<Answer> getAnswers() {

@@ -15,7 +15,7 @@ interface CardQuestionProps {
 export const CardQuestion: React.FC<CardQuestionProps> = ({linkQuestion, userPhoto, username, date, topic, question, answers}) => {
     return(
         <Link href={linkQuestion} className="w-full">
-            <div className="bg-[#242424] rounded-[10px] text-white ">
+            <div className="bg-[#242424] rounded-[10px] text-white hover:bg-[#292929]">
                 <div className="flex justify-between p-4">
                     <div className="flex">
                         <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
