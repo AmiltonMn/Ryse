@@ -1,6 +1,7 @@
 package com.example.demo.Implementations;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.DTO.ForumDTO.AnswerData;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
+import com.example.demo.DTO.ForumDTO.ForumWithQuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionWithAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
@@ -51,21 +53,64 @@ public class ForumImplementation implements ForumService{
     LikeAnswerRepository likeRepo;
 
     @Override
-    public List<ForumData> getForuns(Long idUser, Integer page, Integer size) {
+    public List<ForumData> getForuns(Long idUser, String query, Integer page, Integer size) {
 
-        List<Forum> foruns = forumRepo.findForumWithPagination((page -1) * size, size);
+        List<Object[]> foruns = forumRepo.findForumWithQueryAndSize(query, size, idUser);
 
         List<ForumData> response = new ArrayList<>();
 
-        for(Forum forum : foruns){
+        for(Object[] forum : foruns){
             response.add(new ForumData(
-                forum.getIdForum(), 
-                forum.getUser().getName(), 
-                forum.getDate(), 
-                forum.getName(), 
-                forum.getUser().getId().equals(idUser)? true: false
+                (Long) forum[0], 
+                (String) forum[1], 
+                (String) forum[2],
+                (String) forum[3],
+                forum[4].equals(1),
+                (Integer) forum[5]
             ));
         }
+
+        return response;
+    }
+
+    @Override
+    public ForumWithQuestionData getForum(Long idUser, Long id_forum, Long id_topic, Integer page, Integer size) {
+
+        Optional<Forum> opForum = forumRepo.findById(id_forum);
+
+        if(!opForum.isPresent())
+            return new ForumWithQuestionData(null, null);
+
+        Forum forum = opForum.get();
+
+        ForumData responseForum = new ForumData(
+            forum.getIdForum(), 
+            forum.getUser().getName(), 
+            forum.getDate(), 
+            forum.getName(), 
+            forum.getUser().getId().equals(idUser) ? true: false, 
+            forum.getQuestions().size());
+
+        List<Question> questions = forum.getQuestions();
+
+        List<QuestionData> responseQuestion = new ArrayList<>();
+
+        for(Question question : questions){
+            Long id_topic_question = question.getTopicForum().getidTopicForum();
+
+            if (id_topic_question.equals(id_topic) || id_topic == null) {
+                responseQuestion.add(new QuestionData(
+                    question.getIdQuestion(), 
+                    question.getUser().getName(), 
+                    question.getTitle(), 
+                    question.getTopicForum().getName(), 
+                    question.getDate(), 
+                    question.getUser().getId().equals(idUser)? true : false
+                    ));
+                }
+            }
+
+        ForumWithQuestionData response = new ForumWithQuestionData(responseForum, responseQuestion);
 
         return response;
     }
@@ -97,95 +142,7 @@ public class ForumImplementation implements ForumService{
     }
 
     @Override
-    public List<ForumTopicData> getTopics(Long idUser){
-
-        List<ForumTopic> topics = topicRepo.findAll();
-
-        List<ForumTopicData> response = new ArrayList<>();
-
-        for(ForumTopic topic : topics){
-            response.add(new ForumTopicData(topic.getidTopicForum(), topic.getName()));
-        }
-
-        return response;
-    }
-
-    @Override
-    public Return createForum(Long idUser, RegisterForumData data) {
-        
-        Optional<Forum> forum = forumRepo.findByName(data.name());
-
-        if(forum.isPresent())
-            return new Return("This name is already in use", false);
-
-        Optional<User> user = userRepo.findById(idUser);
-
-        Forum newForum = new Forum();
-
-        newForum.setName(data.name());
-        newForum.setDate(LocalDateTime.now().toString());
-        newForum.setUser(user.get());
-
-        forumRepo.save(newForum);
-
-        return new Return("Forum created with sucess!", true);
-    }
-
-    @Override
-    public Return createQuestion(Long idUser, Long idForum, RegisterQuestionData data) {
-
-        Optional<Forum> forum = forumRepo.findById(idForum);
-
-        if (!forum.isPresent())
-            return new Return("This forum does not exist", false);
-
-        Optional<ForumTopic> topic = topicRepo.findById(data.idTopic());
-
-        if (!topic.isPresent())
-            return new Return("This topic does not exist", false);
-
-        Optional<User> user = userRepo.findById(idUser);
-        
-        Question newQuestion = new Question();
-
-        newQuestion.setTitle(data.title());
-        newQuestion.setText(data.text());
-        newQuestion.setForum(forum.get());
-        newQuestion.setTopicForum(topic.get());
-        newQuestion.setUser(user.get());
-        newQuestion.setDate(LocalDateTime.now().toString());
-
-        questionRepo.save(newQuestion);
-        
-        return new Return("Question created with sucess", true);
-    }
-
-    @Override
-    public Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data) {
-        
-        Optional<Question> question = questionRepo.findById(idQuestion);
-
-        if (!question.isPresent()) {
-            return new Return("Question not found", false);
-        }
-
-        Optional<User> user = userRepo.findById(idUser);
-
-        Answer newAnswer = new Answer();
-
-        newAnswer.setUser(user.get());
-        newAnswer.setQuestion(question.get());
-        newAnswer.setDate(LocalDateTime.now().toString());
-        newAnswer.setText(data.text());
-
-        answerRepo.save(newAnswer);
-
-        return new Return("Answer created with sucess", true);
-    }
-
-    @Override
-    public QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion) {
-
+    public QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion) {        
         Optional<Question> opQuestion = questionRepo.findById(idQuestion);
 
         if(!opQuestion.isPresent())
@@ -218,6 +175,93 @@ public class ForumImplementation implements ForumService{
         }
 
         return new QuestionWithAnswerData(responseQuestion, responseAnswer);
+    }
+
+    @Override
+    public List<ForumTopicData> getTopics(Long idUser){
+
+        List<ForumTopic> topics = topicRepo.findAll();
+
+        List<ForumTopicData> response = new ArrayList<>();
+
+        for(ForumTopic topic : topics){
+            response.add(new ForumTopicData(topic.getidTopicForum(), topic.getName()));
+        }
+
+        return response;
+    }
+
+    @Override
+    public Return createForum(Long idUser, RegisterForumData data) {
+        
+        Optional<Forum> forum = forumRepo.findByName(data.name());
+
+        if(forum.isPresent())
+            return new Return("This name is already in use", false);
+
+        Optional<User> user = userRepo.findById(idUser);
+
+        Forum newForum = new Forum();
+
+        newForum.setName(data.name());
+        newForum.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")).toString());
+        newForum.setUser(user.get());
+
+        forumRepo.save(newForum);
+
+        return new Return("Forum created with sucess!", true);
+    }
+
+    @Override
+    public Return createQuestion(Long idUser, Long idForum, RegisterQuestionData data) {
+
+        Optional<Forum> forum = forumRepo.findById(idForum);
+
+        if (!forum.isPresent())
+            return new Return("This forum does not exist", false);
+
+        Optional<ForumTopic> topic = topicRepo.findById(data.idTopic());
+
+        if (!topic.isPresent())
+            return new Return("This topic does not exist", false);
+
+        Optional<User> user = userRepo.findById(idUser);
+        
+        Question newQuestion = new Question();
+
+        newQuestion.setTitle(data.title());
+        newQuestion.setText(data.text());
+        newQuestion.setForum(forum.get());
+        newQuestion.setTopicForum(topic.get());
+        newQuestion.setUser(user.get());
+        newQuestion.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm")).toString());
+
+        questionRepo.save(newQuestion);
+        
+        return new Return("Question created with sucess", true);
+    }
+
+    @Override
+    public Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data) {
+        
+        Optional<Question> question = questionRepo.findById(idQuestion);
+
+        if (!question.isPresent()) {
+            return new Return("Question not found", false);
+        }
+
+        Optional<User> user = userRepo.findById(idUser);
+
+        Answer newAnswer = new Answer();
+
+        newAnswer.setUser(user.get());
+        newAnswer.setQuestion(question.get());
+        newAnswer.setDate(LocalDateTime.now().toString());
+        newAnswer.setText(data.text());
+
+        answerRepo.save(newAnswer);
+
+        return new Return("Answer created with sucess", true);
     }
 
     @Override

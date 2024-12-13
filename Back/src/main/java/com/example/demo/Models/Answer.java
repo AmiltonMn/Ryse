@@ -34,7 +34,7 @@ public class Answer {
     @Column
     private String date;
 
-    @OneToMany
+    @OneToMany(mappedBy = "answer")
     private List<LikeAnswer> likes;
 
     public Long getIdAnswer() {
