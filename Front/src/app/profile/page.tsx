@@ -10,6 +10,7 @@ import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { CardFeed } from "@/components/cardFeedbacks";
 import { HardSkils } from "@/components/hardSkils";
+import { SelectHardSkils } from "@/components/selectHardSkils";
 import { CardLike } from "@/components/cardLike";
 import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
@@ -17,35 +18,18 @@ import edita from "@/assets/edita.png";
 import Image from "next/image";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { Checkbox } from "@headlessui/react";
-import { api } from "@/constants/api";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-
-interface areasOfInterest {
-    areaName: string
-    areaOfInterestId: number,
-}
-
-interface FeedbacksUserLoged {
-    text: string;
-    user: {
-        id: number;
-        name: string;
-        username: string;
-        photo: string | null;
-    };
-}
-
 
 const Profile: React.FC = () => {
+
 
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
     const [interactionTab, setInteractionTab] = useState("likes");
-    const editableRef = useRef(null);
+    const editableRef = useRef<HTMLInputElement>(null);
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
+    const [modalPhotos, setModalPhoto] = useState(false);
     
     const roter = useRouter();
     
@@ -53,7 +37,32 @@ const Profile: React.FC = () => {
     const [username, setUsername] = useState<string>("");
     const [bio, setBio] = useState<string>("");
     const [publicId, setPublicId] = useState<string>("");
-    
+        const [editBio, setEditBio] = useState(false)
+    const [hardSkils, setHardSkils] = useState(false);
+    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+    // Select skils
+
+    const handleSkillClick = (skill: string) => {
+        setSelectedSkills((prevSkills) => {
+
+            if (prevSkills.includes(skill)) {
+                return prevSkills.filter(item => item !== skill);
+            } else {
+                return [...prevSkills, skill];
+            }
+        });
+    };
+
+    //Edit photos
+
+    const handleClick = (inputId: string) => {
+        const fileInput = document.getElementById(inputId) as HTMLInputElement;
+        fileInput?.click();
+    };
+
+    // Modais
+
     const [hardSkills, sethardSkills] = useState<string[]>([])
     const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
     const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
@@ -63,6 +72,7 @@ const Profile: React.FC = () => {
         setName("");
         setModalArea(false);
         setModalSkils(false);
+        setModalPhoto(false)
     }
 
     const modalHardSkils = () => {
@@ -73,18 +83,29 @@ const Profile: React.FC = () => {
         setModalArea(true);
     }
 
+    const modalPhoto = () => {
+        setModalPhoto(true);
+    }
+
+    // Edit bio
+
     const handleEdit = () => {
         if (editableRef.current) {
             editableRef.current.focus();
+            setEditBio(true)
         }
     }
 
-    const closeEdit = (event) => {
+    const closeEdit = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key == 'Enter') {
             event.preventDefault();
+
             editableRef.current.blur();
+            setEditBio(false)
         }
     }
+
+    // Mudança de tabs
 
     const handleTabChange = (tab: string) => {
         setActiveTab(tab);
@@ -232,6 +253,143 @@ useEffect(() => {
 }, [feedbackReceiver, feedbackSender])
 
 
+
+
+    const addAreaInterest = async () => {
+        console.log("teste");
+
+        const text: string = document.getElementById("areaText").value;
+        console.log(text);
+
+        try {
+            const response = await api.post("/profile/areaOfInterest/newArea", {
+                "text": text
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            roter.refresh();
+        } catch (error) {
+            console.log("erro ao dar fecth", error)
+        }
+    }
+
+
+    const getFeedbackSender = async () => {
+        try {
+            const response = await api.get("/feedback/sender", {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+    
+
+            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
+                text: item.text,
+                user: {
+                    id: item.user.id,
+                    name: item.user.name,
+                    username: item.user.username,
+                    photo: item.user.photo,
+                },
+            }));
+    
+            console.log("Processed Feedback Data:", feedbackData); // Para depuração
+            setFeedbackSender(feedbackData);
+        } catch (error) {
+            console.error("Erro ao buscar feedbacks enviados:", error);
+        }
+    };
+    
+    const getFeedbackReceiver = async () => {
+        try {
+            const response = await api.get("/feedback/receiver", {
+                headers: {
+                    "Authorization": localStorage.getItem("token"),
+                },
+            });
+    
+
+                // console.log(response.data);
+                
+
+            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
+                text: item.text,
+                user: {
+                    id: item.user.id,
+                    name: item.user.name,
+                    username: item.user.username,
+                    photo: item.user.photo,
+                },
+            }));
+    
+            console.log("Processed Feedback Data:", feedbackData); // Para depuração
+            setfeedbackReceiver(feedbackData);
+            
+        } catch (error) {
+            console.error("Erro ao buscar feedbacks recebidos:", error);
+        }
+    };
+    
+    
+
+
+    useEffect(() => {
+        api.get(
+            "/perfil",
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log("Todos os dados", res.data)
+
+            sethardSkillsUser(res.data.HardSkillUser)
+
+            sethardSkills(res.data.HardSkills)
+
+            setAreasofInterest(res.data.areas);
+
+            setBio(res.data.info.bio)
+
+            if (res.data.info.photo === null) {
+                setPublicId(`${res.data.info.username}Photo`)
+            } else {
+                setPublicId(res.data.info.photo)
+            }
+            setName(res.data.info.name)
+            setUsername(res.data.info.username)
+
+        })
+
+        getFeedbackReceiver();
+        getFeedbackSender();
+    
+        
+        // const loadImage = async () => {
+        //     const url = await fetchImageUrl(publicId);
+        //     setImageUrl(url);
+        //   };
+
+        //   if (publicId) {
+        //     loadImage();
+        //   }
+    }, [])
+
+useEffect(() => {
+    console.log("sla1",feedbackReceiver);
+    console.log("sla2",feedbackSender);
+
+ 
+}, [feedbackReceiver, feedbackSender])
+
+
+
+    const hardSkills = ["Java", "Python", "JavaScript", "React", "Node.js"];
+
     return (
         <>
             <Menu title={"Ryse"} />
@@ -256,14 +414,14 @@ useEffect(() => {
                 </div>
 
                 <div className="flex">
-                    <CardProfile imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />
+                    <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />
                 </div>
 
                 <div className="flex justify-end">
                     <button onClick={handleEdit}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button>
                 </div>
 
-                <p contentEditable="true" className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onInput={(e) => setText(e.currentTarget.textContent)} onKeyDown={closeEdit}>
+                <p contentEditable={editBio} suppressContentEditableWarning={true} className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onKeyDown={closeEdit}>
                     {bio}
                 </p>
 
@@ -332,17 +490,24 @@ useEffect(() => {
             </div>
 
             {/* Modal Hard Skils */}
-            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
-                        <h2 className="text-xl font-medium">Hard Skils</h2>
+                        <h2 className="text-[16px] font-medium">Hard Skils</h2>
+                        <div className="flex w-full justify-center items-center mt-4">
+                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-zinc-800 border border-white" />
+                            <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                        </div>
                         <form className="flex flex-col">
-                            <div className="scroll-smooth text-[15px] p-4 flex flex-col">
+                            <div className="flex flex-wrap order-4 gap-4 pt-6">
 
-                                {hardSkills.map((item, index) => (
-                                    <div className="flex flex-row mb-2" key={index}>
-                                        <input className="mr-4" type="checkbox" />{item.name}
-                                    </div>))}
+                                {/* Aqui implementação de comparção quando estive integrado */}
+
+                                {hardSkills.map((skill) => (
+
+                                    <SelectHardSkils text={skill} key={skill} click={handleSkillClick} classe={selectedSkills.includes(skill)} />
+
+                                ))}
                             </div>
                         </form>
                         <div className="flex justify-between mt-10">
@@ -354,7 +519,7 @@ useEffect(() => {
             </div>
 
             {/* Modal areas of interest */}
-            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
@@ -368,6 +533,47 @@ useEffect(() => {
                                 <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal edit photo */}
+            <div className={modalPhotos ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-medium text-center">Edit data</h2>
+                        <form className="flex flex-col">
+
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="relative w-full mt-8">
+                                    <input type="file" className="hidden" id="fileProfileCover" />
+                                    <Image className="absolute w-full  h-[100px] object-cover rounded-sm cursor-pointer" src={cover} width={200} height={200} alt="Image Cover" onClick={() => handleClick("fileProfileCover")} ></Image>
+                                    <div>
+                                        <input type="file" className="hidden" id="fileProfileProfile" />
+                                        <Image className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer" src={profile} width={170} height={170} alt="Image Profile" onClick={() => handleClick("fileProfileProfile")}></Image>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col mt-32">
+                                <label htmlFor="" className="mt-8">Name</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <label htmlFor="" className="mt-8">Username</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <label htmlFor="" className="mt-8">Email</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                            </div>
+
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,3 +583,5 @@ useEffect(() => {
 };
 
 export default Profile;
+
+
