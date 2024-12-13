@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
 import com.example.demo.DTO.IdeaDTO.LikeData;
-import com.example.demo.Models.Idea;
 import com.example.demo.Services.IdeaServices;
 
 @RestController
@@ -33,7 +32,7 @@ public class IdeaController {
             return new ResponseEntity<>(new IdeaReturn("Insert a text", false), HttpStatus.NO_CONTENT);
         }
 
-        var response = ideaServices.createIdea(data.text(), data.idUser());
+        var response = ideaServices.createIdea(data.title(), data.text(), data.idUser());
 
         return response;
     }
@@ -59,14 +58,24 @@ public class IdeaController {
         return response;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Idea>> getHardSkill() {
-        return new ResponseEntity<>(ideaServices.getAllIdea(), HttpStatus.OK);
-    }
+    // @GetMapping
+    // public ResponseEntity<List<Idea>> getHardSkill() {
+    //     return new ResponseEntity<>(ideaServices.getAllIdea(), HttpStatus.OK);
+    // }
 
     @GetMapping("/{idIdea}")
     public ResponseEntity<Integer> getAllLikesOfAIdea(@PathVariable Long idIdea) {
         return new ResponseEntity<>(ideaServices.getAllLikesIdea(idIdea), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<IdeaData>> getAllIdea(@RequestBody Integer status) {
+
+        List<IdeaData> response = ideaServices.getAllIdea(status);
+
+        if(response.isEmpty())
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

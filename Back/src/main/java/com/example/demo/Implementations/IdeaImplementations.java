@@ -1,11 +1,14 @@
 package com.example.demo.Implementations;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
 import com.example.demo.Models.Idea;
 import com.example.demo.Models.LikeIdea;
@@ -26,12 +29,15 @@ public class IdeaImplementations implements IdeaServices {
     LikeIdeaRepository likeIdeaRepo;
 
     @Override
-    public ResponseEntity<IdeaReturn> createIdea(String text, Long idUser) {
+    public ResponseEntity<IdeaReturn> createIdea(String title, String text, Long idUser) {
         var user = userRepo.findById(idUser);
 
         Idea newIdea = new Idea();
         newIdea.setUserEntity(user.get());
         newIdea.setText(text);
+        newIdea.setTitle(title);
+        newIdea.setDate(LocalDateTime.now().toString());
+        newIdea.setStatus(0);
 
         ideaRepo.save(newIdea);
 
@@ -77,8 +83,33 @@ public class IdeaImplementations implements IdeaServices {
     }
 
     @Override
-    public List<Idea> getAllIdea() {
-        return ideaRepo.findAll();
+    public List<IdeaData> getAllIdea(Integer status) {
+
+        List<Idea> findIdea;
+
+        if(status == 3) {
+            findIdea = ideaRepo.findAll();
+        }
+
+        else {
+            findIdea = ideaRepo.findByStatus(status);
+        }
+
+        List<IdeaData> response = new ArrayList<>();
+
+        for(Idea idea : findIdea){
+            response.add(new IdeaData(
+                idea.getUserEntity().getId(), 
+                idea.getUserEntity().getPhoto(), 
+                idea.getUserEntity().getName(), 
+                idea.getTitle(),
+                idea.getText(),
+                idea.getDate(), 
+                idea.getStatus()
+            ));
+        }
+
+        return response;
     }
 
     @Override

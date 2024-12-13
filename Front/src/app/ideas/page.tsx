@@ -10,10 +10,13 @@ import iconMore from "@/assets/mais.png";
 import iconProfile from "@/assets/user.png"
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardIdea } from "@/components/cardIdea";
 
 import ideasCss from "@/app/ideas/ideas.module.css"
+import { title } from "process";
+
+import { api } from "@/constants/api"
 
 
 const styles = {
@@ -21,13 +24,28 @@ const styles = {
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
+interface IIdea {
+    idIdea: number,
+    userPhoto: string,
+    username: string,
+    title: string,
+    text: string,
+    date: string,
+    status: number
+}
+
 export default function Ideas() {
 
+    const [dataIdeas, setDataIdeas] = useState<IIdea[]>([]);
+    const [status, setStatus] = useState<number>(3);
     const [modal, setModal] = useState(false);
-    const [name, setName] = useState<string>("");
+    const [query, setQuery] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
+    const [text, setText] = useState<string>("");
 
     const closeModal = () => {
-        setName("");
+        setTitle("");
+        setText("");
         setModal(false);
     }
 
@@ -35,13 +53,50 @@ export default function Ideas() {
         setModal(true);
     }
 
+    const fetchIdeas = async(query: string) => {
+        try {
+            const res = await fetch(`http://localhost:8080/idea?${query}`);
+            const dataIdea = await res.json();
+            setDataIdeas(dataIdea);
+            console.log(dataIdea);
+        } catch (error) {
+            setDataIdeas([{"idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0}])
+        }
+    }
+
+    const handleNewIdea = async () => {
+        await api.post("/idea", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("Token")}`
+            },
+            body: JSON.stringify({
+                title: title,
+                text: text
+            })
+        })
+        .then((res) => {
+            alert("Ideia criada com sucesso")
+            window.location.reload()   
+        })
+        .catch((e) => {
+            alert(e.response.data.message)
+        })
+        .finally(() => setModal(false))
+    }
+
+    useEffect(() => {
+        fetchIdeas(query);
+    })
+
     return (
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-[180px] pl-[300px] flex">
                 <div className="flex w-[99%]">
-                    <input type="text" placeholder="Search idea" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
+                    <input type="text" placeholder="Search idea" onChange={(e) => setQuery(e.target.value)} className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
                     <Image src={search} alt="" className="w-5 h-5 m-2 relative right-8 cursor-pointer" id="search" />
                 </div>
             </div>
@@ -57,18 +112,24 @@ export default function Ideas() {
                     <hr />
 
                     <div className={`border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px] ${ideasCss.scroll}`}>
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0} />
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} />
+                        {/* <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} /> */}
+                       
+                       
+                        {dataIdeas.map((item, key) => {
+                            return(
+                                <CardIdea userPhoto={item.userPhoto} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea}/>
+                            )
+                        })}
                     </div>
                 </div>
 
                 <div className="flex flex-col bg-[#242424] ml-16 w-[18%] h-full p-8 rounded-[10px] border-[#4B4B4B] border-[0.5px] text-white">
                     <h4 className="text-white font-bold text-[16px]">FILTER IDEAS</h4>
                     <div className="flex flex-col items-center">
-                        <button className="border-green-700 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900">Approved</button>
-                        <button className="border-red-800 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-red-900">Disapproved</button>
-                        <button className="border-yellow-600 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-yellow-700">Under analysis</button>
+                        <button className="border-green-700 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900" onChange={() => setStatus(1)}>Approved</button>
+                        <button className="border-red-800 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-red-900" onChange={() => setStatus(2)}>Disapproved</button>
+                        <button className="border-yellow-600 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-yellow-700" onChange={() => setStatus(0)}>Under analysis</button>
                     </div>
                 </div>
             </div>
@@ -81,13 +142,13 @@ export default function Ideas() {
                         <h2 className="text-xl font-semibold">New idea</h2>
                         <form className="flex flex-col">
                             <label htmlFor="" className="mt-8">Title</label>
-                            <input type="text" placeholder="Idea title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
-                            <label htmlFor="" className="mt-8">Description</label>
-                            <input type="text" placeholder="Idea description" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                            <input type="text" placeholder="Idea title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
+                            <label htmlFor="" className="mt-8">Text</label>
+                            <input type="text" placeholder="Idea text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewIdea()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
