@@ -11,7 +11,7 @@ import Image from "next/image";
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
-import search from "@/assets/lupaBlack.png"
+import search from "@/assets/lupa.png"
 
 
 export default function Home() {

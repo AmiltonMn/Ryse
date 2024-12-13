@@ -75,7 +75,7 @@ export default function Home() {
                         </div>
                         <div className="w-full flex justify-end items-center">
                             <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] " />
-                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+                            <Image src={searchBlack} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
                         </div>
                     </div>
                     <hr className="mt-4" />
@@ -101,7 +101,7 @@ export default function Home() {
             </div>
 
             {/* Modal novo topico*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 hidden fixed opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New Chat</h2>
