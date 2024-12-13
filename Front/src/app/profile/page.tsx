@@ -1,6 +1,5 @@
 "use client"
 
-
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { CardCommentProfile } from "@/components/cardCommentProfile";
 import { CardAnswerProfile } from "@/components/cardAnswerProfile";
@@ -22,11 +21,21 @@ import { api } from "@/constants/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-
 interface areasOfInterest {
-    areaName : string
+    areaName: string
     areaOfInterestId: number,
 }
+
+interface FeedbacksUserLoged {
+    text: string;
+    user: {
+        id: number;
+        name: string;
+        username: string;
+        photo: string | null;
+    };
+}
+
 
 const Profile: React.FC = () => {
 
@@ -37,21 +46,19 @@ const Profile: React.FC = () => {
     const editableRef = useRef(null);
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
-
-const roter = useRouter();
-
-
-
-
+    
+    const roter = useRouter();
+    
     const [name, setName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [bio, setBio] = useState<string>("");
     const [publicId, setPublicId] = useState<string>("");
-
+    
     const [hardSkills, sethardSkills] = useState<string[]>([])
     const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
     const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
-    
+    const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
+    const [feedbackReceiver, setfeedbackReceiver] = useState<FeedbacksUserLoged[]>([])
     const closeModal = () => {
         setName("");
         setModalArea(false);
@@ -95,76 +102,135 @@ const roter = useRouter();
 
     const addAreaInterest = async () => {
         console.log("teste");
-        
-        const text : string = document.getElementById("areaText").value;
+
+        const text: string = document.getElementById("areaText").value;
         console.log(text);
-        
+
         try {
-            const response = await api.post("/profile/areaOfInterest/newArea",{
-              "text" : text
+            const response = await api.post("/profile/areaOfInterest/newArea", {
+                "text": text
             }, {
-              headers: {
-                'Content-Type': 'application/json',
-                "Authorization": localStorage.getItem("token")
-              }
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": localStorage.getItem("token")
+                }
             })
             roter.refresh();
-          } catch (error) {
+        } catch (error) {
             console.log("erro ao dar fecth", error)
-          }
-    } 
+        }
+    }
 
 
+    const getFeedbackSender = async () => {
+        try {
+            const response = await api.get("/feedback/sender", {
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                },
+            });
+    
 
+            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
+                text: item.text,
+                user: {
+                    id: item.user.id,
+                    name: item.user.name,
+                    username: item.user.username,
+                    photo: item.user.photo,
+                },
+            }));
+    
+            console.log("Processed Feedback Data:", feedbackData); // Para depuração
+            setFeedbackSender(feedbackData);
+        } catch (error) {
+            console.error("Erro ao buscar feedbacks enviados:", error);
+        }
+    };
+    
+    const getFeedbackReceiver = async () => {
+        try {
+            const response = await api.get("/feedback/receiver", {
+                headers: {
+                    "Authorization": localStorage.getItem("token"),
+                },
+            });
+    
 
+                // console.log(response.data);
+                
+
+            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
+                text: item.text,
+                user: {
+                    id: item.user.id,
+                    name: item.user.name,
+                    username: item.user.username,
+                    photo: item.user.photo,
+                },
+            }));
+    
+            console.log("Processed Feedback Data:", feedbackData); // Para depuração
+            setfeedbackReceiver(feedbackData);
+            
+        } catch (error) {
+            console.error("Erro ao buscar feedbacks recebidos:", error);
+        }
+    };
+    
+    
 
 
     useEffect(() => {
         api.get(
-            "/perfil", 
+            "/perfil",
             {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
             },
         ).then((res) => {
-            console.log(res.data)
-
+            console.log("Todos os dados", res.data)
 
             sethardSkillsUser(res.data.HardSkillUser)
-            console.log(res.data.HardSkillUser)
 
             sethardSkills(res.data.HardSkills)
-            console.log(res.data.HardSkills)
 
             setAreasofInterest(res.data.areas);
-            console.log(res.data.areas);
 
             setBio(res.data.info.bio)
 
             if (res.data.info.photo === null) {
                 setPublicId(`${res.data.info.username}Photo`)
-            }else{
+            } else {
                 setPublicId(res.data.info.photo)
             }
             setName(res.data.info.name)
             setUsername(res.data.info.username)
 
-            console.log(res.data.info.name);
-            console.log(res.data.info.photo);
-            console.log(res.data.info.username);
-            console.log(res.data.info.bio);
-
         })
+
+        getFeedbackReceiver();
+        getFeedbackSender();
+    
+        
         // const loadImage = async () => {
         //     const url = await fetchImageUrl(publicId);
         //     setImageUrl(url);
         //   };
-      
+
         //   if (publicId) {
         //     loadImage();
         //   }
     }, [])
+
+useEffect(() => {
+    console.log("sla1",feedbackReceiver);
+    console.log("sla2",feedbackSender);
+
+ 
+}, [feedbackReceiver, feedbackSender])
+
 
     return (
         <>
@@ -210,7 +276,7 @@ const roter = useRouter();
                                     <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                                 </div>
                                 <div className="flex flex-wrap order-4 gap-4 pt-6">
-                                    {hardSkillsUser.map((item, index)=> (<HardSkils text={item} key={index} />))}
+                                    {hardSkillsUser.map((item, index) => (<HardSkils text={item} key={index} />))}
                                 </div>
                             </div>
                         </div>
@@ -219,9 +285,9 @@ const roter = useRouter();
                                 <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
                                 <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                             </div>
-                                {areasofInterest.map((item) => (
-                                    <TopicArea key={item.areaOfInterestId} text={item.areaName} refe="" idAreaInterest={item.areaOfInterestId} />
-                                ))}
+                            {areasofInterest.map((item) => (
+                                <TopicArea key={item.areaOfInterestId} text={item.areaName} refe="" idAreaInterest={item.areaOfInterestId} />
+                            ))}
                         </div>
                     </div>
                 )}
@@ -234,9 +300,14 @@ const roter = useRouter();
                         </div>
 
                         {feedbackTab === "received" ? (
-                            <CardFeed imageFeed={profile.src} name="Marcos Castro" username="@silaveiraMarcos" feedback="A primeira impressão que tive de Carol foi muito boa..." />
+                            feedbackReceiver.map((item, index )=> (                            
+                            <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))  
+
+
                         ) : (
-                            <CardFeed imageFeed={profile.src} name="Silveiarguijkehrio" username="@silaveiraMarcos" feedback="A primeira impressão que tive de Carol foi muito boa..." />
+                            feedbackSender.map((item,index )=> (                            
+                                <CardFeed  key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))  
+                           
                         )}
                     </div>
                 )}
@@ -268,15 +339,15 @@ const roter = useRouter();
                         <form className="flex flex-col">
                             <div className="scroll-smooth text-[15px] p-4 flex flex-col">
 
-                        {hardSkills.map((item,index)=> (                                
-                            <div className="flex flex-row mb-2" key={index}>
-                                    <input className="mr-4" type="checkbox" />{item.name}
-                                </div>))}
+                                {hardSkills.map((item, index) => (
+                                    <div className="flex flex-row mb-2" key={index}>
+                                        <input className="mr-4" type="checkbox" />{item.name}
+                                    </div>))}
                             </div>
-                            </form>
+                        </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalArea(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModalArea(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -287,14 +358,15 @@ const roter = useRouter();
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
-                        <form className="flex flex-col" onSubmit={() =>{
-                            addAreaInterest()}}>
+                        <form className="flex flex-col" onSubmit={() => {
+                            addAreaInterest()
+                        }}>
                             <label htmlFor="" className="mt-8">Name</label>
                             <input type="text" id="areaText" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
-                        <div className="flex justify-between mt-10">
-                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button type="submit" onClick={() => setModalSkils(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
-                        </div>
+                            <div className="flex justify-between mt-10">
+                                <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                                <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            </div>
                         </form>
                     </div>
                 </div>
