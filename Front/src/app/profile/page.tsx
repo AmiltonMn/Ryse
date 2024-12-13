@@ -16,12 +16,12 @@ import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
 import edita from "@/assets/edita.png";
 import Image from "next/image";
-
+import edtPerfil from "@/assets/edtPerfil.jpg"
 import search from "@/assets/lupa.png"
 
 const Profile: React.FC = () => {
 
-    
+
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
@@ -29,11 +29,13 @@ const Profile: React.FC = () => {
     const editableRef = useRef<HTMLInputElement>(null);
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
+    const [modalPhotos, setModalPhoto] = useState(false);
     const [name, setName] = useState<string>("");
     const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
-
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+    // Select skils
 
     const handleSkillClick = (skill: string) => {
         setSelectedSkills((prevSkills) => {
@@ -46,10 +48,20 @@ const Profile: React.FC = () => {
         });
     };
 
+    //Edit photos
+
+    const handleClick = (inputId: string) => {
+        const fileInput = document.getElementById(inputId) as HTMLInputElement;
+        fileInput?.click();
+    };
+
+    // Modais
+
     const closeModal = () => {
         setName("");
         setModalArea(false);
         setModalSkils(false);
+        setModalPhoto(false)
     }
 
     const modalHardSkils = () => {
@@ -59,6 +71,12 @@ const Profile: React.FC = () => {
     const modalArea = () => {
         setModalArea(true);
     }
+
+    const modalPhoto = () => {
+        setModalPhoto(true);
+    }
+
+    // Edit bio
 
     const handleEdit = () => {
         if (editableRef.current) {
@@ -76,6 +94,8 @@ const Profile: React.FC = () => {
         }
     }
 
+    // Mudança de tabs
+
     const handleTabChange = (tab: string) => {
         setActiveTab(tab);
     };
@@ -87,6 +107,7 @@ const Profile: React.FC = () => {
     const handleInteractionTabChange = (tab: string) => {
         setInteractionTab(tab);
     };
+
 
     const hardSkills = ["Java", "Python", "JavaScript", "React", "Node.js"];
 
@@ -114,7 +135,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div className="flex">
-                    <CardProfile imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
+                    <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
                 </div>
 
                 <div className="flex justify-end">
@@ -199,13 +220,13 @@ const Profile: React.FC = () => {
                         <form className="flex flex-col">
                             <div className="flex flex-wrap order-4 gap-4 pt-6">
 
-                            {/* Aqui implementação de comparção quando estive integrado */}
+                                {/* Aqui implementação de comparção quando estive integrado */}
 
-                            {hardSkills.map((skill) => (
-                                
-                                <SelectHardSkils text={skill} key={skill} click={handleSkillClick} classe={selectedSkills.includes(skill)}/>
+                                {hardSkills.map((skill) => (
 
-                            ))}
+                                    <SelectHardSkils text={skill} key={skill} click={handleSkillClick} classe={selectedSkills.includes(skill)} />
+
+                                ))}
                             </div>
                         </form>
                         <div className="flex justify-between mt-10">
@@ -224,6 +245,43 @@ const Profile: React.FC = () => {
                         <form className="flex flex-col">
                             <label htmlFor="" className="mt-8">Name</label>
                             <input type="text" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal edit photo */}
+            <div className={modalPhotos ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-medium text-center">Edit</h2>
+                        <form className="flex flex-col">
+                            <div className="flex flex-col items-center justify-center">
+                                <label htmlFor="" className="mt-8 mb-4">Profile</label>
+                            <div onClick={() => handleClick("fileProfileProfile")} className="cursor-pointer">
+                                <input type="file" className="hidden" id="fileProfileProfile" />
+                                <Image src={profile} width={150} height={150} alt="Image Profile" className="rounded-full" />
+                            </div>
+                            <label htmlFor="" className="mt-8 mb-4">Cover</label>
+                            <div onClick={() => handleClick("fileProfileCover")} className="cursor-pointer">
+                                <input type="file" className="hidden" id="fileProfileCover" />
+                                <Image src={cover} width={300} height={170} alt="Cover Image" className="rounded-sm" />
+                            </div>
+                            </div>
+                            
+                            <div className="flex flex-col">
+                                <label htmlFor="" className="mt-8">Name</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <label htmlFor="" className="mt-8">Username</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <label htmlFor="" className="mt-8">Email</label>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                            </div>
+
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>

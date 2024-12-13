@@ -5,34 +5,25 @@ import { useState } from "react";
 import edita from "@/assets/edita.png";
 
 
-export const CardProfile = ({ imageCover, imageProfile, name, username }: {
+export const CardProfile = ({ imageCover, imageProfile, name, username, click }: {
 
     imageCover: string;
     imageProfile: string;
     name: string;
     username: string;
+    click: Function;
 
 }) => {
 
     const [modal, setModal] = useState(false);
     const [nameModal, setName] = useState<string>("");
     const [usernameModal, setUsername] = useState<string>("");
-
     const [disable, setDisable] = useState(false);
 
 
     const closeModal = () => {
         setModal(false);
     }
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
 
     const editName = () => {
         setModal(true);
@@ -42,19 +33,17 @@ export const CardProfile = ({ imageCover, imageProfile, name, username }: {
 
     };
 
-    const handleClick = () => {
-        document.getElementById("fileProfile").click();
-    }
-
     return (
         <>
             <div className="w-full text-white relative ">
                 <Image className="absolute w-full  h-[230px] object-cover rounded-sm" src={imageCover} width={200} height={200} alt="Image Cover"></Image>
                 <div>
-                    <div className="" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>
-                        <Image className="absolute w-1/8 rounded-full top-36 ml-12 transition ease-in-out delay-150 cursor-pointer" src={isHovered ? edtPerfil : imageProfile} width={170} height={170} alt="Image Profile"></Image>
-                        <input type="file" className="hidden" id="fileProfile"/>
-                    </div>
+                    <button className="" onClick={(event) => {
+                        event.preventDefault();
+                        click();
+                    }}>
+                        <Image className="absolute w-1/8 rounded-full top-36 ml-12 transition ease-in-out delay-150 cursor-pointer" src={imageProfile} width={170} height={170} alt="Image Profile"></Image>
+                    </button>
                     <div className="left-0 top-0  mt-60 ml-60">
                         <h1 className="text-[30px] font-medium">{name} <button onClick={editName}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button></h1>
                         <h1 className="text-[16px] font-extralight">{username}</h1>
@@ -75,7 +64,7 @@ export const CardProfile = ({ imageCover, imageProfile, name, username }: {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
