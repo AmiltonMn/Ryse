@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.DTO.ForumDTO.AnswerData;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
+import com.example.demo.DTO.ForumDTO.ForumWithQuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionData;
 import com.example.demo.DTO.ForumDTO.QuestionWithAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
@@ -73,6 +74,48 @@ public class ForumImplementation implements ForumService{
     }
 
     @Override
+    public ForumWithQuestionData getForum(Long idUser, Long id_forum, Long id_topic, Integer page, Integer size) {
+
+        Optional<Forum> opForum = forumRepo.findById(id_forum);
+
+        if(!opForum.isPresent())
+            return new ForumWithQuestionData(null, null);
+
+        Forum forum = opForum.get();
+
+        ForumData responseForum = new ForumData(
+            forum.getIdForum(), 
+            forum.getUser().getName(), 
+            forum.getDate(), 
+            forum.getName(), 
+            forum.getUser().getId().equals(idUser) ? true: false, 
+            forum.getQuestions().size());
+
+        List<Question> questions = forum.getQuestions();
+
+        List<QuestionData> responseQuestion = new ArrayList<>();
+
+        for(Question question : questions){
+            Long id_topic_question = question.getTopicForum().getidTopicForum();
+
+            if (id_topic_question.equals(id_topic) || id_topic == null) {
+                responseQuestion.add(new QuestionData(
+                    question.getIdQuestion(), 
+                    question.getUser().getName(), 
+                    question.getTitle(), 
+                    question.getTopicForum().getName(), 
+                    question.getDate(), 
+                    question.getUser().getId().equals(idUser)? true : false
+                    ));
+                }
+            }
+
+        ForumWithQuestionData response = new ForumWithQuestionData(responseForum, responseQuestion);
+
+        return response;
+    }
+
+    @Override
     public List<QuestionData> getQuestions(Long idUser, Long id_forum, Long id_topic, Integer page, Integer size) {
 
         List<Question> questions;
@@ -96,6 +139,42 @@ public class ForumImplementation implements ForumService{
         }
 
         return response;
+    }
+
+    @Override
+    public QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion) {        
+        Optional<Question> opQuestion = questionRepo.findById(idQuestion);
+
+        if(!opQuestion.isPresent())
+            return new QuestionWithAnswerData(null, null);
+
+        Question question = opQuestion.get();
+
+        QuestionData responseQuestion = new QuestionData(
+            idQuestion, 
+            question.getUser().getName(), 
+            question.getTitle(), 
+            question.getTopicForum().getName(), 
+            question.getDate(), 
+            question.getUser().getId().equals(idUser)? true: false
+        );
+
+        List<Answer> answers = question.getAnswers();
+
+        List<AnswerData> responseAnswer = new ArrayList<>();
+
+        for(Answer answer : answers){
+            responseAnswer.add(new AnswerData(
+                answer.getUser().getName(), 
+                answer.getDate(), 
+                answer.getText(), 
+                1, 
+                false, 
+                answer.getUser().getId().equals(idUser)? true: false
+            ));
+        }
+
+        return new QuestionWithAnswerData(responseQuestion, responseAnswer);
     }
 
     @Override
@@ -155,7 +234,7 @@ public class ForumImplementation implements ForumService{
         newQuestion.setForum(forum.get());
         newQuestion.setTopicForum(topic.get());
         newQuestion.setUser(user.get());
-        newQuestion.setDate(LocalDateTime.now().toString());
+        newQuestion.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm")).toString());
 
         questionRepo.save(newQuestion);
         
@@ -183,43 +262,6 @@ public class ForumImplementation implements ForumService{
         answerRepo.save(newAnswer);
 
         return new Return("Answer created with sucess", true);
-    }
-
-    @Override
-    public QuestionWithAnswerData getQuestion(Long idUser, Long idQuestion) {
-
-        Optional<Question> opQuestion = questionRepo.findById(idQuestion);
-
-        if(!opQuestion.isPresent())
-            return new QuestionWithAnswerData(null, null);
-
-        Question question = opQuestion.get();
-
-        QuestionData responseQuestion = new QuestionData(
-            idQuestion, 
-            question.getUser().getName(), 
-            question.getTitle(), 
-            question.getTopicForum().getName(), 
-            question.getDate(), 
-            question.getUser().getId().equals(idUser)? true: false
-        );
-
-        List<Answer> answers = question.getAnswers();
-
-        List<AnswerData> responseAnswer = new ArrayList<>();
-
-        for(Answer answer : answers){
-            responseAnswer.add(new AnswerData(
-                answer.getUser().getName(), 
-                answer.getDate(), 
-                answer.getText(), 
-                1, 
-                false, 
-                answer.getUser().getId().equals(idUser)? true: false
-            ));
-        }
-
-        return new QuestionWithAnswerData(responseQuestion, responseAnswer);
     }
 
     @Override
