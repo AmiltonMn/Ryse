@@ -258,22 +258,22 @@ const Profile: React.FC = () => {
             <div className={modalPhotos ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
-                        <h2 className="text-xl font-medium text-center">Edit</h2>
+                        <h2 className="text-xl font-medium text-center">Edit data</h2>
                         <form className="flex flex-col">
+
                             <div className="flex flex-col items-center justify-center">
-                                <label htmlFor="" className="mt-8 mb-4">Profile</label>
-                            <div onClick={() => handleClick("fileProfileProfile")} className="cursor-pointer">
-                                <input type="file" className="hidden" id="fileProfileProfile" />
-                                <Image src={profile} width={150} height={150} alt="Image Profile" className="rounded-full" />
+                                <div className="relative w-full mt-8">
+                                    <input type="file" className="hidden" id="fileProfileCover" />
+                                    <Image className="absolute w-full  h-[100px] object-cover rounded-sm cursor-pointer" src={cover} width={200} height={200} alt="Image Cover" onClick={() => handleClick("fileProfileCover")} ></Image>
+                                    <div>
+                                        <input type="file" className="hidden" id="fileProfileProfile" />
+                                        <Image className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer" src={profile} width={170} height={170} alt="Image Profile" onClick={() => handleClick("fileProfileProfile")}></Image>
+                                    </div>
+
+                                </div>
                             </div>
-                            <label htmlFor="" className="mt-8 mb-4">Cover</label>
-                            <div onClick={() => handleClick("fileProfileCover")} className="cursor-pointer">
-                                <input type="file" className="hidden" id="fileProfileCover" />
-                                <Image src={cover} width={300} height={170} alt="Cover Image" className="rounded-sm" />
-                            </div>
-                            </div>
-                            
-                            <div className="flex flex-col">
+
+                            <div className="flex flex-col mt-32">
                                 <label htmlFor="" className="mt-8">Name</label>
                                 <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
                                 <label htmlFor="" className="mt-8">Username</label>
