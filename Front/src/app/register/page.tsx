@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
-import google from "@/app/assets/google.png";
+import google from "@/assets/google.png";
 
 export default function Register() {
 
@@ -33,7 +33,9 @@ export default function Register() {
 
     const style =
     {
-      main: "min-h-screen w-full bg-zinc-900 flex justify-center items-center"
+      main: "min-h-screen w-full bg-zinc-900 flex justify-center items-center",
+      inputz: "rounded-md ps-4 text-base w-full bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
+      imagen: "w-8 h-8 rounded-t-3xl m-2",
     }
   
     return (
