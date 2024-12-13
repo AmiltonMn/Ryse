@@ -12,7 +12,7 @@ import search2 from "@/assets/lupa.png"
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
-import search from "@/assets/lupaBlack.png"
+import searchBlack from "@/assets/lupaBlack.png"
 
 
 export default function Home() {

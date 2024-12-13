@@ -13,6 +13,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { CardIdea } from "@/components/cardIdea";
 
+import ideasCss from "@/app/ideas/ideas.module.css"
+
 
 const styles = {
     button: "text-white text-[16px] hover:text-gray-500 black pl-4 pr-8 transition easy-in-out bg-[#454545] mb-3 rounded-[10px] flex items-center",
@@ -54,7 +56,7 @@ export default function Ideas() {
                     </div>
                     <hr />
 
-                    <div className="border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px]">
+                    <div className={`border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px] ${ideasCss.scroll}`}>
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0} />
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} />
