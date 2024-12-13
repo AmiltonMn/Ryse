@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import verify from "@/assets/verificado.png"
 import heart from "@/assets/coracao.png"
+import wheart from "@/assets/like.png"
 import { useState } from "react";
 
 interface CardAnswerProps {
@@ -16,9 +17,14 @@ interface CardAnswerProps {
 export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date, answer}) => {
 
     const [verificado, setVerificado] = useState(false)
+    const [love, setLove] = useState(false)
 
     const verificar = () => {
         setVerificado(true)
+    }
+
+    const loved = () => {
+        setLove(!love)
     }
 
     return(
@@ -43,8 +49,14 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date
 
             <div className="pl-8 pt-2 text-[14px] flex justify-between pb-6">
                 <p>{answer}</p>
-                    <button>
-                        <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 mr-8" width={1000} height={1000}/>
+                    <button onClick={() => loved()}>
+                        {
+                            love ?
+                            <Image src={wheart.src} alt="ícone coração" className="w-5 h-5 m-2 mr-8" width={1000} height={1000}/>
+                            :
+                            <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 mr-8" width={1000} height={1000}/>
+
+                        }    
                     </button>
             </div>
         </div>

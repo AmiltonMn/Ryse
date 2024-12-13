@@ -16,6 +16,8 @@ import more from "@/assets/mais.png";
 import user from "@/assets/user.png";
 import file from "@/assets/file.png";
 
+import ideasCss from "@/app/ideas/ideas.module.css"
+
 
 export default function Home() {
 
@@ -86,7 +88,7 @@ export default function Home() {
 
                                 <div className="flex flex-col h-full w-[80%]">
 
-                                    <div className="bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto max-h-[600px] pb-4">
+                                    <div className={`bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
 
                                         {/* mensagem sua */}
                                         <MyMsg date={"10:20 09/12/2024"} message={"oie"} />

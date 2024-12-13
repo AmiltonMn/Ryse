@@ -4,8 +4,11 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 import heart from "@/assets/coracao.png"
+import amei from "@/assets/like.png"
 import like from "@/assets/joinha.png"
+import wlike from "@/assets/joinhacheio.png"
 import dislike from "@/assets/dislike.png"
+import wdislike from "@/assets/dislikecheio.png"
 import pontos from "@/assets/pontos.png"
 import lampadaVermelha from "@/assets/lampadaVermelha.png"
 import lampadaAmarela from "@/assets/lampadaAmarela.png"
@@ -24,9 +27,30 @@ interface CardIdeaProps {
 export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, title, description, state }) => {
 
     const [options, setOptions] = useState(false);
+    const [love, setLove] = useState(false)
+    const [gostei, setGostei] = useState(false)
+    const [odiei, setOdiei] = useState(false)
 
     const show = () => {
         setOptions(!options)
+    }
+
+    const loved = () => {
+        setLove(!love)
+    }
+
+    const liked = () => {
+        if (odiei) {
+            setOdiei(false)
+        }
+        setGostei(!gostei)
+    }
+
+    const disliked = () => {
+        if (gostei) {
+            setGostei(false)
+        }
+        setOdiei(!odiei)
     }
 
 
@@ -55,20 +79,40 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
                     </div>
                     {options == true ?
                         <div className="flex items-center">
-                            <button className="">
-                                <Image src={like.src} alt="like" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                            <button onClick={() => liked()} className="">
+                                {
+                                    gostei ?
+                                        <Image src={wlike.src} alt="like" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                        :
+                                        <Image src={like.src} alt="like" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                }
                             </button>
-                            <button className="">
-                                <Image src={dislike.src} alt="dislike" className="w-5 h-5 m-2 transform scale-x-[-1]" width={1000} height={1000} />
+                            <button onClick={() => disliked()} className="">
+                                {
+                                    odiei ?
+                                        <Image src={wdislike.src} alt="dislike" className="w-5 h-5 m-2 transform scale-x-[-1]" width={1000} height={1000} />
+                                        :
+                                        <Image src={dislike.src} alt="dislike" className="w-5 h-5 m-2 transform scale-x-[-1]" width={1000} height={1000} />
+                                }    
                             </button>
-                            <button className="pr-6">
-                                <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                            <button onClick={() => loved()} className="pr-6">
+                                {
+                                    love ?
+                                        <Image src={amei.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                        :
+                                        <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                }
                             </button>
                         </div>
                         :
                         <div className="flex items-center">
-                            <button className="pr-6">
-                                <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                            <button onClick={() => loved()} className="pr-6">
+                                {
+                                    love ?
+                                        <Image src={amei.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                        :
+                                        <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                }
                             </button>
                         </div>}
                 </div>
