@@ -19,6 +19,12 @@ public class User {
     private String name;
 
     @Column
+    private String coverPhoto;
+
+    @Column
+    private String username;
+
+    @Column
     private String email;
 
     @Column
@@ -112,5 +118,20 @@ public class User {
     public void setUserState(String userState) {
         this.userState = userState;
     }
+    
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCoverPhoto() {
+        return coverPhoto;
+    }
+
+    public void setCoverPhoto(String coverPhoto) {
+        this.coverPhoto = coverPhoto;
+    }
 }

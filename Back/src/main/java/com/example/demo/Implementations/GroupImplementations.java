@@ -117,11 +117,24 @@ public class GroupImplementations implements GroupServices {
     @Override
     public ResponseEntity<GroupGet> getGroupInfo(Long idUser, Long idGroup) {
         var search = groupRepo.findById(idGroup);
+        
         if (search.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 
         var group = search.get();
         return new ResponseEntity<>(new GroupGet(group.getName(), group.getDescription(), group.getObjective(),
                 Objects.equals(group.getUserEntity().getId(), idUser)), HttpStatus.OK);
+    }
+
+    @Override
+    public ArrayList<User> getAllUserInGroup(Long idGroup) {
+        
+        ArrayList<User> users = userGroupRepo.findUsersInGroup(idGroup);
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.Repositories;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +14,5 @@ public interface TopicChatRepository extends JpaRepository<TopicChat, Long> {
     Optional<TopicChat> findChatWithName(@Param("name") String name);
 
     @Query(value = "SELECT * FROM tb_topic_chat where id_topic = :idTopic", nativeQuery = true)
-    List<TopicChat> findChatWithTopic(@Param("idTopic") Long idTopic);
+    ArrayList<TopicChat> findChatWithTopic(@Param("idTopic") Long idTopic);
 }

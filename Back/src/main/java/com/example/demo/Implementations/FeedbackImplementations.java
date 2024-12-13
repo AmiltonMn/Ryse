@@ -47,15 +47,24 @@ public class FeedbackImplementations implements FeedbackServices {
         newFeedback.setPrivacity(data.privacity());
 
         feedbackRepo.save(newFeedback);
-        return new FeedbackReturn("Created with sucess", true);
+        
+        return new FeedbackReturn("Created with success", true);
     }
 
     @Override
     public returnGetFeedback getFeedbackReceiver(Long idUser, Long idGroup) {
-        var FeedbacksReturn = feedbackRepo.getFeedbacksReceiver( idUser, idGroup);
+
+        var FeedbacksReturn = feedbackRepo.getFeedbacksReceiver(idUser, idGroup);
         List<FeedbackGet> listFeedbacks = new ArrayList<>();
+        
         for (Feedback feedback : FeedbacksReturn) {
-            listFeedbacks.add(new FeedbackGet(feedback.getText(), feedback.getUserSender()));
+
+            listFeedbacks.add(new FeedbackGet(
+                    feedback.getText(), 
+                    feedback.getUserSender().getName(), 
+                    feedback.getUserSender().getPhoto(),
+                    feedback.getPrivacity()
+                ));
         }
 
         if (listFeedbacks.isEmpty()) {
@@ -70,7 +79,13 @@ public class FeedbackImplementations implements FeedbackServices {
         var FeedbacksReturn = feedbackRepo.getFeedbacksSender(idUser,idGroup);
         List<FeedbackGet> listFeedbacks = new ArrayList<>();
         for (Feedback feedback : FeedbacksReturn) {
-            listFeedbacks.add(new FeedbackGet(feedback.getText(), feedback.getUserSender()));
+
+            listFeedbacks.add(new FeedbackGet(
+                feedback.getText(), 
+                feedback.getUserSender().getName(), 
+                feedback.getUserSender().getPhoto(),
+                feedback.getPrivacity()
+            ));
         }
 
         return new returnGetFeedback(listFeedbacks, new FeedbackReturn("get done with sucess", true));

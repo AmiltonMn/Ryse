@@ -1,15 +1,22 @@
 package com.example.demo.Implementations;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.DTO.ChatGroupDto.MessagesData;
 import com.example.demo.DTO.TopicChatDTO.CreateChat;
 import com.example.demo.DTO.TopicChatDTO.CreateMessage;
+import com.example.demo.DTO.TopicChatDTO.GetTopicChatMessagesResponse;
+import com.example.demo.DTO.TopicChatDTO.GetTopicChats;
+import com.example.demo.DTO.TopicChatDTO.TopicChatMessageResponse;
 import com.example.demo.DTO.TopicChatDTO.TopicChatReturn;
 import com.example.demo.DTO.TopicChatDTO.TopicChatUpdate;
+import com.example.demo.DTO.TopicChatDTO.TopicMessagesData;
+import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.TopicChat;
 import com.example.demo.Models.TopicMessage;
 import com.example.demo.Repositories.TopicChatRepository;
@@ -57,7 +64,7 @@ public class TopicChatImplementations implements TopicChatServices {
     }
 
     @Override
-    public TopicChatReturn createTopicChatMessage(CreateMessage data) {
+    public TopicChatMessageResponse createTopicChatMessage(CreateMessage data) {
 
         var user = userRepo.findById(data.idUser()).get();
         var topicChat = topicChatRepo.findById(data.idChatTopic()).get();
@@ -74,7 +81,27 @@ public class TopicChatImplementations implements TopicChatServices {
 
         topicMessageRepo.save(newMessage);
 
-        return new TopicChatReturn("Created Message with sucess", true);
+        ArrayList<TopicMessage> topicChatMessagesRaw = topicMessageRepo.findMessagesWithChat(data.idChatTopic());
+        ArrayList<TopicMessagesData> messages = new ArrayList<>();
+
+        for (TopicMessage topicMessage : topicChatMessagesRaw) {
+            
+            messages.add(
+                new TopicMessagesData(
+                    topicMessage.getText(), 
+                    topicMessage.getDate(), 
+                    topicMessage.getDeleted(), 
+                    new UserData(
+                        topicMessage.getUser().getUsername(), 
+                        topicMessage.getUser().getName(), 
+                        topicMessage.getUser().getPhoto(), 
+                        topicMessage.getUser().getUserState()
+                    )
+                )
+            );
+        }
+
+        return new TopicChatMessageResponse(messages, "Created Message with sucess", true);
     }
 
     @Override
@@ -103,24 +130,88 @@ public class TopicChatImplementations implements TopicChatServices {
     }
 
     @Override
-    public TopicChatReturn inativeMessageTopicChat(Long idTopicChatMessage, Long idUser) {
+    public TopicChatMessageResponse inativeMessageTopicChat(Long idTopicChatMessage, Long idUser) {
+
         if (!Objects.equals(topicMessageRepo.findById(idTopicChatMessage).get().getUser().getId(),idUser)) {
-            return new TopicChatReturn("You are not the author of the message", false);
+            return new TopicChatMessageResponse(null,  "You are not the author of the message", false);
         }
+
         var message = topicMessageRepo.findById(idTopicChatMessage).get();
         message.setDeleted(true);
         topicMessageRepo.save(message);
-        return new TopicChatReturn("inativated message with sucess", true);
+
+        ArrayList<TopicMessage> topicChatMessagesRaw = topicMessageRepo.findMessagesWithChat(topicMessageRepo.findById(idUser).get().getChat().getIdTopicChat());
+        ArrayList<TopicMessagesData> messages = new ArrayList<>();
+
+        for (TopicMessage topicMessage : topicChatMessagesRaw) {
+            
+            messages.add(
+                new TopicMessagesData(
+                    topicMessage.getText(), 
+                    topicMessage.getDate(), 
+                    topicMessage.getDeleted(), 
+                    new UserData(
+                        topicMessage.getUser().getUsername(), 
+                        topicMessage.getUser().getName(), 
+                        topicMessage.getUser().getPhoto(), 
+                        topicMessage.getUser().getUserState()
+                    )
+                )
+            );
+        }
+
+        return new TopicChatMessageResponse(messages, "inativated message with sucess", true);
     }
 
     @Override
-    public List<TopicChat> getTopicChats(Long idTopic) {
-        return topicChatRepo.findChatWithTopic(idTopic);
+    public ArrayList<GetTopicChats> getTopicChats(Long idTopic) {
+
+        ArrayList<TopicChat> chatsRaw = topicChatRepo.findChatWithTopic(idTopic);
+        ArrayList<GetTopicChats> chats = new ArrayList<>();
+
+        for (TopicChat topicChat : chatsRaw) {
+            
+            chats.add(new GetTopicChats(
+                topicChat.getName(), 
+                topicChat.getDate(), 
+                new UserData(
+                        topicChat.getUser().getUsername(), 
+                        topicChat.getUser().getName(), 
+                        topicChat.getUser().getPhoto(), 
+                        topicChat.getUser().getUserState()
+                    )
+                )
+            );
+        }
+
+        return chats;
     }
 
     @Override
-    public List<TopicMessage> getTopicMessage(Long idTopicChat) {
-        return topicMessageRepo.findMessagesWithChat(idTopicChat);
+    public GetTopicChatMessagesResponse getTopicMessage(Long idTopicChat) {
+
+        ArrayList<TopicMessage> topicChatMessagesRaw = topicMessageRepo.findMessagesWithChat(idTopicChat);
+        ArrayList<TopicMessagesData> messages = new ArrayList<>();
+        TopicChat topicChat = topicChatRepo.findById(idTopicChat).get();
+
+        for (TopicMessage topicMessage : topicChatMessagesRaw) {
+            
+            messages.add(
+                new TopicMessagesData(
+                    topicMessage.getText(), 
+                    topicMessage.getDate(), 
+                    topicMessage.getDeleted(), 
+                    new UserData(
+                        topicMessage.getUser().getUsername(), 
+                        topicMessage.getUser().getName(), 
+                        topicMessage.getUser().getPhoto(), 
+                        topicMessage.getUser().getUserState()
+                    )
+                )
+            );
+        }
+
+        return new GetTopicChatMessagesResponse(messages, topicChat.getName(), true);
     }
 
 }

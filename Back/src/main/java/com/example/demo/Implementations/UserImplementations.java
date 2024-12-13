@@ -1,5 +1,6 @@
 package com.example.demo.Implementations;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.DTO.Token;
+import com.example.demo.DTO.AreasOfInterestDto.GetAreasOfInterest;
 import com.example.demo.JWTCreate;
+import com.example.demo.Models.AreasOfInterest;
+import com.example.demo.Models.HardSkill;
 import com.example.demo.Models.User;
+import com.example.demo.Models.UserHardSkill;
+import com.example.demo.Repositories.AreasOfInterestRepository;
+import com.example.demo.Repositories.HardSkillRepository;
+import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -22,6 +31,12 @@ public class UserImplementations implements UserServices {
 
     @Autowired
     EncodeServices encode;
+
+    @Autowired
+    UserHardSkillRepository userHardkSkillRepo;
+
+    @Autowired
+    AreasOfInterestRepository areasRepo;
 
     @Override
     public Return register(RegisterData data) {
@@ -93,6 +108,33 @@ public class UserImplementations implements UserServices {
         }
 
         return true;
+    }
+
+    @Override
+    public UserProfileResponse getUserProfile(Long idUser) {
+
+        User user = userRepo.findById(idUser).get();
+        ArrayList<String> hardSkills = userHardkSkillRepo.getHardSkillUser(idUser);
+        ArrayList<AreasOfInterest> areasOfInterestsRaw = areasRepo.getAllByIdUser(idUser);
+
+        ArrayList<GetAreasOfInterest> areasOfInterest = new ArrayList<>();
+
+        for (AreasOfInterest areaOfInterest : areasOfInterestsRaw) {
+            
+            areasOfInterest.add(new GetAreasOfInterest(areaOfInterest.getText()));
+        }
+
+        
+        UserProfileResponse userProfileData = new UserProfileResponse(user.getUsername(), 
+                                                                      user.getName(), 
+                                                                      user.getPhoto(), 
+                                                                      user.getCoverPhoto(), 
+                                                                      user.getBio(), 
+                                                                      areasOfInterest, 
+                                                                      hardSkills,
+                                                                      true);
+
+        return userProfileData;
     }
 
 }
