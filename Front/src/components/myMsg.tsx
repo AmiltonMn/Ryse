@@ -12,8 +12,8 @@ interface myMsgProps {
 export const MyMsg: React.FC<myMsgProps> = ({ date, message }) => {
 
     return (
-        <div className="w-full flex justify-end pt-4 pe-4 group">
-            <div className="max-w-[45%] flex flex-col items-end bg-[#484848] p-2 ps-3 pe-4 rounded-2xl gap-[2px]">
+        <div className="w-full flex justify-end pt-4 pe-4">
+            <div className="max-w-[45%] flex flex-col items-end bg-[#484848] p-2 ps-3 pe-4 rounded-2xl gap-[2px] group">
                 <div className="flex flex-row justify-between w-full gap-2">
                     <button className="w-7 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#313131] rounded-md flex justify-center items-center pl-1 pr-1">
                         <Image src={pontos} alt={"3 pontos"} className="w-4 h-4 "/>
