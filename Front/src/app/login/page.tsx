@@ -47,7 +47,7 @@ export default function Login() {
                         <input className={style.inputz} type="email" placeholder="Email" />
                         <input className={style.inputz} type="password" placeholder="Password" />
                     </div>
-                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Login</button>
+                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold"><a href={ROUTES.home}>Login</a></button>
                     <div className="flex flex-col w-full items-center gap-3">
                         <div className="flex flex-row items-center justify-center gap-4 w-full">
                             <div className="bg-white h-[1px] w-1/4"></div>
@@ -55,10 +55,10 @@ export default function Login() {
                             <div className="bg-white h-[1px] w-1/4" ></div>
                         </div>
                         <div className="flex flex-row justify-between w-11/12 text-black">
-                            <button className="bg-white p-1 ps-8 pe-8 rounded">
+                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
                                 <Image src={google} alt="ícone ideia" className={style.imagen} />
                             </button>
-                            <button className="bg-white p-1 ps-8 pe-8 rounded">
+                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
                                 <Image src={google} alt="ícone ideia" className={style.imagen} />
                             </button>
                         </div>

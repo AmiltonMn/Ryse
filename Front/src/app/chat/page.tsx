@@ -47,11 +47,11 @@ export default function Home() {
                     <div className="w-full h-full flex justify-center ">
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
-                                <Link href={ROUTES.group} className="flex w-full h-12 rounded-t bg-[#313131] items-center group">
+                                <div className="flex w-full h-12 rounded-t bg-[#313131] items-center ">
                                     <div className="w-[20%] h-full flex items-center justify-center">
-                                        <p className="text-[20px] font-semibold z-20">Nome do Projeto</p>
+                                        <p className="text-[20px] font-semibold z-20 group-hover:animate-pulse">Nome do Chat</p>
                                     </div>
-                                </Link>
+                                </div>
                                 <hr className="" />
                             </div>
                             <div className="w-full h-full flex flex-row">
@@ -69,7 +69,7 @@ export default function Home() {
 
                                     <GroupChat name={"Front"}/>
 
-                                    <GroupChat name={"Outro"}/>
+                                    <GroupChat name={"Outra coisa"}/>
 
                                     <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
@@ -116,7 +116,7 @@ export default function Home() {
                                     <div className="flex w-full h-20 rounded-r bg-[#313131] flex-row justify-center gap-4 items-center p-4">
                                         <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
                                             <Image src={file} alt="ícone ideia" className="w-7 h-7 cursor-pointer" />
-                                            <input type="file" className="absolute h-10 rounded-full w-10 opacity-0 cursor-pointer"/>
+                                            <input type="file" className="absolute h-7 w-7 opacity-0 cursor-pointer"/>
                                         </button>
                                         <input className={style.inputz} placeholder="Mensagem" />
                                         <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
@@ -132,7 +132,7 @@ export default function Home() {
             </div>
 
             {/* Modal novo chat*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New Chat</h2>

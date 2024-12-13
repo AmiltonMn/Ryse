@@ -5,13 +5,15 @@ import { Submenu } from "@/components/submenu";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 
-import search from "@/assets/lupaBlack.png"
+import search from "@/assets/lupa.png"
 import iconMore from "@/assets/mais.png";
 import iconProfile from "@/assets/user.png"
 
 import Link from "next/link";
 import { useState } from "react";
 import { CardIdea } from "@/components/cardIdea";
+
+import ideasCss from "@/app/ideas/ideas.module.css"
 
 
 const styles = {
@@ -36,7 +38,7 @@ export default function Ideas() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-[180px] pl-[300px] flex">
                 <div className="flex w-[99%]">
                     <input type="text" placeholder="Search idea" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
@@ -46,7 +48,7 @@ export default function Ideas() {
             <div className="pt-[70px] pl-[300px] flex">
                 <div className="w-[75%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[20px] mb-6">Ideas</h2>
+                        <h2 className="text-white font-bold text-[20px] mb-3">Ideas</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             Post idea
@@ -54,10 +56,10 @@ export default function Ideas() {
                     </div>
                     <hr />
 
-                    <div className="border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px]">
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0}/>
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2}/>
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1}/>
+                    <div className={`border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px] ${ideasCss.scroll}`}>
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0} />
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
+                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} />
                     </div>
                 </div>
 
@@ -71,7 +73,7 @@ export default function Ideas() {
                 </div>
             </div>
 
-            
+
             {/* Modal */}
             <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
@@ -85,7 +87,7 @@ export default function Ideas() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

@@ -24,6 +24,7 @@ export default function Home() {
     const [title, setTitle] = useState<string>("");
     const [text, setText] = useState<string>("");
     const [topic, setTopic] = useState<string>("");
+    const [pag, setPag] = useState<string>("1");
 
     const closeModal = () => {
         setTitle("");
@@ -36,11 +37,33 @@ export default function Home() {
         setModal(true);
     }
 
+    const pagina = Number(pag)
+
+    const next = () => {
+        if (!Number.isInteger(pagina) || pagina < 1) {
+            setPag("1")
+        }
+        else {
+            setPag((pagina + 1).toString())
+        }
+    }
+
+    const prev = () => {
+
+        if (!Number.isInteger(pagina)) {
+            setPag("1")
+        }
+
+        if (pagina > 1) {
+            setPag((pagina - 1).toString())
+        }
+    }
+
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
-            <div className="pt-[180px] pl-[300px] flex">
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
+            <div className="pt-36 pl-[300px] flex">
                 <div className="w-[97%]">
                     <div className="flex justify-between items-center">
                         <h2 className="text-white font-bold text-[20px] mb-6">Java project forum</h2>
@@ -64,6 +87,11 @@ export default function Home() {
                     <div className="flex flex-col justify-center items-center  gap-10 mt-16">
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
+                    </div>
+                     <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
+                        <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
                     </div>
                 </div>
             </div>
