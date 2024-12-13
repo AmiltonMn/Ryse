@@ -10,5 +10,8 @@ export enum ROUTES {
     groupchat = "/groupchat",
     ideas = "/ideas",
     profile = "/profile",
-    question = "/question"
+    question = "/question",
+    hardSkills = "/hardSkills",
+    events = "/events",
+    news = "/news"
 }

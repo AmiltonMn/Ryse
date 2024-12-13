@@ -13,6 +13,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { CardIdea } from "@/components/cardIdea";
 
+import ideasCss from "@/app/ideas/ideas.module.css"
+
 
 const styles = {
     button: "text-white text-[16px] hover:text-gray-500 black pl-4 pr-8 transition easy-in-out bg-[#454545] mb-3 rounded-[10px] flex items-center",
@@ -36,17 +38,17 @@ export default function Ideas() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
-            <div className="pt-36 pl-[300px] flex">
-                <div className="flex w-[98%] justify-center items-center">
-                    <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
-                    <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
+            <div className="pt-[180px] pl-[300px] flex">
+                <div className="flex w-[99%]">
+                    <input type="text" placeholder="Search idea" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
+                    <Image src={search} alt="" className="w-5 h-5 m-2 relative right-8 cursor-pointer" id="search" />
                 </div>
             </div>
             <div className="pt-[70px] pl-[300px] flex">
                 <div className="w-[75%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[20px] mb-6">Ideas</h2>
+                        <h2 className="text-white font-bold text-[20px] mb-3">Ideas</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             Post idea
@@ -54,7 +56,7 @@ export default function Ideas() {
                     </div>
                     <hr />
 
-                    <div className="border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px]">
+                    <div className={`border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px] ${ideasCss.scroll}`}>
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={0} />
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
                         <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} />

@@ -10,14 +10,17 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import trash from "@/assets/trash.png";
-import more from "@/assets/mais.png";
+import more from "@/assets/maisrosa.png";
 import user from "@/assets/user.png";
 
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
+    const [modal2, setModal2] = useState(false);
     const [name, setName] = useState<string>("");
+    const [feed, setFeed] = useState<string>("");
+    const [modalfeedback, setModalfeedback] = useState(false);
 
     const closeModal = () => {
         setName("");
@@ -28,17 +31,35 @@ export default function Home() {
         setModal(true);
     }
 
+    const closeModal2 = () => {
+        setModal2(false);
+    }
+
+    const openModal2 = () => {
+        setModal2(true);
+    }
+
+    const closeModalfeedback = () => {
+        setFeed("");
+        setModalfeedback(false);
+    }
+
+    const openModalfeedback = () => {
+        setModalfeedback(true);
+    }
+
+
     const style =
     {
         inputz: "rounded-md ps-4 text-base w-4/12 bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
-        imagen2: "w-5 h-5 rounded-t-3xl m-2 hover:scale-110",
+        imagen2: "w-7 h-7 rounded-t-3xl m-2 hover:scale-110",
     }
 
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-36 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
@@ -71,25 +92,20 @@ export default function Home() {
                         <div className="flex flex-col w-full p-6">
                             <div className="w-full flex flex-row justify-between items-center">
                                 <p className="text-[20px]">Integrantes</p>
-                                <button>
-                                    <Image src={more} alt="ícone ideia" className="w-5 h-5 rounded-t-3xl hover:scale-110" />
+                                <button onClick={() => openModal2()}>
+                                    <Image src={more} alt="ícone ideia" className="w-6 mr-[35px] h-6 rounded-t-3xl hover:scale-110" />
                                 </button>
                             </div>
                             <table className="bg-[#242424] w-full rounded-md mt-8">
-                                <tbody>          
+                                <tbody>
                                     <tr>
                                         <td className="w-16 p-1">
                                             <Image src={user} alt="ícone ideia" className={style.imagen} />
                                         </td>
                                         <td className="text-[16px]">Juliana</td>
-                                        <td className="w-16">
-                                            <button>
-                                                <Image src={trash} alt="ícone ideia" className={style.imagen2} />
-                                            </button>
-                                        </td>
                                     </tr>
-                                    <TeamList foto={user.src} name={"Adrian"}/>
-                                    <TeamList foto={user.src} name={"Amilton"}/>
+                                    <TeamList foto={user.src} name={"Adrian"} openModalfeedback={openModalfeedback}/>
+                                    <TeamList foto={user.src} name={"Amilton"} openModalfeedback={openModalfeedback}/>
                                 </tbody>
                             </table>
                             <div className="w-full mt-8 flex justify-end">
@@ -108,7 +124,77 @@ export default function Home() {
                         <p className="text-xl font-semibold text-center">Are you sure?</p>
                         <div className="flex w-10/12 justify-between mt-8">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-white text-black py-2 px-4 rounded-md hover:bg-gray-300">Cancel</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal feedback*/}
+            <div className={modalfeedback ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col">
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-semibold">New Feedback</h2>
+                        <form className="flex flex-col">
+                            <label htmlFor="" className="mt-8">Feedback</label>
+                            <input type="text" placeholder="Feedback here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={feed} onChange={(e) => { setFeed(e.target.value) }} />
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModalfeedback()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
+                            <button onClick={() => setModalfeedback(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Modal novo integrante*/}
+            <div className={modal2 ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-semibold">New collaborator</h2>
+                        <form className="flex flex-col">
+                            <label htmlFor="" className="mt-4">Email</label>
+                            <input type="text" placeholder="Collaborator email" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" />
+                        </form>
+                        <form>
+                            <table className="bg-[#242424] w-full rounded-md mt-8">
+                                <tbody >
+                                    <tr >
+                                        <td className="p-1">
+                                            <div className="flex flex-row justify-start items-center gap-2">
+                                                <Image src={user} alt="ícone ideia" className={style.imagen} />
+                                                Adrian
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="flex justify-end pe-3">
+                                                <button onClick={() => setModal2(false)} className="flex justify-center items-center">
+                                                    <Image src={more} alt="ícone ideia" className="w-6 h-6 rounded-t-3xl hover:scale-110" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr className="border-t">
+                                        <td className="p-1">
+                                            <div className="flex flex-row justify-start items-center gap-2">
+                                                <Image src={user} alt="ícone ideia" className={style.imagen} />
+                                                Joao
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="flex justify-end pe-3">
+                                                <button onClick={() => setModal2(false)} className="flex justify-center items-center">
+                                                    <Image src={more} alt="ícone ideia" className="w-6 h-6 rounded-t-3xl hover:scale-110" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <div className="flex justify-center mt-10">
+                            <button onClick={() => closeModal2()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
                         </div>
                     </div>
                 </div>

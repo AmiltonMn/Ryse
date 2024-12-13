@@ -9,6 +9,7 @@ import iconGroup from "@/assets/grupo.png";
 import iconMessage from "@/assets/mensagem.png";
 import iconIdea from "@/assets/luz.png";
 import iconMore from "@/assets/luz.png";
+import iconSettings from "@/assets/settings.png";
 import { useState } from "react";
 
 interface SubmenuProps {
@@ -21,18 +22,21 @@ interface SubmenuProps {
     chatPrincipal3: string;
     newIdea: string;
     ideas: string;
+    hardSkills: string;
+    events: string;
+    news: string;
 }
 
 const styleSubmenu = {
-    link: "text-white text-[13px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 flex items-center",
+    link: "text-white text-[13px] hover:text-gray-500 black transition easy-in-out pt-2 pb-2 flex items-center",
     div: "flex flex-col",
     button: "text-white text-[13px] hover:text-gray-500 black mt-4 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2",
-    hr: "mb-2 mt-2"
-
+    hr: "mb-3 mt-3",
+    h5: "text-[15px]"
 }
 
-export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas }) => {
+export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup, chatPrincipal1, chatPrincipal2, chatPrincipal3, newIdea, ideas, hardSkills, events, news }) => {
 
     var baixo = "▼";
     var cima = "▲";
@@ -40,10 +44,11 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
     const [isGroup, setIsGroup] = useState(true);
     const [isChats, setIsChats] = useState(true);
     const [isIdeia, setIsIdeia] = useState(true);
+    const [isSettings, setIsSettings] = useState(true);
 
     return (
         <div className="text-white h-full w-[250px] fixed font-robFont text-large border-[0.5px] border-[#656565] bg-[#292929]">
-            <div className="flex flex-col p-6 mt-28">
+            <div className="flex flex-col p-6 mt-16">
                 <div className={styleSubmenu.div}>
                     <Link href={ROUTES.home} className={styleSubmenu.link}>
                         <Image src={iconHome} alt="ícone home" className={styleSubmenu.img} />
@@ -97,7 +102,29 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                             {ideas}
                         </Link>
                     </div>}
+                </div>
 
+
+                {/* PARTE QUE SÓ VAI APARECER PARA OS INSTRUTORES */}
+                <hr className={styleSubmenu.hr} />
+                <div className={styleSubmenu.div}>
+                    <div className="flex flex-row justify-between">
+                        <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
+                    </div>
+                    {isSettings && <div>
+                        <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
+                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
+                            {hardSkills}
+                        </Link>
+                        <Link href={ROUTES.ideas} className={styleSubmenu.link}>
+                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
+                            {events}
+                        </Link>
+                        <Link href={ROUTES.ideas} className={styleSubmenu.link}>
+                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
+                            {news}
+                        </Link>
+                    </div>}
                 </div>
             </div>
                 <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>

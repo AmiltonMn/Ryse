@@ -16,6 +16,8 @@ import more from "@/assets/mais.png";
 import user from "@/assets/user.png";
 import file from "@/assets/file.png";
 
+import ideasCss from "@/app/ideas/ideas.module.css"
+
 
 export default function Home() {
 
@@ -41,7 +43,7 @@ export default function Home() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
             <div className="pt-32 pl-[300px] pr-[100px] flex">
                 <div className="w-full h-full text-white">
                     <div className="w-full h-full flex justify-center ">
@@ -69,6 +71,8 @@ export default function Home() {
 
                                     <GroupChat name={"Front"}/>
 
+                                    <GroupChat name={"Outra coisa"}/>
+
                                     <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
@@ -84,7 +88,7 @@ export default function Home() {
 
                                 <div className="flex flex-col h-full w-[80%]">
 
-                                    <div className="bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto max-h-[600px] pb-4">
+                                    <div className={`bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
 
                                         {/* mensagem sua */}
                                         <MyMsg date={"10:20 09/12/2024"} message={"oie"} />

@@ -21,7 +21,7 @@ import { Checkbox } from "@headlessui/react";
 
 const Profile: React.FC = () => {
 
-
+    const [instrutor, setInstrutor] = useState(false)
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
@@ -39,6 +39,11 @@ const Profile: React.FC = () => {
     const [publicId, setPublicId] = useState<string>("");
         const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
+
+    const tornar = () => {
+        setInstrutor(true)
+    }
+
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
     // Select skils
@@ -393,24 +398,22 @@ useEffect(() => {
     return (
         <>
             <Menu title={"Ryse"} />
-            <Submenu
-                home={"Home"}
-                chats={"Chats"}
-                newGroup={"New group"}
-                myGroup={"My groups"}
-                chatPrincipal1={"Chat 1"}
-                chatPrincipal2={"Chat 2"}
-                chatPrincipal3={"Chat 3"}
-                newIdea={"New idea"}
-                ideas={"Ideas"}
-            />
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
 
             <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white">
-                <div className="font-medium text-[16px] flex flex-row pb-8">
-                    <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
-                    <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
-                    <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
+                <div className="font-medium text-[16px] flex justify-between flex-row pb-8">
+                    <div className="flex">
+                        <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
+                        <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
+                        <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
+                    </div>
+                    {
+                        instrutor ?
+                        <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
+                        :
+                        <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
+                    }
                 </div>
 
                 <div className="flex">

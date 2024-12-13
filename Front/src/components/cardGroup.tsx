@@ -11,7 +11,7 @@ interface CardGroupProps {
 export const CardGroup: React.FC<CardGroupProps> = ({ foto, name, description }) => {
 
     return (
-        <div className="w-96 bg-[#242424] h-52 justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
+        <div className="w-96 bg-[#242424] h-52 justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3 ">
             <div className="w-full flex flex-col items-center">
                 <div className="w-full flex justify-between items-center">
                     <p className="text-[20px]">{name}</p>

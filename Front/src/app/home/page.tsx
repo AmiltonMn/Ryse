@@ -15,7 +15,7 @@ import search from "@/assets/lupa.png"
 import iconMore from "@/assets/mais.png";
 
 const styles = {
-    chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px]",
+    chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px] hover:bg-[#383838]",
     button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
@@ -40,6 +40,29 @@ export default function Home() {
     const [data, setData] = useState<ForumData[]>([]);
     const [data2, setData2] = useState<TopicChatData[]>([]);
 
+    const [pag, setPag] = useState<string>("1");
+
+    const pagina = Number(pag)
+
+    const next = () => {
+        if (!Number.isInteger(pagina) || pagina < 1) {
+            setPag("1")
+        }
+        else {
+            setPag((pagina + 1).toString())
+        }
+    }
+
+    const prev = () => {
+
+        if (!Number.isInteger(pagina)) {
+            setPag("1")
+        }
+
+        if (pagina > 1) {
+            setPag((pagina - 1).toString())
+        }
+    }
 
     const closeModal = () => {
         setName("");
@@ -78,11 +101,11 @@ export default function Home() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} />
-            <div className="pt-[180px] pl-[300px] flex">
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
+            <div className="pt-36 pl-[300px] flex">
                 <div className="w-[75%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[20px] mb-6">Forum and Discussions</h2>
+                        <h2 className="text-white font-bold text-[20px] mb-3">Forum and Discussions</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             New forum
@@ -112,11 +135,16 @@ export default function Home() {
                         ))}
                     </div>
                     <Link href={ROUTES.chats} className="mt-8 bg-[#5B5B5B] p-1 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</Link>
+                    <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
+                        <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                    </div>
                 </div>
             </div>
 
             {/* Modal novo fórum*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled hidden z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New forum</h2>
