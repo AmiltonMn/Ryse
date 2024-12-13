@@ -53,11 +53,7 @@ export default function Login() {
                         <input className={style.inputz} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                         <input className={style.inputz} type="password"  value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                     </div>
-<<<<<<< HEAD
-                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold"><a href={ROUTES.home}>Login</a></button>
-=======
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold" >Login</button>
->>>>>>> forumIntegration
                     <div className="flex flex-col w-full items-center gap-3">
                         <div className="flex flex-row items-center justify-center gap-4 w-full">
                             <div className="bg-white h-[1px] w-1/4"></div>

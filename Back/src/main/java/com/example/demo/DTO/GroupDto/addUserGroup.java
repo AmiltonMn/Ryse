@@ -1,4 +1,4 @@
-package com.example.demo.DTO.GroupDto;
+package com.example.demo.DTO.GroupDTO;
 
 public record addUserGroup(
     Long idUser,
