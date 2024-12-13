@@ -18,6 +18,7 @@ import searchBlack from "@/assets/lupaBlack.png"
 export default function Home() {
 
     const [modal, setModal] = useState(false);
+    const [search, setSearch] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [pag, setPag] = useState<string>("1")
 

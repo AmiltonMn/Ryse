@@ -17,7 +17,7 @@ export const CardProfile = ({ imageCover, imageProfile, name, username, click }:
 
     return (
         <>
-            <div className="w-full text-white relative ">
+            <div className="w-full text-white relative dark:text-black ">
                 <Image className="absolute w-full  h-[230px] object-cover rounded-sm" src={imageCover} width={200} height={200} alt="Image Cover"></Image>
                 <div>
                     <Image className="absolute w-1/8 rounded-full top-36 ml-12 transition ease-in-out delay-150 cursor-pointer" src={imageProfile} width={170} height={170} alt="Image Profile"></Image>
@@ -26,7 +26,7 @@ export const CardProfile = ({ imageCover, imageProfile, name, username, click }:
                             event.preventDefault();
                             click();
                         }}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button></h1>
-                        <h1 className="text-[16px] font-extralight">{username}</h1>
+                        <h1 className="text-[16px] font-extralight dark:font-normal">{username}</h1>
                     </div>
                 </div>
 

@@ -14,7 +14,7 @@ interface CardForumProps {
 export const CardForum: React.FC<CardForumProps> = ({linkForum, userPhoto, username, date, title, questions}) => {
     return(
         <Link href={linkForum} className="w-full">
-            <div className="bg-[#242424] rounded-[10px] text-white flex flex-col hover:bg-[#292929] p-6">
+            <div className="bg-[#242424] dark:bg-slate-100 rounded-[10px] dark:text-black text-white flex flex-col hover:bg-[#292929] p-6">
                 <div className="flex justify-between items-center">
                     <h3 className="text-[16px]">{title}</h3>
                     <div className="flex mr-6">
