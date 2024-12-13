@@ -1,6 +1,9 @@
 package com.example.demo.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +37,9 @@ public class AreasOfInterestController {
     @GetMapping
     public ResponseEntity<AreasOfInterestResponse> getAllAreasOfUser(@RequestAttribute("token") Token token) {
 
-        ResponseEntity<AreasOfInterestResponse> response = areaService.getAllAreasByUser(token.getId());
+        AreasOfInterestResponse response = areaService.getAllAreasByUser(token.getId());
 
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{idArea}")

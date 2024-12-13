@@ -22,6 +22,12 @@ import { api } from "@/constants/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+
+interface areasOfInterest {
+    areaName : string
+    areaOfInterestId: number,
+}
+
 const Profile: React.FC = () => {
 
     const [activeTab, setActiveTab] = useState("profile");
@@ -32,7 +38,7 @@ const Profile: React.FC = () => {
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
 
-
+const roter = useRouter();
 
 
 
@@ -44,7 +50,7 @@ const Profile: React.FC = () => {
 
     const [hardSkills, sethardSkills] = useState<string[]>([])
     const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
-
+    const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
     
     const closeModal = () => {
         setName("");
@@ -87,6 +93,31 @@ const Profile: React.FC = () => {
 
 
 
+    const addAreaInterest = async () => {
+        console.log("teste");
+        
+        const text : string = document.getElementById("areaText").value;
+        console.log(text);
+        
+        try {
+            const response = await api.post("/profile/areaOfInterest/newArea",{
+              "text" : text
+            }, {
+              headers: {
+                'Content-Type': 'application/json',
+                "Authorization": localStorage.getItem("token")
+              }
+            })
+            roter.refresh();
+          } catch (error) {
+            console.log("erro ao dar fecth", error)
+          }
+    } 
+
+
+
+
+
 
     useEffect(() => {
         api.get(
@@ -105,6 +136,9 @@ const Profile: React.FC = () => {
 
             sethardSkills(res.data.HardSkills)
             console.log(res.data.HardSkills)
+
+            setAreasofInterest(res.data.areas);
+            console.log(res.data.areas);
 
             setBio(res.data.info.bio)
 
@@ -185,9 +219,9 @@ const Profile: React.FC = () => {
                                 <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
                                 <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                             </div>
-                            <TopicArea text="Desenvolvimento Web" refe="" />
-                            <TopicArea text="Desenvolvimento Frontend" refe="" />
-                            <TopicArea text="DevOps" refe="" />
+                                {areasofInterest.map((item) => (
+                                    <TopicArea key={item.areaOfInterestId} text={item.areaName} refe="" idAreaInterest={item.areaOfInterestId} />
+                                ))}
                         </div>
                     </div>
                 )}
@@ -253,14 +287,15 @@ const Profile: React.FC = () => {
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
-                        <form className="flex flex-col">
+                        <form className="flex flex-col" onSubmit={() =>{
+                            addAreaInterest()}}>
                             <label htmlFor="" className="mt-8">Name</label>
-                            <input type="text" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
-                        </form>
+                            <input type="text" id="areaText" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalSkils(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button type="submit" onClick={() => setModalSkils(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
