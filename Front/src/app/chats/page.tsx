@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
-import search from "@/assets/lupa.png"
+import search2 from "@/assets/lupa.png"
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
