@@ -6,5 +6,6 @@ public record QuestionData(
     String title,
     String topic,
     String date,
-    Boolean isOwner
+    Boolean isOwner,
+    Integer answersCount
 ) {}

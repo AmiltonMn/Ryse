@@ -88,27 +88,33 @@ public class ForumImplementation implements ForumService{
             forum.getUser().getName(), 
             forum.getDate(), 
             forum.getName(), 
-            forum.getUser().getId().equals(idUser) ? true: false, 
+            forum.getUser().getId().equals(idUser), 
             forum.getQuestions().size());
 
         List<Question> questions = forum.getQuestions();
 
         List<QuestionData> responseQuestion = new ArrayList<>();
+        
+        var i = 0;
 
         for(Question question : questions){
+
             Long id_topic_question = question.getTopicForum().getidTopicForum();
 
-            if (id_topic_question.equals(id_topic) || id_topic == null) {
+            if ((id_topic_question.equals(id_topic) || id_topic == null) && i < size * page && i >= (page * size) - size) {
                 responseQuestion.add(new QuestionData(
                     question.getIdQuestion(), 
                     question.getUser().getName(), 
                     question.getTitle(), 
                     question.getTopicForum().getName(), 
                     question.getDate(), 
-                    question.getUser().getId().equals(idUser)? true : false
+                    question.getUser().getId().equals(idUser),
+                    question.getAnswers().size()
                     ));
-                }
             }
+
+            i++;
+        }
 
         ForumWithQuestionData response = new ForumWithQuestionData(responseForum, responseQuestion);
 
@@ -134,7 +140,8 @@ public class ForumImplementation implements ForumService{
                 question.getTitle(), 
                 question.getTopicForum().getName(), 
                 question.getDate(), 
-                question.getUser().getId().equals(idUser)? true : false
+                question.getUser().getId().equals(idUser),
+                question.getAnswers().size()
             ));
         }
 
@@ -156,7 +163,8 @@ public class ForumImplementation implements ForumService{
             question.getTitle(), 
             question.getTopicForum().getName(), 
             question.getDate(), 
-            question.getUser().getId().equals(idUser)? true: false
+            question.getUser().getId().equals(idUser),
+            question.getAnswers().size()
         );
 
         List<Answer> answers = question.getAnswers();
