@@ -34,8 +34,27 @@ public class Answer {
     @Column
     private String date;
 
+    @Column 
+    private Boolean verified;
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
     @OneToMany(mappedBy = "answer")
     private List<LikeAnswer> likes;
+
+    public List<LikeAnswer> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<LikeAnswer> likes) {
+        this.likes = likes;
+    }
 
     public Long getIdAnswer() {
         return idAnswer;

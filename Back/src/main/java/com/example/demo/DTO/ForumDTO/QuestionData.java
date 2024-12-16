@@ -4,6 +4,7 @@ public record QuestionData(
     Long idQuestion,
     String user,
     String title,
+    String text,
     String topic,
     String date,
     Boolean isOwner,

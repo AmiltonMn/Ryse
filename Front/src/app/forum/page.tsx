@@ -54,6 +54,7 @@ export default function Home() {
     const [pag, setPag] = useState<string>("1");
     const [data, setData] = useState<ForumData>();
     const [topics, setTopics] = useState<TopicData[]>([]);
+    const [hasNext, setHasNext] = useState<Boolean>(false);
     let forumId = localStorage.getItem("forum");
 
     useEffect(() => {
@@ -67,6 +68,10 @@ export default function Home() {
             }
         ).then((res) => {
             setData(res.data)
+            if((parseInt(pag) + 1) * 5 > res.data.forum.questionsCount)
+                setHasNext(false);
+            else
+                setHasNext(true);
         })
         .catch((e) => {})
     }, [pag, topic])
@@ -106,8 +111,6 @@ export default function Home() {
                 alert(e.response.data.message)
             })
             .finally(() => setModal(false))
-        
-        setModal(false);
     }
 
     const closeModal = () => {
@@ -124,12 +127,6 @@ export default function Home() {
     const pagina = Number(pag)
 
     const next = () => {
-
-        if(data?.questions.length == 0 || data?.questions == undefined)
-        {
-            setPag((pagina - 1).toString())
-            return
-        }
 
         if (!Number.isInteger(pagina) || pagina < 1) {
             setPag("1")
@@ -178,15 +175,15 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col justify-center items-center  gap-10 mt-16">
                         {data?.questions.map((item) => (
-                            <CardQuestion key={item.idQuestion} linkQuestion={"/question"} userPhoto={iconProfile.src} username={item.user} date={item.date} topic={item.topic} question={item.title} answers={item.answersCount} />
+                            <CardQuestion key={item.idQuestion} idQuestion={item.idQuestion} userPhoto={iconProfile.src} username={item.user} date={item.date} topic={item.topic} question={item.title} answers={item.answersCount} />
                         ))}
                         {/* <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} /> */}
                     </div>
                      <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
                         <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                        <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button disabled={!hasNext} onClick={() => next()} className={hasNext? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>▶</button>
                     </div>
                 </div>
             </div>
