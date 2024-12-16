@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.Token;
 import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
 import com.example.demo.DTO.IdeaDTO.LikeData;
+import com.example.demo.DTO.IdeaDTO.newIdeaData;
 import com.example.demo.Services.IdeaServices;
 
 @RestController
@@ -26,13 +30,13 @@ public class IdeaController {
     IdeaServices ideaServices;
 
     @PostMapping
-    public ResponseEntity<IdeaReturn> createIdea(@RequestBody IdeaData data) {
+    public ResponseEntity<IdeaReturn> createIdea(@RequestAttribute("token") Token token, @RequestBody newIdeaData data) {
 
-        if (data.text().isEmpty()) {
+        if (data.text() == null) {
             return new ResponseEntity<>(new IdeaReturn("Insert a text", false), HttpStatus.NO_CONTENT);
         }
 
-        var response = ideaServices.createIdea(data.title(), data.text(), data.idUser());
+        var response = ideaServices.createIdea(data.title(), data.text(), token.getId());
 
         return response;
     }
@@ -44,7 +48,7 @@ public class IdeaController {
         return response;
     }
     
-@DeleteMapping("/{idIdea}")
+    @DeleteMapping("/{idIdea}")
     public ResponseEntity<IdeaReturn> deleteIdea(@PathVariable Long idIdea) {
 
         var response = ideaServices.deleteIdea(idIdea);
@@ -69,7 +73,7 @@ public class IdeaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IdeaData>> getAllIdea(@RequestBody Integer status) {
+    public ResponseEntity<List<IdeaData>> getAllIdea(@RequestParam Integer status) {
 
         List<IdeaData> response = ideaServices.getAllIdea(status);
 

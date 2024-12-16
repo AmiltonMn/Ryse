@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { CardIdea } from "@/components/cardIdea";
 
 import ideasCss from "@/app/ideas/ideas.module.css"
-import { title } from "process";
 
 import { api } from "@/constants/api"
 
@@ -55,10 +54,15 @@ export default function Ideas() {
 
     const fetchIdeas = async(query: string) => {
         try {
-            const res = await fetch(`http://localhost:8080/idea?${query}`);
+            const res = await fetch(`http://localhost:8080/idea?status=${status}`);
             const dataIdea = await res.json();
             setDataIdeas(dataIdea);
             console.log(dataIdea);
+            console.log(dataIdeas)
+            if (dataIdea[0] === "") {
+                setDataIdeas([{"idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0}])
+            }
+            console.log(dataIdeas)
         } catch (error) {
             setDataIdeas([{"idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0}])
         }
@@ -67,22 +71,22 @@ export default function Ideas() {
 
 
     const handleNewIdea = async () => {
-        await api.post("/idea", {
-            method: 'POST',
+        await api.post("/idea",
+        {
+            "title": title,
+            "text": text
+        },
+        {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${sessionStorage.getItem("Token")}`
+                'Authorization': localStorage.getItem("token")
             },
-            body: JSON.stringify({
-                title: title,
-                text: text
-            })
         })
         .then((res) => {
             alert("Ideia criada com sucesso")
             window.location.reload()   
         })
         .catch((e) => {
+            console.log(localStorage.getItem("token"))
             alert(e.response.data.message)
         })
         .finally(() => setModal(false))
@@ -120,7 +124,7 @@ export default function Ideas() {
                        
                         {dataIdeas.map((item, key) => {
                             return(
-                                <CardIdea userPhoto={item.userPhoto} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea}/>
+                                <CardIdea userPhoto={""} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea}/>
                             )
                         })}
                     </div>
