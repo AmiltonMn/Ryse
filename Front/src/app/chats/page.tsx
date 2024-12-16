@@ -10,37 +10,45 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import search from "@/assets/lupa.png"
 
+import { api } from "@/constants/api";
+
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
 import searchBlack from "@/assets/lupaBlack.png"
 
+interface TopicData {
+    name: string;
+    date: string;
+    idUser: number;
+}
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
-    const [pag, setPag] = useState<string>("1")
+    const [page, setPage] = useState<string>("1")
+    const [size, setSize] = useState<number>(5);
+    const [data, setData] = useState<TopicData[]>([]);
 
-
-    const pagina = Number(pag)
+    const pagina = Number(page)
 
     const next = () => {
         if (!Number.isInteger(pagina) || pagina < 1) {
-            setPag("1")
+            setPage("1")
         }
         else {
-            setPag((pagina + 1).toString())
+            setPage((pagina + 1).toString())
         }
     }
 
     const prev = () => {
 
         if (!Number.isInteger(pagina)) {
-            setPag("1")
+            setPage("1")
         }
 
         if (pagina > 1) {
-            setPag((pagina - 1).toString())
+            setPage((pagina - 1).toString())
         }
     }
 
@@ -52,6 +60,41 @@ export default function Home() {
     const openModal = () => {
         setModal(true);
     }
+
+    const handleNewChat = async () => {
+            await api.post("/topic",
+                {
+                    "name": name
+                },
+                {
+                    headers: {
+                        "Authorization": localStorage.getItem("token")
+                    }
+                })
+                .then((res) => {
+                    alert("Topico cadastrado com sucesso")
+                    window.location.reload()   
+                })
+                .catch((e) => {
+                    alert(e.response.data.message)
+                })
+                .finally(() => setModal(false))
+        }
+
+        useEffect(() => {
+                api.get(
+                    `/topic?page=${page}&size=${size}`, 
+                    {
+                        headers: {
+                            "Authorization": localStorage.getItem("token")
+                        }
+                    }
+                ).then((res) => {
+                    console.log(res)
+                    setData(res.data)
+                })
+                .catch((e) => {})
+            }, [page, size])
 
     const style =
     {
@@ -80,7 +123,10 @@ export default function Home() {
                     </div>
                     <hr className="mt-4" />
                     <div className="w-full flex flex-wrap mt-8 gap-9 justify-center">
-                        <CardChat name={"Front"} />
+                    {data.map((item) => (
+                            <CardChat name={item.name}/>
+                        ))}
+                        {/* <CardChat name={"Front"} />
                         <CardChat name={"Back"} />
                         <CardChat name={"Python"} />
                         <CardChat name={"Java"} />
@@ -90,11 +136,11 @@ export default function Home() {
                         <CardChat name={"SQL Server e mais texto"} />
                         <CardChat name={"MicroPython, Java Avancado"} />
                         <CardChat name={"Muito texto, enche de texto "} />
-                        <CardChat name={"Muitotextoenche de texto "} />
+                        <CardChat name={"Muitotextoenche de texto "} /> */}
                     </div>
                     <div className="w-full fixed items-center left-1/2 flex bottom-12 gap-3 ">
                         <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <input value={page} onChange={(e) => setPage(e.target.value)} className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
                         <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
                     </div>
                 </div>
@@ -111,7 +157,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewChat()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
