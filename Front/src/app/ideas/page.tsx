@@ -63,18 +63,18 @@ export default function Ideas() {
     }
 
     const fetchIdeas = async (status: number, query: string) => {
-        try {
-            const res = await fetch(`http://localhost:8080/idea?status=${status}&&query=${query}`);
-            const dataIdea = await res.json();
-            setDataIdeas(dataIdea);
-            console.log(dataIdea);
-            if (dataIdea[0] === "") {
-                setDataIdeas([{ "idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0, "likes": 0, "liked": false }])
+
+        api.get(`http://localhost:8080/idea?status=${status}&query=${query}`,
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
             }
-            console.log(dataIdeas)
-        } catch (error) {
-            setDataIdeas([{ "idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0, "likes": 0, "liked": false }])
-        }
+        ).then((res) => {
+            setDataIdeas(res.data)
+        })
+        .catch((e) => {})
+        console.log(dataIdeas)
     }
 
     const handleNewIdea = async () => {
@@ -99,7 +99,7 @@ export default function Ideas() {
             .finally(() => setModal(false))
     }
 
-    const newLikeIdea = async () => {
+    const newLikeIdea = async (idIdea: number) => {
         await api.post("/idea/like",
             {
                 "idIdea": idIdea
@@ -155,7 +155,7 @@ export default function Ideas() {
                                             <Image src={""} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
                                             <h4 className="text-[14px]">{item.username}</h4>
                                         </div>
-                                        <p className="text-[12px] p-4">{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(parseInt(item.date))}</p>
+                                        <p className="text-[12px] p-4">{item.date}</p>
                                     </div>
                                     <div className="flex justify-between">
                                         <div className="pl-8 pt-4 text-[14px] flex justify-between pb-8 w-full">
@@ -167,7 +167,7 @@ export default function Ideas() {
                                                 </div>
                                             </div>
                                             <div className="flex justify-center items-center">
-                                                <button className="pr-2" onClick={() => [setIdIdea(item.idIdea), newLikeIdea()]}>
+                                                <button className="pr-2" onClick={() => newLikeIdea(item.idIdea)}>
                                                     <Image src={item.liked ? heartLike.src : heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000}/>
                                                 </button>
                                                 <p className="pr-12">{item.likes}</p>

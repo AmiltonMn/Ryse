@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +65,7 @@ public class IdeaImplementations implements IdeaServices {
 
         LikeIdea newLikeIdea = new LikeIdea();
 
-        if (getLikeIdeaUser(idea.get().getId(), user.get().getId()) > 1) {
+        if (getLikeIdeaUser(idea.get().getId(), user.get().getId()) >= 1) {
             return new ResponseEntity<>(new IdeaReturn("This user already have done a like in this idea", false),HttpStatus.CONFLICT);
         }
 
@@ -87,19 +89,17 @@ public class IdeaImplementations implements IdeaServices {
 
         List<Idea> findIdea;
 
-        if(status == 3 && query == null) {
-            findIdea = ideaRepo.findAll();
-        }
-
-        if(status == 3 && query != null) {
+        if(status.equals(3) && query == "") {
+            System.out.println("Entrou no findAll");
             findIdea = ideaRepo.findByQuery(query);
-        }
-
-        if(status != 3 && query == null) {
+        } else if (status == 3 && query != null) {
+            System.out.println("Entrou na pesquisa por query com todos");
+            findIdea = ideaRepo.findByQuery(query);
+        } else if(status != 3 && query == null) {
+            System.out.println("Entrou no find by status");
             findIdea = ideaRepo.findByStatus(status);
-        }
-
-        else {
+        } else {
+            System.out.println("Entrou no query e status");
             findIdea = ideaRepo.findByQueryAndStatus(query, status);
         }
 
@@ -107,8 +107,14 @@ public class IdeaImplementations implements IdeaServices {
 
         for(Idea idea : findIdea){
 
+            System.out.println("TA AQUI A IDEIA OLHA: " + idea.getTitle());
+
             Integer allLikes = likeIdeaRepo.getAllLikesIdea(idea.getId());
-            Boolean liked = likeIdeaRepo.getLikesUserIdea(idea.getId(), idUser);
+            Boolean liked = false;
+
+            if (likeIdeaRepo.getLikesUserIdea(idea.getId(), idUser) != null) {
+                liked = true;
+            }
 
             response.add(new IdeaData(
                 idea.getId(),
