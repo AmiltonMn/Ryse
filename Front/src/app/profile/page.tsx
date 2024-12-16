@@ -28,6 +28,7 @@ const Profile: React.FC = () => {
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode);
 
+    const [instrutor, setInstrutor] = useState(false)
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
     const [feedbackTab, setFeedbackTab] = useState("received");
@@ -39,6 +40,11 @@ const Profile: React.FC = () => {
     const [name, setName] = useState<string>("");
     const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
+
+    const tornar = () => {
+        setInstrutor(true)
+    }
+
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
     // Select skils
@@ -125,60 +131,88 @@ const Profile: React.FC = () => {
                 <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
 
-                <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black dark:bg-slate-50">
-                    <div className="font-medium text-[16px] flex flex-row pb-8">
-                        <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
-                        <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
-                        <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
+                <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black">
+                    <div className="font-medium text-[16px] flex justify-between flex-row pb-8">
+                        <div className="flex">
+                            <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab === "profile" ? "underline decoration-4" : ""} />
+                            <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab === "feed" ? "underline decoration-4" : ""} />
+                            <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab === "interaction" ? "underline decoration-4" : ""} />
+                        </div>
+                        {instrutor ? (
+                            <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
+                        ) : (
+                            <button onClick={tornar} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
+                        )}
                     </div>
-
-                    <div className="flex">
-                        <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
-                    </div>
-
-                    <div className="flex justify-end">
-                        <button onClick={handleEdit}><Image src={!darkMode ? edita.src : editaDark.src} width={17} height={17} alt="Edit biography"></Image></button>
-                    </div>
-
-                    <p contentEditable={editBio} suppressContentEditableWarning={true} className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onKeyDown={closeEdit}>
-                        Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
-                        Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
-                    </p>
 
                     {activeTab === "profile" && (
-                        <div className="flex flex-row justify-between">
-                            <div className="w-2/5">
-                                <div className="flex flex-col pb-8 pt-4">
-                                    <div className="flex flex-row items-start">
-                                        <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skils</h1>
-                                        <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
-                                    </div>
-                                    <div className="flex flex-wrap order-4 gap-4 pt-6">
-                                        <HardSkils text="Java" />
-                                        <HardSkils text="JavaScript" />
-                                        <HardSkils text="React" />
-                                    </div>
-                                </div>
+                        <div>
+                            <div className="flex">
+                                <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
                             </div>
-                            <div className="w-2/5">
-                                <div className="flex flex-row pb-4 pt-4 items-start">
-                                    <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
-                                    <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+
+                            <div className="flex justify-end">
+                                <button onClick={handleEdit}>
+                                    <Image src={edita.src} width={17} height={17} alt="Edit biography" />
+                                </button>
+                            </div>
+
+                            <p
+                                contentEditable={editBio}
+                                suppressContentEditableWarning={true}
+                                className="font-light mt-10 text-[16px] w-full p-1"
+                                ref={editableRef}
+                                spellCheck="false"
+                                onKeyDown={closeEdit}
+                            >
+                                Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
+                                Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
+                            </p>
+
+                            <div className="flex flex-row justify-between">
+                                <div className="w-2/5">
+                                    <div className="flex flex-col pb-8 pt-4">
+                                        <div className="flex flex-row items-start">
+                                            <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skills</h1>
+                                            <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                        </div>
+                                        <div className="flex flex-wrap order-4 gap-4 pt-6">
+                                            <HardSkils text="Java" />
+                                            <HardSkils text="JavaScript" />
+                                            <HardSkils text="React" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <TopicArea text="Desenvolvimento Web" refe="" />
-                                <TopicArea text="Desenvolvimento Frontend" refe="" />
-                                <TopicArea text="DevOps" refe="" />
+                                <div className="w-2/5">
+                                    <div className="flex flex-row pb-4 pt-4 items-start">
+                                        <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
+                                        <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                    </div>
+                                    <TopicArea text="Desenvolvimento Web" refe="" />
+                                    <TopicArea text="Desenvolvimento Frontend" refe="" />
+                                    <TopicArea text="DevOps" refe="" />
+                                </div>
                             </div>
                         </div>
                     )}
 
                     {activeTab === "feed" && (
                         <div>
-                            <div className="font-medium text-[16px] flex flex-row pb-8 pt-4">
-                                <SelectProfile refe="#" title="Received" click={() => handleFeedbackTabChange("received")} classe={feedbackTab == "received" ? "underline decoration-4" : ""} />
-                                <SelectProfile refe="#" title="Sent" click={() => handleFeedbackTabChange("sent")} classe={feedbackTab == "sent" ? "underline decoration-4" : ""} />
+
+                            <div className="flex">
+                                <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
                             </div>
 
+                            <div className="flex justify-end">
+                                <button onClick={handleEdit}>
+                                    <Image src={edita.src} width={17} height={17} alt="Edit biography" />
+                                </button>
+                            </div>
+
+                            <div className="font-medium text-[16px] flex flex-row pb-8 pt-4">
+                                <SelectProfile refe="#" title="Received" click={() => handleFeedbackTabChange("received")} classe={feedbackTab === "received" ? "underline decoration-4" : ""} />
+                                <SelectProfile refe="#" title="Sent" click={() => handleFeedbackTabChange("sent")} classe={feedbackTab === "sent" ? "underline decoration-4" : ""} />
+                            </div>
                             {feedbackTab === "received" ? (
                                 <CardFeed imageFeed={profile.src} name="Marcos Castro" username="@silaveiraMarcos" feedback="A primeira impressão que tive de Carol foi muito boa..." />
                             ) : (
@@ -188,23 +222,44 @@ const Profile: React.FC = () => {
                     )}
 
                     {activeTab === "interaction" && (
+
                         <div>
-                            <div className="font-medium text-[16px] flex flex-row pb-8 pt-4">
-                                <SelectProfile refe="#" title="Likes" click={() => handleInteractionTabChange("likes")} classe={interactionTab == "likes" ? "underline decoration-4" : ""} />
-                                <SelectProfile refe="#" title="Comments" click={() => handleInteractionTabChange("comments")} classe={interactionTab == "comments" ? "underline decoration-4" : ""} />
+
+                            <div className="flex">
+                                <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
                             </div>
 
+                            <div className="flex justify-end">
+                                <button onClick={handleEdit}>
+                                    <Image src={edita.src} width={17} height={17} alt="Edit biography" />
+                                </button>
+                            </div>
+
+                            <div className="font-medium text-[16px] flex flex-row pb-8 pt-4">
+                                <SelectProfile refe="#" title="Likes" click={() => handleInteractionTabChange("likes")} classe={interactionTab === "likes" ? "underline decoration-4" : ""} />
+                                <SelectProfile refe="#" title="Comments" click={() => handleInteractionTabChange("comments")} classe={interactionTab === "comments" ? "underline decoration-4" : ""} />
+                            </div>
                             {interactionTab === "likes" ? (
                                 <CardLike name="Mascos Castro" username="@silveiralup" text="Como faz para integrar Java com web?" image={profile.src} />
                             ) : (
                                 <div>
                                     <CardCommentProfile image={profile.src} username="@maduEduarda" group="Java Avançado" date="12/01/2015 12:56" text="Como faço um create no database?" />
-                                    <CardAnswerProfile image={profile.src} username="@maduEduarda" group="Java Avançado" date="12/01/2015 12:56" question="Como faço um create no database?" imageQuestion={profile.src} answer="faz isso e talallalala" usernameQuestion="@marcosCastro" />
+                                    <CardAnswerProfile
+                                        image={profile.src}
+                                        username="@maduEduarda"
+                                        group="Java Avançado"
+                                        date="12/01/2015 12:56"
+                                        question="Como faço um create no database?"
+                                        imageQuestion={profile.src}
+                                        answer="faz isso e talallalala"
+                                        usernameQuestion="@marcosCastro"
+                                    />
                                 </div>
                             )}
                         </div>
                     )}
                 </div>
+
 
                 {/* Modal Hard Skils */}
                 <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
