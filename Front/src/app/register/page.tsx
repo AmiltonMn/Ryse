@@ -27,21 +27,6 @@ export default function Register() {
                         <input className={style.inputz} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Sign Up</button>
-                    <div className="flex flex-col w-full items-center gap-3">
-                        <div className="flex flex-row items-center justify-center gap-2 w-11/12">
-                            <div className="bg-white h-0.5 w-1/4"></div>
-                            <h2 className="m-0">Or Sign Up with</h2>
-                            <div className="bg-white h-0.5 w-1/4"></div>
-                        </div>
-                        <div className="flex flex-row justify-between w-11/12 text-black">
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
-                                <Image src={google} alt="ícone ideia" className={style.imagen} />
-                            </button>
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
-                                <Image src={google} alt="ícone ideia" className={style.imagen} />
-                            </button>
-                        </div>
-                    </div>
                     <div className="flex flex-row justify-center gap-2">
                         <p>Already have an account?</p>
                         <a href={ROUTES.login} className="text-[#F41C54] font-normal" >Login Now</a>

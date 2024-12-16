@@ -15,7 +15,7 @@ export default function Login() {
     return (
         <>
             <main className={style.main}>
-                <form className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-10 p-10">
+                <form className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-7 p-10">
                     <div className="flex flex-col items-center">
                         <h2 className="text-[#F41C54] font-semibold text-2xl">Welcome,</h2>
                         <h2 className="font-normal text-2xl">Glad to see you</h2></div>
@@ -24,21 +24,6 @@ export default function Login() {
                         <input className={style.inputz} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold"><a href={ROUTES.home}>Login</a></button>
-                    <div className="flex flex-col w-full items-center gap-3">
-                        <div className="flex flex-row items-center justify-center gap-4 w-full">
-                            <div className="bg-white h-[1px] w-1/4"></div>
-                            <h2 className="m-0">Or login with</h2>
-                            <div className="bg-white h-[1px] w-1/4" ></div>
-                        </div>
-                        <div className="flex flex-row justify-between w-11/12 text-black">
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
-                                <Image src={google} alt="ícone ideia" className={style.imagen} />
-                            </button>
-                            <button className="bg-white p-1 ps-10 pe-10 rounded flex justify-center items-center">
-                                <Image src={google} alt="ícone ideia" className={style.imagen} />
-                            </button>
-                        </div>
-                    </div>
                     <div className="flex flex-row justify-center gap-2">
                         <p>Don't have an account?</p>
                         <a href={ROUTES.register} className="text-[#F41C54] font-normal">Sign Up Now</a>
