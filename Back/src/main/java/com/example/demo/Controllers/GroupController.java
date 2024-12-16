@@ -38,6 +38,8 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<CreateGroupData> createNewGroup(@RequestBody NewGroupData data, @RequestAttribute("token") Token token) {
 
+        System.out.println(data);
+
         var response =  groupService.createGroup(data, token.getId());
 
         return response;
@@ -63,9 +65,9 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "0") Integer page) {
+    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "") String query) {
 
-        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page, 9), "All of the user group are on the list!");
+        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page - 1, 9, query), "All of the user group are on the list!");
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
