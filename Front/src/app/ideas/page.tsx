@@ -64,6 +64,8 @@ export default function Ideas() {
         }
     }
 
+
+
     const handleNewIdea = async () => {
         await api.post("/idea", {
             method: 'POST',
@@ -142,9 +144,9 @@ export default function Ideas() {
                         <h2 className="text-xl font-semibold">New idea</h2>
                         <form className="flex flex-col">
                             <label htmlFor="" className="mt-8">Title</label>
-                            <input type="text" placeholder="Idea title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
+                            <input type="text" placeholder="Idea title" className="text-black border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
                             <label htmlFor="" className="mt-8">Text</label>
-                            <input type="text" placeholder="Idea text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
+                            <input type="text" placeholder="Idea text" className="text-black border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
