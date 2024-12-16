@@ -15,9 +15,34 @@ import { CardLike } from "@/components/cardLike";
 import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
 import edita from "@/assets/edita.png";
+import search from "@/assets/lupa.png"
 import Image from "next/image";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { Checkbox } from "@headlessui/react";
+import { useRouter } from "next/navigation";
+import { api } from "@/constants/api";
+
+
+interface areasOfInterest {
+    areaName: string
+    areaOfInterestId: number,
+}
+
+interface FeedbacksUserLoged {
+    text: string;
+    user: {
+        id: number;
+        name: string;
+        username: string;
+        photo: string | null;
+    };
+}
+
+interface hardSkillType {
+    name: string;
+
+}
+
 
 const Profile: React.FC = () => {
 
@@ -30,14 +55,14 @@ const Profile: React.FC = () => {
     const [modalAreaa, setModalArea] = useState(false);
     const [modalSkils, setModalSkils] = useState(false);
     const [modalPhotos, setModalPhoto] = useState(false);
-    
+
     const roter = useRouter();
-    
+
     const [name, setName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [bio, setBio] = useState<string>("");
     const [publicId, setPublicId] = useState<string>("");
-        const [editBio, setEditBio] = useState(false)
+    const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
 
     const tornar = () => {
@@ -68,7 +93,7 @@ const Profile: React.FC = () => {
 
     // Modais
 
-    const [hardSkills, sethardSkills] = useState<string[]>([])
+    const [hardSkills, sethardSkills] = useState<hardSkillType[]>([])
     const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
     const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
     const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
@@ -155,7 +180,7 @@ const Profile: React.FC = () => {
                     Authorization: localStorage.getItem("token"),
                 },
             });
-    
+
 
             const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
                 text: item.text,
@@ -166,14 +191,14 @@ const Profile: React.FC = () => {
                     photo: item.user.photo,
                 },
             }));
-    
+
             console.log("Processed Feedback Data:", feedbackData); // Para depuração
             setFeedbackSender(feedbackData);
         } catch (error) {
             console.error("Erro ao buscar feedbacks enviados:", error);
         }
     };
-    
+
     const getFeedbackReceiver = async () => {
         try {
             const response = await api.get("/feedback/receiver", {
@@ -181,10 +206,10 @@ const Profile: React.FC = () => {
                     "Authorization": localStorage.getItem("token"),
                 },
             });
-    
 
-                // console.log(response.data);
-                
+
+            // console.log(response.data);
+
 
             const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
                 text: item.text,
@@ -195,16 +220,15 @@ const Profile: React.FC = () => {
                     photo: item.user.photo,
                 },
             }));
-    
+
             console.log("Processed Feedback Data:", feedbackData); // Para depuração
             setfeedbackReceiver(feedbackData);
-            
+
         } catch (error) {
             console.error("Erro ao buscar feedbacks recebidos:", error);
         }
     };
-    
-    
+
 
 
     useEffect(() => {
@@ -238,8 +262,8 @@ const Profile: React.FC = () => {
 
         getFeedbackReceiver();
         getFeedbackSender();
-    
-        
+
+
         // const loadImage = async () => {
         //     const url = await fetchImageUrl(publicId);
         //     setImageUrl(url);
@@ -249,151 +273,15 @@ const Profile: React.FC = () => {
         //     loadImage();
         //   }
     }, [])
-
-useEffect(() => {
-    console.log("sla1",feedbackReceiver);
-    console.log("sla2",feedbackSender);
-
- 
-}, [feedbackReceiver, feedbackSender])
-
-
-
-
-    const addAreaInterest = async () => {
-        console.log("teste");
-
-        const text: string = document.getElementById("areaText").value;
-        console.log(text);
-
-        try {
-            const response = await api.post("/profile/areaOfInterest/newArea", {
-                "text": text
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": localStorage.getItem("token")
-                }
-            })
-            roter.refresh();
-        } catch (error) {
-            console.log("erro ao dar fecth", error)
-        }
-    }
-
-
-    const getFeedbackSender = async () => {
-        try {
-            const response = await api.get("/feedback/sender", {
-                headers: {
-                    Authorization: localStorage.getItem("token"),
-                },
-            });
-    
-
-            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
-                text: item.text,
-                user: {
-                    id: item.user.id,
-                    name: item.user.name,
-                    username: item.user.username,
-                    photo: item.user.photo,
-                },
-            }));
-    
-            console.log("Processed Feedback Data:", feedbackData); // Para depuração
-            setFeedbackSender(feedbackData);
-        } catch (error) {
-            console.error("Erro ao buscar feedbacks enviados:", error);
-        }
-    };
-    
-    const getFeedbackReceiver = async () => {
-        try {
-            const response = await api.get("/feedback/receiver", {
-                headers: {
-                    "Authorization": localStorage.getItem("token"),
-                },
-            });
-    
-
-                // console.log(response.data);
-                
-
-            const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
-                text: item.text,
-                user: {
-                    id: item.user.id,
-                    name: item.user.name,
-                    username: item.user.username,
-                    photo: item.user.photo,
-                },
-            }));
-    
-            console.log("Processed Feedback Data:", feedbackData); // Para depuração
-            setfeedbackReceiver(feedbackData);
-            
-        } catch (error) {
-            console.error("Erro ao buscar feedbacks recebidos:", error);
-        }
-    };
-    
-    
-
 
     useEffect(() => {
-        api.get(
-            "/perfil",
-            {
-                headers: {
-                    "Authorization": localStorage.getItem("token")
-                }
-            },
-        ).then((res) => {
-            console.log("Todos os dados", res.data)
-
-            sethardSkillsUser(res.data.HardSkillUser)
-
-            sethardSkills(res.data.HardSkills)
-
-            setAreasofInterest(res.data.areas);
-
-            setBio(res.data.info.bio)
-
-            if (res.data.info.photo === null) {
-                setPublicId(`${res.data.info.username}Photo`)
-            } else {
-                setPublicId(res.data.info.photo)
-            }
-            setName(res.data.info.name)
-            setUsername(res.data.info.username)
-
-        })
-
-        getFeedbackReceiver();
-        getFeedbackSender();
-    
-        
-        // const loadImage = async () => {
-        //     const url = await fetchImageUrl(publicId);
-        //     setImageUrl(url);
-        //   };
-
-        //   if (publicId) {
-        //     loadImage();
-        //   }
-    }, [])
-
-useEffect(() => {
-    console.log("sla1",feedbackReceiver);
-    console.log("sla2",feedbackSender);
-
- 
-}, [feedbackReceiver, feedbackSender])
+        console.log("sla1", feedbackReceiver);
+        console.log("sla2", feedbackSender);
 
 
+    }, [feedbackReceiver, feedbackSender])
 
-    const hardSkills = ["Java", "Python", "JavaScript", "React", "Node.js"];
+
 
     return (
         <>
@@ -410,9 +298,9 @@ useEffect(() => {
                     </div>
                     {
                         instrutor ?
-                        <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
-                        :
-                        <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
+                            <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
+                            :
+                            <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
                     }
                 </div>
 
@@ -461,14 +349,14 @@ useEffect(() => {
                         </div>
 
                         {feedbackTab === "received" ? (
-                            feedbackReceiver.map((item, index )=> (                            
-                            <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))  
+                            feedbackReceiver.map((item, index) => (
+                                <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))
 
 
                         ) : (
-                            feedbackSender.map((item,index )=> (                            
-                                <CardFeed  key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))  
-                           
+                            feedbackSender.map((item, index) => (
+                                <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))
+
                         )}
                     </div>
                 )}
@@ -493,7 +381,7 @@ useEffect(() => {
             </div>
 
             {/* Modal Hard Skils */}
-            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+            <div className={ modalAreaa? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-[16px] font-medium">Hard Skils</h2>
@@ -506,10 +394,13 @@ useEffect(() => {
 
                                 {/* Aqui implementação de comparção quando estive integrado */}
 
-                                {hardSkills.map((skill) => (
-
-                                    <SelectHardSkils text={skill} key={skill} click={handleSkillClick} classe={selectedSkills.includes(skill)} />
-
+                                {hardSkills.map((skill, index) => (
+                                    <SelectHardSkils
+                                        text={skill.name}  // Pass skill.name here
+                                        key={index}       // Or key={skill.id} if you have unique IDs
+                                        click={() => handleSkillClick(skill.name)} // Pass skill.name to the handler
+                                        classe={selectedSkills.includes(skill.name)} // Check against skill.name
+                                    />
                                 ))}
                             </div>
                         </form>
@@ -522,7 +413,7 @@ useEffect(() => {
             </div>
 
             {/* Modal areas of interest */}
-            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
@@ -536,10 +427,6 @@ useEffect(() => {
                                 <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </form>
-                        <div className="flex justify-between mt-10">
-                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -565,11 +452,11 @@ useEffect(() => {
 
                             <div className="flex flex-col mt-32">
                                 <label htmlFor="" className="mt-8">Name</label>
-                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                                 <label htmlFor="" className="mt-8">Username</label>
-                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                                 <label htmlFor="" className="mt-8">Email</label>
-                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" value={"usernameModal"}></input>
+                                <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                             </div>
 
                         </form>
