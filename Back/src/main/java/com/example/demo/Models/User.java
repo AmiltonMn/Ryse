@@ -34,6 +34,9 @@ public class User {
     private String photo;
 
     @Column
+    private String Backgroundphoto;
+
+    @Column
     private String careerFocus;
 
     @Column
@@ -111,6 +114,14 @@ public class User {
 
     public void setUserState(String userState) {
         this.userState = userState;
+    }
+
+    public String getBackgroundphoto() {
+        return Backgroundphoto;
+    }
+
+    public void setBackgroundphoto(String Backgroundphoto) {
+        this.Backgroundphoto = Backgroundphoto;
     }
 
 }

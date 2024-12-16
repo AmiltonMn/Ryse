@@ -21,6 +21,7 @@ import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { Checkbox } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { api } from "@/constants/api";
+import axios from "axios";
 
 
 interface areasOfInterest {
@@ -46,58 +47,6 @@ interface hardSkillType {
 
 const Profile: React.FC = () => {
 
-    const [instrutor, setInstrutor] = useState(false)
-    const [activeTab, setActiveTab] = useState("profile");
-    const [text, setText] = useState("");
-    const [feedbackTab, setFeedbackTab] = useState("received");
-    const [interactionTab, setInteractionTab] = useState("likes");
-    const editableRef = useRef<HTMLInputElement>(null);
-    const [modalAreaa, setModalArea] = useState(false);
-    const [modalSkils, setModalSkils] = useState(false);
-    const [modalPhotos, setModalPhoto] = useState(false);
-
-    const roter = useRouter();
-
-    const [name, setName] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
-    const [bio, setBio] = useState<string>("");
-    const [publicId, setPublicId] = useState<string>("");
-    const [editBio, setEditBio] = useState(false)
-    const [hardSkils, setHardSkils] = useState(false);
-
-    const tornar = () => {
-        setInstrutor(true)
-    }
-
-    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-
-    // Select skils
-
-    const handleSkillClick = (skill: string) => {
-        setSelectedSkills((prevSkills) => {
-
-            if (prevSkills.includes(skill)) {
-                return prevSkills.filter(item => item !== skill);
-            } else {
-                return [...prevSkills, skill];
-            }
-        });
-    };
-
-    //Edit photos
-
-    const handleClick = (inputId: string) => {
-        const fileInput = document.getElementById(inputId) as HTMLInputElement;
-        fileInput?.click();
-    };
-
-    // Modais
-
-    const [hardSkills, sethardSkills] = useState<hardSkillType[]>([])
-    const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
-    const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
-    const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
-    const [feedbackReceiver, setfeedbackReceiver] = useState<FeedbacksUserLoged[]>([])
     const closeModal = () => {
         setName("");
         setModalArea(false);
@@ -117,8 +66,6 @@ const Profile: React.FC = () => {
         setModalPhoto(true);
     }
 
-    // Edit bio
-
     const handleEdit = () => {
         if (editableRef.current) {
             editableRef.current.focus();
@@ -135,24 +82,63 @@ const Profile: React.FC = () => {
         }
     }
 
-    // Mudança de tabs
-
     const handleTabChange = (tab: string) => {
         setActiveTab(tab);
     };
-
     const handleFeedbackTabChange = (tab: string) => {
         setFeedbackTab(tab);
     };
-
     const handleInteractionTabChange = (tab: string) => {
         setInteractionTab(tab);
     };
+    const tornar = () => {
+        setInstrutor(true)
+    }
+    const handleSkillClick = (skill: string) => {
+        setSelectedSkills((prevSkills) => {
 
+            if (prevSkills.includes(skill)) {
+                return prevSkills.filter(item => item !== skill);
+            } else {
+                return [...prevSkills, skill];
+            }
+        });
+    };
 
+    //Edit photos
+
+    const handleClick = (inputId: string) => {
+        const fileInput = document.getElementById(inputId) as HTMLInputElement;
+        fileInput?.click();
+    };
+
+    const [instrutor, setInstrutor] = useState(false)
+    const [activeTab, setActiveTab] = useState("profile");
+    const [text, setText] = useState("");
+    const [feedbackTab, setFeedbackTab] = useState("received");
+    const [interactionTab, setInteractionTab] = useState("likes");
+    const editableRef = useRef<HTMLInputElement>(null);
+    const [modalAreaa, setModalArea] = useState(false);
+    const [modalSkils, setModalSkils] = useState(false);
+    const [modalPhotos, setModalPhoto] = useState(false);
+
+    const roter = useRouter();
+
+    const [name, setName] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [bio, setBio] = useState<string>("");
+    const [editBio, setEditBio] = useState(false)
+    // const [hardSkils, setHardSkils] = useState(false);
+
+    const [hardSkills, sethardSkills] = useState<hardSkillType[]>([])
+    const [hardSkillsUser, sethardSkillsUser] = useState<string[]>([])
+    const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
+    const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
+    const [feedbackReceiver, setfeedbackReceiver] = useState<FeedbacksUserLoged[]>([])
+
+    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
     const addAreaInterest = async () => {
-        console.log("teste");
 
         const text: string = document.getElementById("areaText").value;
         console.log(text);
@@ -181,7 +167,6 @@ const Profile: React.FC = () => {
                 },
             });
 
-
             const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
                 text: item.text,
                 user: {
@@ -191,8 +176,6 @@ const Profile: React.FC = () => {
                     photo: item.user.photo,
                 },
             }));
-
-            console.log("Processed Feedback Data:", feedbackData); // Para depuração
             setFeedbackSender(feedbackData);
         } catch (error) {
             console.error("Erro ao buscar feedbacks enviados:", error);
@@ -206,11 +189,6 @@ const Profile: React.FC = () => {
                     "Authorization": localStorage.getItem("token"),
                 },
             });
-
-
-            // console.log(response.data);
-
-
             const feedbackData: FeedbacksUserLoged[] = response.data.map((item: any) => ({
                 text: item.text,
                 user: {
@@ -220,12 +198,86 @@ const Profile: React.FC = () => {
                     photo: item.user.photo,
                 },
             }));
-
-            console.log("Processed Feedback Data:", feedbackData); // Para depuração
             setfeedbackReceiver(feedbackData);
 
         } catch (error) {
             console.error("Erro ao buscar feedbacks recebidos:", error);
+        }
+    };
+
+
+
+
+    const [file, setFile] = useState<File | null>(null);
+    const [filename, setFilename] = useState<string>("");
+    const [imageUrl, setImageUrl] = useState<string | null>("");
+    const [publicId, setPublicId] = useState<string>("");
+
+
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            setFile(event.target.files[0]);
+            setFilename(event.target.files[0].name);
+        }
+    };
+
+    // // Faz o upload da imagem para o Cloudinary
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+
+        if (!file) {
+            console.error("No file selected");
+            return;
+        }
+        const uniqueid =  `${name}Perfil-${Date.now()}`;
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "sla-api");
+        formData.append("public_id", uniqueid);
+
+        try {
+            const response = await axios.post(
+                "https://api.cloudinary.com/v1_1/dxunnhglr/image/upload",
+                formData
+            );
+
+            console.log(response.data);
+            setImageUrl(response.data.secure_url); // Atualiza a URL da imagem
+            roter.refresh();
+        } catch (error) {
+            console.error(error);
+        }
+        try {
+            const response = await api.post(`/perfil/Photo?photo=${uniqueid}`,null,{
+                headers: {
+                  "Authorization": localStorage.getItem("token")
+                }
+              })
+            console.log(response);
+          } catch (error) {
+            console.log("erro ao dar fecth", error)
+          }
+        
+         
+          
+    };
+
+    // Busca a URL da imagem com base no publicId
+    const fetchImageUrl = async (publicId: string) => {
+        console.log("public id do fetch", publicId);
+        
+        try {
+            const response = await axios.get(
+                `https://res.cloudinary.com/dxunnhglr/image/upload/${publicId}`,
+                { responseType: "arraybuffer" }
+            );
+            console.log("opa",response);
+            
+            const base64 = Buffer.from(response.data, "binary").toString("base64");
+            return `data:image/png;base64,${base64}`;
+        } catch (error) {
+            console.error("Falha ao buscar a URL da imagem. Detalhes:", error);
+            return null;
         }
     };
 
@@ -243,17 +295,17 @@ const Profile: React.FC = () => {
             console.log("Todos os dados", res.data)
 
             sethardSkillsUser(res.data.HardSkillUser)
-
             sethardSkills(res.data.HardSkills)
-
             setAreasofInterest(res.data.areas);
-
             setBio(res.data.info.bio)
 
             if (res.data.info.photo === null) {
-                setPublicId(`${res.data.info.username}Photo`)
+                setPublicId("user")
+                console.log(publicId);
+                
             } else {
                 setPublicId(res.data.info.photo)
+                console.log(publicId);
             }
             setName(res.data.info.name)
             setUsername(res.data.info.username)
@@ -263,25 +315,26 @@ const Profile: React.FC = () => {
         getFeedbackReceiver();
         getFeedbackSender();
 
-
-        // const loadImage = async () => {
-        //     const url = await fetchImageUrl(publicId);
-        //     setImageUrl(url);
-        //   };
-
-        //   if (publicId) {
-        //     loadImage();
-        //   }
     }, [])
 
     useEffect(() => {
-        console.log("sla1", feedbackReceiver);
-        console.log("sla2", feedbackSender);
-
 
     }, [feedbackReceiver, feedbackSender])
 
+    useEffect(() => {
+        const loadImage = async () => {
+            console.log("sera que é",publicId);
+            
+            const url = await fetchImageUrl(publicId);
+            console.log("opa123",url);
+            
+            setImageUrl(url);
+        };
 
+        if (publicId) {
+            loadImage();
+        }
+    }, [publicId]);
 
     return (
         <>
@@ -305,7 +358,8 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div className="flex">
-                    <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />
+                {imageUrl && ( <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={imageUrl} name={name} username={username} />)}
+                {!imageUrl && ( <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />)}
                 </div>
 
                 <div className="flex justify-end">
@@ -381,7 +435,7 @@ const Profile: React.FC = () => {
             </div>
 
             {/* Modal Hard Skils */}
-            <div className={ modalAreaa? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-[16px] font-medium">Hard Skils</h2>
@@ -436,15 +490,34 @@ const Profile: React.FC = () => {
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Edit data</h2>
-                        <form className="flex flex-col">
+                        <form className="flex flex-col" onSubmit={handleSubmit} >
 
                             <div className="flex flex-col items-center justify-center">
                                 <div className="relative w-full mt-8">
                                     <input type="file" className="hidden" id="fileProfileCover" />
                                     <Image className="absolute w-full  h-[100px] object-cover rounded-sm cursor-pointer" src={cover} width={200} height={200} alt="Image Cover" onClick={() => handleClick("fileProfileCover")} ></Image>
                                     <div>
-                                        <input type="file" className="hidden" id="fileProfileProfile" />
-                                        <Image className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer" src={profile} width={170} height={170} alt="Image Profile" onClick={() => handleClick("fileProfileProfile")}></Image>
+                                        <input type="file" className="hidden" id="fileProfileProfile" onChange={handleFileChange} />
+                                        <div className="...">  {/* Parent div for the image */}
+                                            {imageUrl && ( // Only render Image if imageUrl is truthy (not null)
+                                                <Image
+                                                    className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer"
+                                                    src={imageUrl}
+                                                    width={170}
+                                                    height={170}
+                                                    alt="Image Profile"
+                                                    onClick={() => handleClick("fileProfileProfile")}
+                                                />
+                                            )}
+                                            {!imageUrl && <Image
+                                                    className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer"
+                                                    src={profile}
+                                                    width={170}
+                                                    height={170}
+                                                    alt="Image Profile"
+                                                    onClick={() => handleClick("fileProfileProfile")}
+                                                />}
+                                        </div>
                                     </div>
 
                                 </div>
@@ -459,11 +532,11 @@ const Profile: React.FC = () => {
                                 <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                             </div>
 
-                        </form>
                         <div className="flex justify-between mt-10">
-                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button type="submit" onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 package com.example.demo.Implementations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,15 @@ import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
 import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
+import com.example.demo.DTO.UserDTO.appearanceUser;
 import com.example.demo.DTO.UserDTO.perfilInfo;
+import com.example.demo.DTO.UserDTO.perfilLikesReturn;
 import com.example.demo.JWTCreate;
+import com.example.demo.Models.Answer;
+import com.example.demo.Models.LikeAnswer;
 import com.example.demo.Models.User;
+import com.example.demo.Repositories.AnswerRepository;
+import com.example.demo.Repositories.LikeAnswerRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -20,6 +28,12 @@ public class UserImplementations implements UserServices {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    LikeAnswerRepository likeAnswerRepository;
+
+    @Autowired
+    AnswerRepository answerRepository;
 
     @Autowired
     EncodeServices encode;
@@ -89,18 +103,46 @@ public class UserImplementations implements UserServices {
             return false;
         }
 
-        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[1-9]).+$")) {
-            return false;
-        }
-
-        return true;
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[1-9]).+$");
     }
 
     @Override
     public perfilInfo getPerfilData(Long idUser) {
        var user = userRepo.findById(idUser).get();
        
-        return new perfilInfo("teste", user.getName(), "teste", "Oie! Seja bem-vindo(a) ao meu perfil 😁 Sou o Amilton, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...", user.getBio());
+        return new perfilInfo(user.getName(), user.getName(), user.getPhoto(), "Oie! Seja bem-vindo(a) ao meu perfil 😁 Sou o Amilton, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...", user.getBio());
+    }
+
+    @Override
+    public String updatePhotoPerfil(String photo,Long idUser) {
+       userRepo.updatePhoto(photo, idUser);
+       return "let's Go";
+    }
+
+    @Override
+    public perfilLikesReturn getLikes(Long idUser) {
+
+        var allLikes = likeAnswerRepository.getLikesUser(idUser);
+        List<Answer> answers = new ArrayList<>();
+        for (LikeAnswer like : allLikes) {
+            answers.add(answerRepository.getAnswers(like.getAnswer().getIdAnswer()));
+        }
+        List<String> allAnswers = new ArrayList<>();
+        List<appearanceUser> usersAnswer = new ArrayList<>();
+        for (Answer answer : answers) {
+            usersAnswer.add(new appearanceUser(answer.getUser().getName(), answer.getUser().getName(), answer.getUser().getPhoto()));
+            allAnswers.add(answer.getText());
+        }
+
+        return new perfilLikesReturn(usersAnswer, allAnswers);
+    }
+
+    @Override
+    public String getComentaries(Long idUser) {
+
+
+        
+        return null;
     }
 
 }
