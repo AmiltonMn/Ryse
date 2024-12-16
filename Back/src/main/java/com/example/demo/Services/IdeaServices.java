@@ -16,7 +16,7 @@ public interface IdeaServices {
 
     ResponseEntity<IdeaReturn> deleteLikeToIdea(Long idUser, Long idIdea);
 
-    List<IdeaData> getAllIdea(Integer status);
+    List<IdeaData> getAllIdea(Integer status, String query);
 
     Integer getAllLikesIdea(Long idIdea);
 

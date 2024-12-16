@@ -83,29 +83,44 @@ public class IdeaImplementations implements IdeaServices {
     }
 
     @Override
-    public List<IdeaData> getAllIdea(Integer status) {
+    public List<IdeaData> getAllIdea(Long idUser, Integer status, String query) {
 
         List<Idea> findIdea;
 
-        if(status == 3) {
+        if(status == 3 && query == null) {
             findIdea = ideaRepo.findAll();
         }
 
-        else {
+        if(status == 3 && query != null) {
+            findIdea = ideaRepo.findByQuery(query);
+        }
+
+        if(status != 3 && query == null) {
             findIdea = ideaRepo.findByStatus(status);
+        }
+
+        else {
+            findIdea = ideaRepo.findByQueryAndStatus(query, status);
         }
 
         List<IdeaData> response = new ArrayList<>();
 
         for(Idea idea : findIdea){
+
+            Integer allLikes = likeIdeaRepo.getAllLikesIdea(idea.getId());
+            Boolean liked = likeIdeaRepo.getLikesUserIdea(idea.getId(), idUser);
+
             response.add(new IdeaData(
+                idea.getId(),
                 idea.getUserEntity().getId(), 
                 idea.getUserEntity().getPhoto(), 
                 idea.getUserEntity().getName(), 
                 idea.getTitle(),
                 idea.getText(),
                 idea.getDate(), 
-                idea.getStatus()
+                idea.getStatus(),
+                allLikes,
+                liked
             ));
         }
 

@@ -41,10 +41,11 @@ public class IdeaController {
         return response;
     }
 
-    @PostMapping("/Like")
-    public ResponseEntity<IdeaReturn> LikeIdea(@RequestBody LikeData data){
+    @PostMapping("/like")
+    public ResponseEntity<IdeaReturn> LikeIdea(@RequestAttribute("token") Token token, @RequestBody LikeData data){
 
-        var response = ideaServices.addLikeToIdea(data.idUser(), data.idIdea());
+        var response = ideaServices.addLikeToIdea(token.getId(), data.idIdea());
+        
         return response;
     }
     
@@ -73,9 +74,9 @@ public class IdeaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IdeaData>> getAllIdea(@RequestParam Integer status) {
+    public ResponseEntity<List<IdeaData>> getAllIdea(@RequestAttribute("token") Token token, @RequestParam Integer status, @RequestParam String query) {
 
-        List<IdeaData> response = ideaServices.getAllIdea(status);
+        List<IdeaData> response = ideaServices.getAllIdea(token.getId(), status, query);
 
         if(response.isEmpty())
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
