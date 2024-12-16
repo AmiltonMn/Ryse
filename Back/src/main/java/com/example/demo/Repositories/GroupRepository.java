@@ -20,7 +20,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     void updateGroup(@Param("newDescription") String newDescription, @Param("newName") String newName, @Param("newObjective") String newObjective, @Param("idGroup") Long idGroup);
 
 
-    @Query(value = "SELECT * FROM tb_group ORDER BY id_group OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
-    List<Group> findGroupsWithPagination(@Param("offset") int offset, @Param("limit") int limit);
+    @Query(value = "SELECT TOP (:limit) * FROM tb_group WHERE id_user = :idUser", nativeQuery = true)
+    List<Group> findGroupsWithPagination(@Param("idUser") Long idUser, @Param("limit") Integer limit);
 }
 

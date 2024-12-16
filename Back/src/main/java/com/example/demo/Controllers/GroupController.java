@@ -63,7 +63,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "1") Integer page) {
+    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "0") Integer page) {
 
         GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page, 9), "All of the user group are on the list!");
         

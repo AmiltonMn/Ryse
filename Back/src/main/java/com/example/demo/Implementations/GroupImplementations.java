@@ -98,15 +98,17 @@ public class GroupImplementations implements GroupServices {
     @Override
     public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit) {
 
-        var results = userGroupRepo.findUserGroupsWithPagination(idUser, ((page-1)*limit), limit);
+        var results = groupRepo.findGroupsWithPagination(idUser, limit);
+
+        System.out.println(results);
 
         ArrayList<getGroupAll> groupsList = new ArrayList<>();
 
         for (int i = 0; i < results.size(); i++) {
             groupsList.add(new getGroupAll(
-                    results.get(i).getGroup().getName(),
-                    results.get(i).getGroup().getDescription(),
-                    results.get(i).getGroup().getObjective()));
+                    results.get(i).getName(),
+                    results.get(i).getDescription(),
+                    results.get(i).getObjective()));
         }
 
         System.out.println(groupsList);

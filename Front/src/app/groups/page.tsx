@@ -12,9 +12,43 @@ import Image from "next/image";
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
 import search from "@/assets/lupaBlack.png"
+import { api } from "@/constants/api";
+import { title } from "process";
+import { group } from "console";
+import { pages } from "next/dist/build/templates/app-page";
 
+interface groupsData {
+    groupsList: group[] 
+}
+
+interface group {
+    title: string,
+    description: string,
+    photo: string
+}
 
 export default function Home() {
+
+    const [groups, setGroupsData] = useState<groupsData[]>([])
+
+    useEffect(() => {
+
+        api.get(
+            `/group?page=${pag}`,
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            console.log(res)
+            setGroupsData(res.data.groupsList)
+            console.log(groups)
+        }).catch((e) => {
+            console.log("Error to get the data!")
+        })
+    }, [])
+
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
@@ -80,7 +114,7 @@ export default function Home() {
                     </div>
                     <hr className="mt-4 w-[99%]" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
+                        <CardGroup foto={google.src} name={"Titulo"} description={groups[0].groupsList[0] === undefined ? "Descrição" : groups[0].groupsList[0].description}/>
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
                         <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>

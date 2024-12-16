@@ -1,8 +1,7 @@
-package com.example.demo.DTO.GroupDTO;
+package com.example.demo.DTO.GroupDto;
 
 public record getGroupAll(    
 String title,
 String description,
-String photo) {
-    
-}
+String photo
+) {}
