@@ -16,12 +16,17 @@ import { CardLike } from "@/components/cardLike";
 import profile from "@/assets/saiba.jpeg";
 import cover from "@/assets/cover.png";
 import edita from "@/assets/edita.png";
+import editaDark from "@/assets/editaDark.png";
 import Image from "next/image";
 import edtPerfil from "@/assets/edtPerfil.jpg"
 import search from "@/assets/lupa.png"
+import searchDark from "@/assets/lupaBlack.png"
+import { useDarkMode } from "@/context/darkMode";
 
 const Profile: React.FC = () => {
 
+    const { darkMode, setDarkMode } = useDarkMode();
+    const toggleDarkMode = () => setDarkMode(!darkMode);
 
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
@@ -132,7 +137,7 @@ const Profile: React.FC = () => {
                     </div>
 
                     <div className="flex justify-end">
-                        <button onClick={handleEdit}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button>
+                        <button onClick={handleEdit}><Image src={!darkMode ? edita.src : editaDark.src} width={17} height={17} alt="Edit biography"></Image></button>
                     </div>
 
                     <p contentEditable={editBio} suppressContentEditableWarning={true} className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onKeyDown={closeEdit}>
@@ -202,13 +207,13 @@ const Profile: React.FC = () => {
                 </div>
 
                 {/* Modal Hard Skils */}
-                <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                    <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
+                <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                    <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                         <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                             <h2 className="text-[16px] font-medium">Hard Skils</h2>
                             <div className="flex w-full justify-center items-center mt-4">
-                                <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-zinc-800 border border-white" />
-                                <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                                <input type="text" placeholder="Search" className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-zinc-800 border border-white dark:border-gray-700 dark:border-[2px]" />
+                                <Image src={!darkMode ? search : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                             </div>
                             <form className="flex flex-col">
                                 <div className="flex flex-wrap order-4 gap-4 pt-6">
@@ -231,8 +236,8 @@ const Profile: React.FC = () => {
                 </div>
 
                 {/* Modal areas of interest */}
-                <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                    <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                    <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                         <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                             <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
                             <form className="flex flex-col">
