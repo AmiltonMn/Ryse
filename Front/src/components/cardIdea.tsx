@@ -3,7 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
+import { useDarkMode } from "@/context/darkMode";
 import heart from "@/assets/coracao.png"
+import heartDark from "@/assets/coracaoBranco.png"
 import amei from "@/assets/like.png"
 import like from "@/assets/joinha.png"
 import wlike from "@/assets/joinhacheio.png"
@@ -30,6 +32,8 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
     const [love, setLove] = useState(false)
     const [gostei, setGostei] = useState(false)
     const [odiei, setOdiei] = useState(false)
+    const { darkMode, setDarkMode } = useDarkMode();
+    const toggleDarkMode = () => setDarkMode(!darkMode)
 
     const show = () => {
         setOptions(!options)
@@ -55,7 +59,7 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
 
 
     return (
-        <div className="bg-[#242424] rounded-[10px] w-full text-white group">
+        <div className="bg-[#242424] mb-2 dark:bg-slate-100 rounded-[10px] w-full text-white group dark:text-black">
             <div className="flex justify-between p-4">
                 <div className="flex justify-center items-center">
                     <Image src={userPhoto} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2 mr-4" width={1000} height={1000} />
@@ -111,13 +115,12 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
                                     love ?
                                         <Image src={amei.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
                                         :
-                                        <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                        <Image src={!darkMode ? heart.src : heartDark.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
                                 }
                             </button>
                         </div>}
                 </div>
             </div>
-            <hr />
         </div>
     );
 }

@@ -17,16 +17,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-
     <DarkModeProvider>
       <html lang="en">
-        <body className={`${poppins.variable} antialiased bg-[#1E1E1E] dark:bg-slate-50`}>{children}</body>
+        <body className={`${poppins.variable} antialiased bg-[#1E1E1E] dark:bg-slate-50`}>
+          {children}
+        </body>
       </html>
     </DarkModeProvider>
-
   );
 }

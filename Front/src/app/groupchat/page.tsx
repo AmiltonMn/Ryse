@@ -35,7 +35,7 @@ export default function Home() {
 
     const style =
     {
-        inputz: "rounded-md ps-4 h-10 text-base w-[90%] bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999] hover:opacity-100 opacity-80 focus:opacity-100",
+        inputz: "rounded-md ps-4 h-10 text-base w-[90%] dark:bg-white bg-[#484848] text-white dark:text-black placeholder-[#999999] hover:opacity-100 opacity-80 focus:opacity-100",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
         imagen2: "w-5 h-5 rounded-t-3xl m-2",
     }
@@ -43,25 +43,25 @@ export default function Home() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-32 pl-[300px] pr-[100px] flex">
-                <div className="w-full h-full text-white">
+                <div className="w-full h-full text-white dark:text-black">
                     <div className="w-full h-full flex justify-center ">
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
-                                <Link href={ROUTES.group} className="flex w-full h-12 rounded-t bg-[#313131] items-center group">
+                                <div className="flex w-full h-12 rounded-t dark:bg-slate-100 bg-[#313131] items-center ">
                                     <div className="w-[20%] h-full flex items-center justify-center">
-                                        <p className="text-[20px] font-semibold z-20">Nome do Projeto</p>
+                                        <p className="text-[20px] font-semibold z-20 group-hover:animate-pulse">Nome do Chat</p>
                                     </div>
-                                </Link>
+                                </div>
                                 <hr className="" />
                             </div>
                             <div className="w-full h-full flex flex-row">
 
-                                <div className="flex flex-col w-[20%] bg-[#373737] rounded-l">
+                                <div className="flex flex-col w-[20%] dark:bg-slate-100 bg-[#373737] rounded-l">
 
                                     <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2  hover:bg-[#505050]">
+                                        <div className="flex flex-row items-center p-3 gap-2 dark:hover:bg-slate-200 hover:bg-[#505050]">
 
                                             <div className=" rounded-[100%] h-3 w-3 bg-[#F41C54]"></div>
                                             <p className="text-[16px] font-medium text-[#F41C54]">Back</p>
@@ -69,11 +69,11 @@ export default function Home() {
                                         <hr />
                                     </div>
 
-                                    <GroupChat name={"Front"}/>
+                                    <GroupChat name={"Front"} />
 
-                                    <GroupChat name={"Outro"}/>
+                                    <GroupChat name={"Outra coisa"} />
 
-                                    <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
+                                    <button onClick={() => openModal()} className="flex flex-col dark:hover:bg-slate-200 hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
 
                                             <Image src={more} alt="ícone ideia" className="w-4 h-4 " />
@@ -88,7 +88,7 @@ export default function Home() {
 
                                 <div className="flex flex-col h-full w-[80%]">
 
-                                    <div className={`bg-[#1C1C1C] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
+                                    <div className={`bg-[#252525] dark:bg-[#e9eef3] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
 
                                         {/* mensagem sua */}
                                         <MyMsg date={"10:20 09/12/2024"} message={"oie"} />
@@ -115,13 +115,13 @@ export default function Home() {
 
                                     </div>
 
-                                    <div className="flex w-full h-20 rounded-r bg-[#313131] flex-row justify-center gap-4 items-center p-4">
-                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
+                                    <div className="flex w-full h-20 rounded-r bg-[#313131] dark:bg-slate-100 lex-row justify-center gap-4 items-center p-4">
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] dark:bg-[#F41C54] flex justify-center items-center hover:scale-105">
                                             <Image src={file} alt="ícone ideia" className="w-7 h-7 cursor-pointer" />
-                                            <input type="file" className="absolute h-10 rounded-full w-10 opacity-0 cursor-pointer"/>
+                                            <input type="file" className="absolute h-7 w-7 opacity-0 cursor-pointer" />
                                         </button>
                                         <input className={style.inputz} placeholder="Mensagem" />
-                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
+                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] dark:bg-[#F41C54] flex justify-center items-center hover:scale-105">
                                             <Image src={send} alt="ícone ideia" className="w-7 h-7" />
                                         </button>
                                     </div>
@@ -134,8 +134,8 @@ export default function Home() {
             </div>
 
             {/* Modal novo chat*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modal ? "fixed inset-0 flex items-center justify-center dark:text-black text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-100 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New Chat</h2>
                         <form className="flex flex-col">
@@ -144,7 +144,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

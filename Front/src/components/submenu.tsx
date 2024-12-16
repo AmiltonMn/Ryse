@@ -140,7 +140,7 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                         </div>}
                     </div>
                 </div>
-                <a className="text-white dark:text-black text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>
+                <a href={ROUTES.login} className="text-white dark:text-black text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6">Logout</a>
             </div>
         </DarkModeProvider>
     )

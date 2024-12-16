@@ -12,21 +12,24 @@ export const useDarkMode = () => {
   return context;
 };
 
-
-
 export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  const storedDarkMode =
+    typeof window !== "undefined" ? localStorage.getItem("darkMode") === "true" : false;
   
+  const [darkMode, setDarkMode] = useState(storedDarkMode);
+
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
       root.classList.add("dark");
+      localStorage.setItem("darkMode", "true");
     } else {
       root.classList.remove("dark");
+      localStorage.setItem("darkMode", "false");
     }
-  }, [darkMode]);
+  }, [darkMode]); 
 
   return (
     <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>

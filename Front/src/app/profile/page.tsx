@@ -125,8 +125,6 @@ const Profile: React.FC = () => {
 
     return (
         <>
-            <DarkModeProvider>
-
                 <Menu title={"Ryse"} />
                 <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
@@ -344,7 +342,6 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
 
-            </DarkModeProvider>
         </>
     );
 };
