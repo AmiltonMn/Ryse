@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import heart from "@/assets/coracao.png"
+import heartLike from "@/assets/coracaoRosa.png"
 import lampadaVermelha from "@/assets/lampadaVermelha.png"
 import lampadaAmarela from "@/assets/lampadaAmarela.png"
 import lampadaVerde from "@/assets/lampadaVerde.png"
@@ -15,9 +16,11 @@ interface CardIdeaProps {
     title: string;
     description: string;
     state: number;
+    likes: number;
+    liked: boolean;
 }
 
-export const CardIdea: React.FC<CardIdeaProps> = ({userPhoto, username, date, title, description, state}) => {
+export const CardIdea: React.FC<CardIdeaProps> = ({userPhoto, username, date, title, description, state, likes, liked}) => {
     return(
         <div className="bg-[#242424] rounded-[10px] w-full text-white ">
             <div className="flex justify-between p-4">
@@ -36,9 +39,12 @@ export const CardIdea: React.FC<CardIdeaProps> = ({userPhoto, username, date, ti
                             <p>{description}</p>
                         </div>
                     </div>
-                    <button className="pr-6">
-                        <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000}/>
-                    </button>
+                    <div className="flex justify-center items-center">
+                        <button className="pr-2">
+                            <Image src={liked ? heartLike.src : heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000}/>
+                        </button>
+                        <p className="pr-12">{likes}</p>
+                    </div>
                 </div>
             </div>
             <hr/>

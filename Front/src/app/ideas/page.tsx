@@ -17,6 +17,12 @@ import ideasCss from "@/app/ideas/ideas.module.css"
 
 import { api } from "@/constants/api"
 
+import heart from "@/assets/coracao.png"
+import heartLike from "@/assets/coracaoRosa.png"
+import lampadaVermelha from "@/assets/lampadaVermelha.png"
+import lampadaAmarela from "@/assets/lampadaAmarela.png"
+import lampadaVerde from "@/assets/lampadaVerde.png"
+
 
 const styles = {
     button: "text-white text-[16px] hover:text-gray-500 black pl-4 pr-8 transition easy-in-out bg-[#454545] mb-3 rounded-[10px] flex items-center",
@@ -30,7 +36,9 @@ interface IIdea {
     title: string,
     text: string,
     date: string,
-    status: number
+    status: number,
+    likes: number,
+    liked: boolean
 }
 
 export default function Ideas() {
@@ -41,6 +49,8 @@ export default function Ideas() {
     const [query, setQuery] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [text, setText] = useState<string>("");
+    const [idIdea, setIdIdea] = useState<number>();
+    const [liked, setLiked] = useState<boolean>(false);
 
     const closeModal = () => {
         setTitle("");
@@ -52,49 +62,66 @@ export default function Ideas() {
         setModal(true);
     }
 
-    const fetchIdeas = async(query: string) => {
+    const fetchIdeas = async (status: number, query: string) => {
         try {
-            const res = await fetch(`http://localhost:8080/idea?status=${status}`);
+            const res = await fetch(`http://localhost:8080/idea?status=${status}&&query=${query}`);
             const dataIdea = await res.json();
             setDataIdeas(dataIdea);
             console.log(dataIdea);
-            console.log(dataIdeas)
             if (dataIdea[0] === "") {
-                setDataIdeas([{"idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0}])
+                setDataIdeas([{ "idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0, "likes": 0, "liked": false }])
             }
             console.log(dataIdeas)
         } catch (error) {
-            setDataIdeas([{"idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0}])
+            setDataIdeas([{ "idIdea": 0, "userPhoto": "Null", "username": "Null", "title": "Error loading ideas", "text": "Null", "date": "Null", "status": 0, "likes": 0, "liked": false }])
         }
     }
 
-
-
     const handleNewIdea = async () => {
         await api.post("/idea",
-        {
-            "title": title,
-            "text": text
-        },
-        {
-            headers: {
-                'Authorization': localStorage.getItem("token")
+            {
+                "title": title,
+                "text": text
             },
-        })
-        .then((res) => {
-            alert("Ideia criada com sucesso")
-            window.location.reload()   
-        })
-        .catch((e) => {
-            console.log(localStorage.getItem("token"))
-            alert(e.response.data.message)
-        })
-        .finally(() => setModal(false))
+            {
+                headers: {
+                    'Authorization': localStorage.getItem("token")
+                },
+            })
+            .then((res) => {
+                alert("Idea created with sucess")
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(localStorage.getItem("token"))
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
+    }
+
+    const newLikeIdea = async () => {
+        await api.post("/idea/like",
+            {
+                "idIdea": idIdea
+            },
+            {
+                headers: {
+                    'Authorization': localStorage.getItem("token")
+                },
+            })
+            .then((res) => {
+                setLiked(true);
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setIdIdea(0))
     }
 
     useEffect(() => {
-        fetchIdeas(query);
-    }, [query]);
+        fetchIdeas(status, query);
+    }, [status, query, liked]);
 
     return (
         <div>
@@ -118,13 +145,37 @@ export default function Ideas() {
                     <hr />
 
                     <div className={`border-[#595959] mt-6 rounded-[10px] h-[550px] border-4 overflow-x-auto max-h-[550px] ${ideasCss.scroll}`}>
-                        {/* <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={2} />
-                        <CardIdea userPhoto={iconProfile.src} username={"Ingrid rocha"} date={"15/01/2005"} title={"AAAAAAAAAAo"} description={"Acho que é uma ideia inovadora"} state={1} /> */}
-                       
-                       
                         {dataIdeas.map((item, key) => {
-                            return(
-                                <CardIdea userPhoto={""} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea}/>
+                            return (
+                                // <CardIdea userPhoto={""} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea} likes={item.likes} liked={item.liked}/>
+
+                                <div className="bg-[#242424] rounded-[10px] w-full text-white ">
+                                    <div className="flex justify-between p-4">
+                                        <div className="flex justify-center items-center">
+                                            <Image src={""} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
+                                            <h4 className="text-[14px]">{item.username}</h4>
+                                        </div>
+                                        <p className="text-[12px] p-4">{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(parseInt(item.date))}</p>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <div className="pl-8 pt-4 text-[14px] flex justify-between pb-8 w-full">
+                                            <div className="flex gap-8">
+                                                <Image src={item.status == 0 ? lampadaAmarela : item.status == 1 ? lampadaVerde : lampadaVermelha} alt="lampada" className="w-12"/>
+                                                <div className="">
+                                                    <h4 className="text-[16px] mb-2">{item.title}</h4>
+                                                    <p>{item.text}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-center items-center">
+                                                <button className="pr-2" onClick={() => [setIdIdea(item.idIdea), newLikeIdea()]}>
+                                                    <Image src={item.liked ? heartLike.src : heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000}/>
+                                                </button>
+                                                <p className="pr-12">{item.likes}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
                             )
                         })}
                     </div>
