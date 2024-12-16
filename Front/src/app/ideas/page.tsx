@@ -88,7 +88,7 @@ export default function Ideas() {
 
     useEffect(() => {
         fetchIdeas(query);
-    })
+    }, [query]);
 
     return (
         <div>
@@ -127,9 +127,9 @@ export default function Ideas() {
                 <div className="flex flex-col bg-[#242424] ml-16 w-[18%] h-full p-8 rounded-[10px] border-[#4B4B4B] border-[0.5px] text-white">
                     <h4 className="text-white font-bold text-[16px]">FILTER IDEAS</h4>
                     <div className="flex flex-col items-center">
-                        <button className="border-green-700 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900" onChange={() => setStatus(1)}>Approved</button>
-                        <button className="border-red-800 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-red-900" onChange={() => setStatus(2)}>Disapproved</button>
-                        <button className="border-yellow-600 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-yellow-700" onChange={() => setStatus(0)}>Under analysis</button>
+                        <button className="border-green-700 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900" onClick={() => setStatus(1)}>Approved</button>
+                        <button className="border-red-800 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-red-900" onClick={() => setStatus(2)}>Disapproved</button>
+                        <button className="border-yellow-600 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-yellow-700" onClick={() => setStatus(0)}>Under analysis</button>
                     </div>
                 </div>
             </div>
