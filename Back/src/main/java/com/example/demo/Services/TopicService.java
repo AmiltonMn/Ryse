@@ -1,13 +1,13 @@
 package com.example.demo.Services;
 
-import com.example.demo.DTO.Topic.TopicDTO;
-
 import java.util.List;
 
-import com.example.demo.DTO.Topic.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.RegisterTopicReturn;
+import com.example.demo.DTO.TopicDTO.TopicCreate;
+import com.example.demo.DTO.TopicDTO.TopicDTO;
 
 public interface TopicService {
     
     List<TopicDTO> getTopics(Integer page, Integer size);
-    RegisterTopicReturn createTopic(TopicDTO data);
+    RegisterTopicReturn createTopic(TopicCreate data);
 }

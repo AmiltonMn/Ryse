@@ -1,5 +1,7 @@
 package com.example.demo.Models;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,8 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "tbQuestion")
 public class Question {
     
     @Id 
@@ -16,12 +21,16 @@ public class Question {
     private Long idQuestion;
 
     @ManyToOne
+    @JoinColumn(name = "idForum", nullable = false)
+    private Forum forum;
+
+    @ManyToOne
     @JoinColumn(name = "idTopicForum", nullable = false)
-    private ForumTopic topicForumEntity;
+    private ForumTopic topicForum;
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
-    private User userEntity;
+    private User user;
 
     @Column
     private String text;
@@ -32,24 +41,35 @@ public class Question {
     @Column
     private String date;
 
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers;
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
     public Long getIdQuestion() {
         return idQuestion;
     }
 
-    public ForumTopic getTopicForumEntity() {
-        return topicForumEntity;
+    public ForumTopic getTopicForum() {
+        return topicForum;
     }
 
-    public void setTopicForumEntity(ForumTopic topicForumEntity) {
-        this.topicForumEntity = topicForumEntity;
+    public void setTopicForum(ForumTopic topicForum) {
+        this.topicForum = topicForum;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getText() {
@@ -74,5 +94,17 @@ public class Question {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setIdQuestion(Long idQuestion) {
+        this.idQuestion = idQuestion;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }

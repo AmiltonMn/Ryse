@@ -66,14 +66,14 @@ public class IdeaImplementations implements IdeaServices {
 
         likeIdeaRepo.save(newLikeIdea);
 
-        return new ResponseEntity<>(new IdeaReturn("Like created with sucess", true), HttpStatus.OK);
+        return new ResponseEntity<>(new IdeaReturn("Like created with success", true), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<IdeaReturn> deleteLikeToIdea(Long idUser, Long idIdea) {
 
         likeIdeaRepo.excludeLikeIdea(idIdea, idUser);
-        return new ResponseEntity<>(new IdeaReturn("Like removed with sucess", true), HttpStatus.OK);
+        return new ResponseEntity<>(new IdeaReturn("Like removed with success", true), HttpStatus.OK);
     }
 
     @Override

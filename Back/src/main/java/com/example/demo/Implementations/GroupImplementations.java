@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
 import com.example.demo.DTO.GroupDto.CreateGroupData;
 import com.example.demo.DTO.GroupDto.GroupGet;
 import com.example.demo.DTO.GroupDto.NewGroupData;
@@ -64,8 +63,6 @@ public class GroupImplementations implements GroupServices {
         return new ResponseEntity<>(new CreateGroupData("The group was successfully deleted!", true), HttpStatus.OK);
     }
 
-    // ! Fazer depois a função de atualização de um grupo!
-
     @Override
     public ResponseEntity<CreateGroupData> updateGroup(UpdateGroupData data) {
         groupRepo.updateGroup(data.newDescription(), data.newName(), data.newObjective(), data.idGroup());
@@ -120,6 +117,7 @@ public class GroupImplementations implements GroupServices {
     @Override
     public ResponseEntity<GroupGet> getGroupInfo(Long idUser, Long idGroup) {
         var search = groupRepo.findById(idGroup);
+        
         if (search.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 
@@ -128,4 +126,15 @@ public class GroupImplementations implements GroupServices {
                 Objects.equals(group.getUserEntity().getId(), idUser)), HttpStatus.OK);
     }
 
+    @Override
+    public ArrayList<User> getAllUserInGroup(Long idGroup) {
+        
+        ArrayList<User> users = userGroupRepo.findUsersInGroup(idGroup);
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users;
+    }
 }

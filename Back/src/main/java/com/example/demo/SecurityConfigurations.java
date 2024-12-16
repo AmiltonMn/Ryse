@@ -39,11 +39,11 @@ public class SecurityConfigurations {
                 // Permite acesso livre a todos os endpoints GET
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 // Restringe todos os POST para ADMIN
-                .requestMatchers(HttpMethod.POST, "/**").hasRole("Instrutor")
+                .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 // Restringe PUT para ADMIN
-                .requestMatchers(HttpMethod.PUT, "/**").hasRole("Instrutor")
+                .requestMatchers(HttpMethod.PUT, "/**").permitAll()
                 // Restringe DELETE para ADMIN
-                .requestMatchers(HttpMethod.DELETE, "/**").hasRole("Instrutor")
+                .requestMatchers(HttpMethod.DELETE, "/**").permitAll()
                 // Qualquer outra requisição precisa de autenticação
                 .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

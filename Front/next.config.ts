@@ -18,8 +18,16 @@ const nextConfig = {
           destination: "/home"
         },
         {
+          source: "/forum",
+          destination: "/forum"
+        }, 
+        {
           source: "/chats",
           destination: "/chats"
+        },
+        {
+          source: "/chat",
+          destination: "/chat"
         },
         {
           source: "/groups",
@@ -33,6 +41,27 @@ const nextConfig = {
           source: "/profile",
           destination: "/profile"
         },
+        {
+          source: "/question",
+          destination: "/question"
+        },
+        {
+          source: "/groupchat",
+          destination: "/groupchat"
+        },
+        {
+          source: "/hardSkills",
+          destination: "/hardSkills"
+        },
+        {
+          source: "/events",
+          destination: "/events"
+        },
+        {
+          source: "/news",
+          destination: "/news"
+        },
+
       ]
   }
 };

@@ -1,5 +1,7 @@
 package com.example.demo.Controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.GroupDto.CreateGroupData;
 import com.example.demo.DTO.GroupDto.GetGroupsResponse;
 import com.example.demo.DTO.GroupDto.GroupGet;
-import com.example.demo.DTO.GroupDto.addUserGroup;
 import com.example.demo.DTO.GroupDto.NewGroupData;
 import com.example.demo.DTO.GroupDto.UpdateGroupData;
+import com.example.demo.DTO.GroupDto.addUserGroup;
+import com.example.demo.DTO.UserDTO.GetUsersData;
+import com.example.demo.DTO.UserDTO.UserData;
+import com.example.demo.Models.User;
 import com.example.demo.DTO.Token;
 import com.example.demo.Services.GroupServices;
 
@@ -57,9 +62,6 @@ public class GroupController {
         return response;
     }
 
-
-
-
     @GetMapping
     public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "1") Integer page) {
 
@@ -80,5 +82,26 @@ public class GroupController {
 
         var response = groupService.updateGroup(data);
         return response;
+    }
+
+    @GetMapping("/{idGroup}/users")
+    public ResponseEntity<GetUsersData> getAllUsersInGroup(@PathVariable("idGroup") Long idGroup) {
+
+        ArrayList<User> usersRaw = groupService.getAllUserInGroup(idGroup);
+
+        ArrayList<UserData> users = new ArrayList<>();
+
+        for (User user : usersRaw) {
+            
+            UserData userInGroup = new UserData(user.getUsername(), user.getName(), user.getPhoto(), user.getUserState());
+
+            users.add(userInGroup);
+        }
+
+        if (users.isEmpty()) {
+            return new ResponseEntity<>(new GetUsersData(null, false), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new GetUsersData(users, true), HttpStatus.OK);
     }
 }

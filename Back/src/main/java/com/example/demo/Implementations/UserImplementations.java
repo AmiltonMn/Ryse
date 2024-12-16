@@ -1,17 +1,25 @@
 package com.example.demo.Implementations;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.LoginReturn;
+import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
-import com.example.demo.DTO.RegisterDTO.RegisterReturn;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.DTO.Token;
+import com.example.demo.DTO.AreasOfInterestDto.GetAreasOfInterest;
 import com.example.demo.JWTCreate;
+import com.example.demo.Models.AreasOfInterest;
+import com.example.demo.Models.HardSkill;
 import com.example.demo.Models.User;
+import com.example.demo.Models.UserHardSkill;
+import com.example.demo.Repositories.AreasOfInterestRepository;
+import com.example.demo.Repositories.HardSkillRepository;
+import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -24,20 +32,26 @@ public class UserImplementations implements UserServices {
     @Autowired
     EncodeServices encode;
 
+    @Autowired
+    UserHardSkillRepository userHardkSkillRepo;
+
+    @Autowired
+    AreasOfInterestRepository areasRepo;
+
     @Override
-    public RegisterReturn register(RegisterData data) {
+    public Return register(RegisterData data) {
 
         if (!checkPassword(data.password()))
-            return new RegisterReturn("Password does not meet the criteria", false);
+            return new Return("Password does not meet the criteria", false);
 
         if (!userRepo.findByEmail(data.email()).isEmpty())
-            return new RegisterReturn("Already have a user with this email", false);
+            return new Return("Already have a user with this email", false);
 
         if (!userRepo.findByName(data.name()).isEmpty())
-            return new RegisterReturn("Already have a user with this name", false);
+            return new Return("Already have a user with this name", false);
 
         if (!userRepo.findByedv(data.name()).isEmpty())
-            return new RegisterReturn("Already have a user with this EDV", false);
+            return new Return("Already have a user with this EDV", false);
 
         var encoder = new BCryptPasswordEncoder();
 
@@ -47,27 +61,29 @@ public class UserImplementations implements UserServices {
         newUser.setEmail(data.email());
         newUser.setEdv(data.EDV());
         newUser.setPassword(encoder.encode(data.password()));
+        newUser.setUserState("Student");
+
         userRepo.save(newUser);
 
-        return new RegisterReturn("User created with sucess", true);
+        return new Return("User created with sucess", true);
 
     }
 
     @Override
-    public LoginReturn Login(LoginData data) {
+    public Return Login(LoginData data) {
 
         if (data.email().isEmpty() || data.password().isEmpty())
-            return new LoginReturn("All fields must be filled in", false);
+            return new Return("All fields must be filled in", false);
 
         Optional<User> userOptional = userRepo.findByEmail(data.email());
 
         if (userOptional.isEmpty())
-            return new LoginReturn("User not found", false);
+            return new Return("User not found", false);
 
         User user = userOptional.get();
 
         if (!encode.validate(data.password(), user.getPassword()))
-            return new LoginReturn("Password incorrect", false);
+            return new Return("Password incorrect", false);
 
         Token token = new Token();
 
@@ -78,7 +94,7 @@ public class UserImplementations implements UserServices {
 
         String jwt = "Bearer " + jwtCreate.get(token);
 
-        return new LoginReturn(jwt, true);
+        return new Return(jwt, true);
     }
 
     @Override
@@ -92,6 +108,33 @@ public class UserImplementations implements UserServices {
         }
 
         return true;
+    }
+
+    @Override
+    public UserProfileResponse getUserProfile(Long idUser) {
+
+        User user = userRepo.findById(idUser).get();
+        ArrayList<String> hardSkills = userHardkSkillRepo.getHardSkillUser(idUser);
+        ArrayList<AreasOfInterest> areasOfInterestsRaw = areasRepo.getAllByIdUser(idUser);
+
+        ArrayList<GetAreasOfInterest> areasOfInterest = new ArrayList<>();
+
+        for (AreasOfInterest areaOfInterest : areasOfInterestsRaw) {
+            
+            areasOfInterest.add(new GetAreasOfInterest(areaOfInterest.getText()));
+        }
+
+        
+        UserProfileResponse userProfileData = new UserProfileResponse(user.getUsername(), 
+                                                                      user.getName(), 
+                                                                      user.getPhoto(), 
+                                                                      user.getCoverPhoto(), 
+                                                                      user.getBio(), 
+                                                                      areasOfInterest, 
+                                                                      hardSkills,
+                                                                      true);
+
+        return userProfileData;
     }
 
 }
