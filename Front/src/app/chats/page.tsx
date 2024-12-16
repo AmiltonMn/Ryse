@@ -61,7 +61,7 @@ export default function Home() {
         setModal(true);
     }
 
-    const handleNewChat = async () => {
+    const handleNewTopic = async () => {
             await api.post("/topic",
                 {
                     "name": name
@@ -157,7 +157,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => handleNewChat()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewTopic()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

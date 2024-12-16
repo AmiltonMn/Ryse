@@ -9,18 +9,39 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+import { api } from "@/constants/api";
+
 import Image from "next/image";
 
 import send from "@/assets/send.png";
 import more from "@/assets/mais.png";
 import user from "@/assets/user.png";
 import file from "@/assets/file.png";
+import { it } from "node:test";
 
+interface ChatData {
+    name: string;
+    date: string;
+    user: string;
+}
+
+interface Message {
+    text: string;
+    date: string;
+    deleted: boolean;
+    user: {
+        photo: string;
+        name: string;
+    };
+}
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
+    const [msg, setMsg] = useState<string>("");
+    const [data, setData] = useState<ChatData[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
 
     const closeModal = () => {
         setName("");
@@ -29,6 +50,76 @@ export default function Home() {
 
     const openModal = () => {
         setModal(true);
+    }
+
+    const handleNewChat = async () => {
+        await api.post("/topicChat",
+            {
+                "name": name,
+                idTopic: 1 //deve ser do topico que entrou, -> localstorage?
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert("Chat cadastrado com sucesso")
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
+    }
+
+    useEffect(() => {
+        api.get(
+            `/topicChat/1`,
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            console.log(res)
+            setData(res.data)
+        })
+            .catch((e) => { })
+    }, [])
+
+    useEffect(() => {
+        api.get(`/topicChat/message/1`, {
+            headers: {
+                "Authorization": localStorage.getItem("token") || "",
+            },
+        })
+            .then((res) => {
+                setMessages(res.data.messages);
+            })
+            .catch((e) => {
+                console.error("Erro ao buscar mensagens:", e);
+            });
+    }, []);
+
+    const handleNewMessage = async () => {
+        await api.post("/topicChat/message",
+            {
+                text: msg,
+                idChatTopic: 1 //deve ser do chat que entrou, -> localstorage?
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert("mensagem enviada com sucesso")
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
     }
 
     const style =
@@ -41,7 +132,7 @@ export default function Home() {
     return (
         <div>
             <Menu title={"Ryse"} />
-            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
+            <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
             <div className="pt-32 pl-[300px] pr-[100px] flex">
                 <div className="w-full h-full text-white">
                     <div className="w-full h-full flex justify-center ">
@@ -66,10 +157,12 @@ export default function Home() {
                                         </div>
                                         <hr />
                                     </div>
+                                    {data.map((item) => (
+                                        <GroupChat name={item.name} />
+                                    ))}
+                                    <GroupChat name={"Front"} />
 
-                                    <GroupChat name={"Front"}/>
-
-                                    <GroupChat name={"Outra coisa"}/>
+                                    <GroupChat name={"Outra coisa"} />
 
                                     <button onClick={() => openModal()} className="flex flex-col hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
@@ -111,15 +204,25 @@ export default function Home() {
 
                                         <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
 
+                                        {/* Renderizando as mensagens */}
+                                        {messages.map((message, index) => (
+                                            message.user.name === "adrian" ? (
+                                                message.deleted == false ? (<MyMsg key={index} date={message.date} message={message.text} />) : (<MyMsg key={index} date={""} message={"Mensagem deletada"} />)
+                                                
+                                            ) : (
+                                                <OtherMsg key={index} foto={user.src} name={message.user.name} message={message.text} date={message.date} />
+                                            )
+                                        ))}
+
                                     </div>
 
                                     <div className="flex w-full h-20 rounded-r bg-[#313131] flex-row justify-center gap-4 items-center p-4">
                                         <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
                                             <Image src={file} alt="ícone ideia" className="w-7 h-7 cursor-pointer" />
-                                            <input type="file" className="absolute h-7 w-7 opacity-0 cursor-pointer"/>
+                                            <input type="file" className="absolute h-7 w-7 opacity-0 cursor-pointer" />
                                         </button>
-                                        <input className={style.inputz} placeholder="Mensagem" />
-                                        <button className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
+                                        <input value={msg} onChange={(e) => setMsg(e.target.value)} className={style.inputz} placeholder="Mensagem" />
+                                        <button onClick={() => { handleNewMessage(); setMsg(''); }} className="rounded-[100%] h-10 w-10 min-w-10 bg-[#2B2B2B] flex justify-center items-center hover:scale-105">
                                             <Image src={send} alt="ícone ideia" className="w-7 h-7" />
                                         </button>
                                     </div>
@@ -142,7 +245,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewChat()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
