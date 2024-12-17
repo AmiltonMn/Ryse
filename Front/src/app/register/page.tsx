@@ -14,12 +14,13 @@ export default function Register() {
   const [password, setPassword] = useState<string>("")
   const [username, setUsername] = useState<string>("")
 
-  const fetch = async (name: string, email: string, edv: string, password: string) => {
+  const fetch = async () => {
     try {
       const response = await axios.post("http://localhost:8080/register",{
         "name" : name,
+        "username": username,
         "email" : email,
-        "EDV": edv,
+        "EDV": EDV,
         "password": password
       }, {
         headers: {
@@ -27,6 +28,7 @@ export default function Register() {
         }
       })
       console.log(response.data)
+      alert(response.data.message)
     } catch (error) {
       console.error("Erro ao dar fetch", error);
     }
@@ -42,16 +44,18 @@ export default function Register() {
     return (
         <>
             <main className={style.main}>
-                <form className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-7 p-10">
+                <form onSubmit={async(e) => {
+                  e.preventDefault();
+                  await fetch()}} className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-7 p-10">
                     <div className="flex flex-col items-center">
                         <h2 className="text-[#F41C54] font-semibold text-2xl">Create account,</h2>
                         <h2 className="font-normal text-2xl">to get started now!</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
-                        <input className={style.inputz} placeholder="Name" />
-                        <input className={style.inputz} placeholder="Username" />
-                        <input className={style.inputz} type="email" placeholder="Email" />
-                        <input className={style.inputz} placeholder="EDV" />
-                        <input className={style.inputz} type="password" placeholder="Password" />
+                        <input className={style.inputz} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+                        <input className={style.inputz} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                        <input className={style.inputz} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
+                        <input className={style.inputz} onChange={(e) => setEDV(e.target.value)} placeholder="EDV" />
+                        <input className={style.inputz} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Sign Up</button>
                     <div className="flex flex-row justify-center gap-2">

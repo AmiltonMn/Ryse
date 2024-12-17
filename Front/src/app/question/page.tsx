@@ -81,7 +81,7 @@ export default function Question() {
                 window.location.reload()   
             })
             .catch((e) => {
-                alert(e.response.data.message)
+                console.log(e)
             })
     }
 

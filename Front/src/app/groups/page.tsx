@@ -60,7 +60,7 @@ export default function Home() {
             ).then((res) => {
                 console.log(res)
                 setGroupsData(res.data.groupsList)
-                console.log(groups)
+                setHasNext(pag <= res.data.pagesLimit)
             }).catch((e) => {
                 console.log("Error to get the data!")
             })
@@ -71,7 +71,9 @@ export default function Home() {
     const [description, setDescription] = useState<string>("");
     const [goal, setGoal] = useState<string>("");
     const [pag, setPag ] = useState<string>("1");
-    const [query, setQuery] = useState<string>("")
+    const [query, setQuery] = useState<string>("");
+    const [hasNext, setHasNext] = useState<Boolean>(false);
+
 
     useEffect(() => {
         handleSearchGroup(pag, query)
@@ -120,7 +122,7 @@ export default function Home() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
-            <div className="pt-36 pl-[300px] pr-[100px] flex">
+            <div className="pt-32 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <div className="flex flex-row items-center">
@@ -137,13 +139,13 @@ export default function Home() {
                     <hr className="mt-4 w-[99%]" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
                         {groups.map((item) => (
-                            <CardGroup foto={google.src} name={item.title} description={item.description}></CardGroup>
+                            <CardGroup key={Math.random()} foto={google.src} name={item.title} description={item.description}></CardGroup>
                         ))}
                     </div>
-                    <div className="w-full flex justify-center mt-3 gap-3 mb-2">
-                        <button onClick={() => prev()} className={ pagina <=1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => {setPag(e.target.value), handleSearchGroup(pag, query)}}  className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                    <div className="w-full flex fixed bottom-6 left-[50%] mt-3 gap-3">
+                        <button disabled={pagina <= 1} onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button disabled={!hasNext} onClick={() => next()} className={hasNext? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>▶</button>
                     </div>
                 </div>
             </div>

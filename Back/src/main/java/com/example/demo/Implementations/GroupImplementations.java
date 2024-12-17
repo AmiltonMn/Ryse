@@ -40,7 +40,7 @@ public class GroupImplementations implements GroupServices {
 
         if (data.name() == "" ||
             data.objective() == "" ||
-            data.description() == "") {
+            data.description() == "") 
             System.out.println("Estao nulos os nossos queridos");
         if (data.name() == "" ||
             data.objective() == "" ||
@@ -51,7 +51,6 @@ public class GroupImplementations implements GroupServices {
         }
 
         Group newGroup = new Group();
-        UserGroup newUserGroup = new UserGroup();
         UserGroup newUserGroup = new UserGroup();
         String now = LocalDateTime.now().toString();
 
@@ -116,9 +115,6 @@ public class GroupImplementations implements GroupServices {
     }
 
     @Override
-    public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query) {
-
-        var results = groupRepo.findByNameContains(query, PageRequest.of(page, limit));
     public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query) {
 
         var results = groupRepo.findByNameContains(query, PageRequest.of(page, limit));

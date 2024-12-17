@@ -58,7 +58,6 @@ export default function Home() {
     let forumId = localStorage.getItem("forum");
 
     useEffect(() => {
-
         api.get(
             `/forum/${forumId}?topic=${topic}&page=${pag}`, 
             {
@@ -74,7 +73,6 @@ export default function Home() {
     }, [pag, topic])
 
     useEffect(() => {
-
         api.get(
             `/forum/topics`, 
             {
@@ -89,6 +87,10 @@ export default function Home() {
     }, [])
 
     const handleNewQuestion = async () => {
+        if(newTopic == "") {
+            alert('select a topic')
+            return
+        }
         await api.post(`/forum/${forumId}/question?`,
             {
                 "title": title,
@@ -105,7 +107,7 @@ export default function Home() {
                 window.location.reload()   
             })
             .catch((e) => {
-                alert(e.response.data.message)
+                console.log(e)
             })
             .finally(() => setModal(false))
     }
@@ -177,7 +179,7 @@ export default function Home() {
                         {/* <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} /> */}
                     </div>
-                     <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
+                    <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
                         <button disabled={pagina <= 1} onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
                         <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
                         <button disabled={!hasNext} onClick={() => next()} className={hasNext? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>▶</button>
@@ -199,6 +201,7 @@ export default function Home() {
                             <input type="text" placeholder="Forum text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
                             <label htmlFor="" className="mt-8">Topic</label>
                             <select onChange={(e) => setNewTopic(e.target.value)} className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black">
+                                <option value="">Select a topic</option>
                                 {topics.map((topic) => (
                                     <option key={topic.idTopic} value={topic.idTopic}>{topic.name}</option>
                                 ))}

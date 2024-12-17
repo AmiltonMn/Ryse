@@ -58,6 +58,7 @@ public class UserImplementations implements UserServices {
         User newUser = new User();
 
         newUser.setName(data.name());
+        newUser.setUsername(data.username());
         newUser.setEmail(data.email());
         newUser.setEdv(data.EDV());
         newUser.setPassword(encoder.encode(data.password()));

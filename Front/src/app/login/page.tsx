@@ -44,7 +44,7 @@ export default function Login() {
     return (
         <>
             <main className={style.main}>
-                <form  onSubmit={async(e) => {
+                <form onSubmit={async(e) => {
                   e.preventDefault();
                   await fetch(email,password)}} className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-10 p-10">
                     <div className="flex flex-col items-center">
