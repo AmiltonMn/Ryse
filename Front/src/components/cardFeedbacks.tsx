@@ -14,7 +14,7 @@ export const CardFeed = ({ imageFeed, name, username, feedback }: {
         <>
             <div>
             <div className="w-full text-white relative flex justify-start align-top">
-                <Image className="absolute w-12 rounded-full " src={imageFeed} width={170} height={170} alt="Image Profile"></Image>
+                <Image className="absolute w-12 rounded-full " src={imageFeed} width={170} height={170} alt="Image Profile" unoptimized></Image>
                 <div className="left-0 top-0 ml-16">
                     <h1 className="text-[15px] font-medium">{name}</h1>
                     <h1 className="text-[12px] font-extralight">{username}</h1>

@@ -19,6 +19,9 @@ public class User {
     private String name;
 
     @Column
+    private String username;
+
+    @Column
     private String email;
 
     @Column
@@ -122,6 +125,14 @@ public class User {
 
     public void setBackgroundphoto(String Backgroundphoto) {
         this.Backgroundphoto = Backgroundphoto;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

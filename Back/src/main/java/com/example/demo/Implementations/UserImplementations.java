@@ -11,15 +11,19 @@ import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
 import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
+import com.example.demo.DTO.UserDTO.AnswerComentarie;
+import com.example.demo.DTO.UserDTO.QuestionComentarie;
 import com.example.demo.DTO.UserDTO.appearanceUser;
 import com.example.demo.DTO.UserDTO.perfilInfo;
 import com.example.demo.DTO.UserDTO.perfilLikesReturn;
 import com.example.demo.JWTCreate;
 import com.example.demo.Models.Answer;
 import com.example.demo.Models.LikeAnswer;
+import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.AnswerRepository;
 import com.example.demo.Repositories.LikeAnswerRepository;
+import com.example.demo.Repositories.QuestionRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -30,10 +34,13 @@ public class UserImplementations implements UserServices {
     UserRepository userRepo;
 
     @Autowired
-    LikeAnswerRepository likeAnswerRepository;
+    LikeAnswerRepository likeAnswerRepo;
 
     @Autowired
-    AnswerRepository answerRepository;
+    QuestionRepository questionRepo;
+
+    @Autowired
+    AnswerRepository answerRepo;
 
     @Autowired
     EncodeServices encode;
@@ -122,10 +129,10 @@ public class UserImplementations implements UserServices {
     @Override
     public perfilLikesReturn getLikes(Long idUser) {
 
-        var allLikes = likeAnswerRepository.getLikesUser(idUser);
+        var allLikes = likeAnswerRepo.getLikesUser(idUser);
         List<Answer> answers = new ArrayList<>();
         for (LikeAnswer like : allLikes) {
-            answers.add(answerRepository.getAnswers(like.getAnswer().getIdAnswer()));
+            answers.add(answerRepo.getAnswers(like.getAnswer().getIdAnswer()));
         }
         List<String> allAnswers = new ArrayList<>();
         List<appearanceUser> usersAnswer = new ArrayList<>();
@@ -138,11 +145,23 @@ public class UserImplementations implements UserServices {
     }
 
     @Override
-    public String getComentaries(Long idUser) {
+    public List<QuestionComentarie> getQuestionComentaries(Long idUser) {
+        var response = questionRepo.getQuestionByUser(idUser);
+        List<QuestionComentarie> questionComentaries = new ArrayList<>();
+        for (Question question : response) {
+            questionComentaries.add(new QuestionComentarie(question.getTopicForum().getName(), new appearanceUser(question.getUser().getUsername(),question.getUser().getName() , question.getUser().getPhoto()), question.getTitle(), question.getText(), question.getDate()));
+        }
+        return questionComentaries;
+    }
 
-
-        
-        return null;
+    @Override
+    public List<AnswerComentarie> getAnswerComentaries(Long idUser) {
+        var response = answerRepo.getAnswersByUser(idUser);
+        List<AnswerComentarie> answerComentarie = new ArrayList<>();
+        for (Answer answer : response) {
+            answerComentarie.add(new AnswerComentarie(new QuestionComentarie(answer.getQuestion().getTopicForum().getName(), new appearanceUser(answer.getQuestion().getUser().getUsername(),answer.getQuestion().getUser().getName() , answer.getQuestion().getUser().getPhoto()), answer.getQuestion().getTitle(), answer.getQuestion().getText(), answer.getQuestion().getDate()), new appearanceUser(answer.getUser().getUsername(), answer.getUser().getName(), answer.getUser().getPhoto()), answer.getText()));
+        }
+        return answerComentarie;
     }
 
 }

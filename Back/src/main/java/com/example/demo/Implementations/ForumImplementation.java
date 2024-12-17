@@ -154,7 +154,7 @@ public class ForumImplementation implements ForumService{
         newQuestion.setForum(forum.get());
         newQuestion.setTopicForum(topic.get());
         newQuestion.setUser(user.get());
-        newQuestion.setDate(LocalDateTime.now().toString());
+        newQuestion.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")).toString());
 
         questionRepo.save(newQuestion);
         
@@ -176,7 +176,7 @@ public class ForumImplementation implements ForumService{
 
         newAnswer.setUser(user.get());
         newAnswer.setQuestion(question.get());
-        newAnswer.setDate(LocalDateTime.now().toString());
+        newAnswer.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")).toString());
         newAnswer.setText(data.text());
 
         answerRepo.save(newAnswer);

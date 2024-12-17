@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.UserDTO.UserInfoReturn;
+import com.example.demo.DTO.UserDTO.perfilComentariesReturn;
+import com.example.demo.DTO.UserDTO.perfilLikesReturn;
 import com.example.demo.Services.AreasOfInterestServices;
 import com.example.demo.Services.HardSkillService;
 import com.example.demo.Services.UserServices;
@@ -33,10 +35,25 @@ public class PerfilController {
 
  
     @GetMapping
-    public ResponseEntity<UserInfoReturn> getMethodName(@RequestAttribute("token") Token token) {
+    public ResponseEntity<UserInfoReturn> getPerfilInfo(@RequestAttribute("token") Token token) {
         UserInfoReturn info = new UserInfoReturn(userServices.getPerfilData(token.getId()), hardSkillService.getAllHardSkill(), hardSkillService.getAllHardSkillUser(token.getId()), areasOfInterestServices.getAllAreasByUser(token.getId()).areas());
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
+
+    @GetMapping("/likes")
+    public ResponseEntity<perfilLikesReturn> getLikes(@RequestAttribute("token") Token token) {
+        var info = userServices.getLikes(token.getId());
+        return new ResponseEntity<>(info, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/comentaries")
+    public ResponseEntity<perfilComentariesReturn> getComentaries(@RequestAttribute("token") Token token) {
+        var Answers = userServices.getAnswerComentaries(token.getId());
+        var Questions = userServices.getQuestionComentaries(token.getId());
+        return new ResponseEntity<>(new perfilComentariesReturn(Questions, Answers), HttpStatus.OK);
+    }
+    
     
     @PostMapping("/Photo")
     public ResponseEntity<String> postMethodName(@RequestAttribute("token") Token token,@RequestParam(value="photo", defaultValue = "") String photo) {

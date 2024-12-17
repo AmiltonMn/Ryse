@@ -41,7 +41,60 @@ interface FeedbacksUserLoged {
 
 interface hardSkillType {
     name: string;
+}
 
+interface Perguntacomentarios {
+    topic: string;
+    user: {
+        username: string;
+        name: string;
+        photo: string | null;
+    }
+    title: string;
+    text: string;
+    date: string
+}
+
+interface AnswerCommentary {
+    question: {
+        topic: string;
+        user: {
+            username: string;
+            name: string;
+            photo: string | null;
+        }
+        title: string;
+        text: string;
+        date: string;
+    };
+    userResponding: {
+        username: string;
+        name: string;
+        photo: string | null;
+    };
+    text: string;
+}
+
+interface Likes {
+    answer: string;
+    user: {
+        username: string;
+        name: string;
+        photo: string | null;
+    }
+}
+
+
+interface appearanceUser {
+    username: string;
+    name: string;
+    photo: string | null;
+}
+
+// Definindo o tipo para o retorno do perfil, contendo usuários e respostas
+interface perfilLikesReturn {
+    users: appearanceUser[];
+    answers: string[];
 }
 
 
@@ -136,6 +189,11 @@ const Profile: React.FC = () => {
     const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
     const [feedbackReceiver, setfeedbackReceiver] = useState<FeedbacksUserLoged[]>([])
 
+    const [answerCommentary, setAnswerCommentary] = useState<AnswerCommentary[]>([])
+    const [questionComentary, setQuestionComentary] = useState<Perguntacomentarios[]>([])
+    const [likes, setLikes] = useState<Likes[]>([])
+
+
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
     const addAreaInterest = async () => {
@@ -229,7 +287,7 @@ const Profile: React.FC = () => {
             console.error("No file selected");
             return;
         }
-        const uniqueid =  `${name}Perfil-${Date.now()}`;
+        const uniqueid = `${name}Perfil-${Date.now()}`;
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "sla-api");
@@ -248,31 +306,31 @@ const Profile: React.FC = () => {
             console.error(error);
         }
         try {
-            const response = await api.post(`/perfil/Photo?photo=${uniqueid}`,null,{
+            const response = await api.post(`/perfil/Photo?photo=${uniqueid}`, null, {
                 headers: {
-                  "Authorization": localStorage.getItem("token")
+                    "Authorization": localStorage.getItem("token")
                 }
-              })
+            })
             console.log(response);
-          } catch (error) {
+        } catch (error) {
             console.log("erro ao dar fecth", error)
-          }
-        
-         
-          
+        }
+
+
+
     };
 
     // Busca a URL da imagem com base no publicId
     const fetchImageUrl = async (publicId: string) => {
         console.log("public id do fetch", publicId);
-        
+
         try {
             const response = await axios.get(
                 `https://res.cloudinary.com/dxunnhglr/image/upload/${publicId}`,
                 { responseType: "arraybuffer" }
             );
-            console.log("opa",response);
-            
+            console.log("opa", response);
+
             const base64 = Buffer.from(response.data, "binary").toString("base64");
             return `data:image/png;base64,${base64}`;
         } catch (error) {
@@ -282,6 +340,86 @@ const Profile: React.FC = () => {
     };
 
 
+
+    const getComentarios = async () => {
+        try {
+            const response = await api.get(`/perfil/comentaries`, {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            });
+
+            console.log("API response", response.data); // Inspecione o retorno aqui
+
+            // Supondo que os dados estão dentro de uma propriedade chamada "data"
+            const perguntas: Perguntacomentarios[] = (response.data.questionsComentaries || []).map((item: any) => ({
+                topic: item.topico,
+                user: {
+                    username: item.user.username,
+                    name: item.user.name,
+                    photo: item.user.photo,
+                },
+                title: item.title,
+                text: item.text,
+                date: item.date
+            }));
+
+            setQuestionComentary(perguntas);
+            const answers: AnswerCommentary[] = (response.data.answerComentaries || []).map((item: any) => ({
+                question: {
+                    topic: item.question.topico,
+                    user: {
+                        username: item.question.user.username,
+                        name: item.question.user.name,
+                        photo: item.question.user.photo,
+                    },
+                    title: item.question.title,
+                    text: item.question.text,
+                    date: item.question.date
+                },
+                userResponding: {
+                    username: item.userResponding.username,
+                    name: item.userResponding.name,
+                    photo: item.userResponding.photo,
+                },
+                text: item.text,
+            }));
+            setAnswerCommentary(answers);
+            console.log("comentariosaaaaa", perguntas);
+            console.log("respostasaaaaaa", answers);
+        } catch (error) {
+            console.error("Erro ao dar fetch", error);
+        }
+    };
+
+
+    const getLikes = async () => {
+        try {
+            const response = await api.get(`/perfil/likes`, {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            const perfilLikes: perfilLikesReturn = response.data;
+
+            // Fazendo o mapeamento para a interface Likes
+            const likesUhul: Likes[] = perfilLikes.answers.map((answer, index) => {
+                const user = perfilLikes.users[index]; // Assumindo que as listas de answers e users têm o mesmo tamanho
+
+                return {
+                    answer, // A resposta
+                    user: {
+                        username: user.username,
+                        name: user.name,
+                        photo: user.photo || null, // Usando null caso a foto não exista
+                    },
+                };
+            });
+            setLikes(likesUhul);
+        } catch (error) {
+            console.log("erro ao dar fecth", error)
+        }
+    }
 
     useEffect(() => {
         api.get(
@@ -302,7 +440,7 @@ const Profile: React.FC = () => {
             if (res.data.info.photo === null) {
                 setPublicId("user")
                 console.log(publicId);
-                
+
             } else {
                 setPublicId(res.data.info.photo)
                 console.log(publicId);
@@ -311,6 +449,8 @@ const Profile: React.FC = () => {
             setUsername(res.data.info.username)
 
         })
+        getComentarios();
+        getLikes();
 
         getFeedbackReceiver();
         getFeedbackSender();
@@ -318,16 +458,15 @@ const Profile: React.FC = () => {
     }, [])
 
     useEffect(() => {
-
-    }, [feedbackReceiver, feedbackSender])
+        console.log(likes);
+        
+    }, [feedbackReceiver, feedbackSender, answerCommentary, questionComentary, likes])
 
     useEffect(() => {
         const loadImage = async () => {
-            console.log("sera que é",publicId);
-            
+
             const url = await fetchImageUrl(publicId);
-            console.log("opa123",url);
-            
+
             setImageUrl(url);
         };
 
@@ -358,8 +497,8 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div className="flex">
-                {imageUrl && ( <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={imageUrl} name={name} username={username} />)}
-                {!imageUrl && ( <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />)}
+                    {imageUrl && (<CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={imageUrl} name={name} username={username} />)}
+                    {!imageUrl && (<CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name={name} username={username} />)}
                 </div>
 
                 <div className="flex justify-end">
@@ -404,12 +543,12 @@ const Profile: React.FC = () => {
 
                         {feedbackTab === "received" ? (
                             feedbackReceiver.map((item, index) => (
-                                <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))
+                                <CardFeed key={index} imageFeed={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`} name={item.user.name} username={item.user.username} feedback={item.text} />))
 
 
                         ) : (
                             feedbackSender.map((item, index) => (
-                                <CardFeed key={index} imageFeed={profile.src} name={item.user.name} username={item.user.username} feedback={item.text} />))
+                                <CardFeed key={index} imageFeed={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`} name={item.user.name} username={item.user.username} feedback={item.text} />))
 
                         )}
                     </div>
@@ -423,11 +562,23 @@ const Profile: React.FC = () => {
                         </div>
 
                         {interactionTab === "likes" ? (
-                            <CardLike name="Mascos Castro" username="@silveiralup" text="Como faz para integrar Java com web?" image={profile.src} />
+                            likes.map((item)=> (<CardLike name={item.user.name} username={item.user.name} text={item.answer} image={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`} />))
+                            
                         ) : (
                             <div>
-                                <CardCommentProfile image={profile.src} username="@maduEduarda" group="Java Avançado" date="12/01/2015 12:56" text="Como faço um create no database?" />
-                                <CardAnswerProfile image={profile.src} username="@maduEduarda" group="Java Avançado" date="12/01/2015 12:56" question="Como faço um create no database?" imageQuestion={profile.src} answer="faz isso e talallalala" usernameQuestion="@marcosCastro" />
+                                {questionComentary.map((item) => (
+                                    <CardCommentProfile
+                                        key={`${item.user.name}-${item.user.photo}`}
+                                        image={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`}
+                                        username={item.user.name}
+                                        group={item.topic}
+                                        date={item.date}
+                                        text={item.text}
+                                    />
+                                ))}
+
+                                {answerCommentary.map((item) => (<CardAnswerProfile image={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.question.user.photo}`} username={item.question.user.name} group={item.question.topic} date={item.question.date} question={item.question.text} imageQuestion={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.userResponding.photo}`} answer={item.text} usernameQuestion={item.userResponding.name} />))}
+
                             </div>
                         )}
                     </div>
@@ -510,13 +661,13 @@ const Profile: React.FC = () => {
                                                 />
                                             )}
                                             {!imageUrl && <Image
-                                                    className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer"
-                                                    src={profile}
-                                                    width={170}
-                                                    height={170}
-                                                    alt="Image Profile"
-                                                    onClick={() => handleClick("fileProfileProfile")}
-                                                />}
+                                                className="absolute w-[100px] rounded-full top-12 ml-8 transition ease-in-out delay-150 cursor-pointer"
+                                                src={profile}
+                                                width={170}
+                                                height={170}
+                                                alt="Image Profile"
+                                                onClick={() => handleClick("fileProfileProfile")}
+                                            />}
                                         </div>
                                     </div>
 
@@ -532,10 +683,10 @@ const Profile: React.FC = () => {
                                 <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
                             </div>
 
-                        <div className="flex justify-between mt-10">
-                            <button type="submit" onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
-                        </div>
+                            <div className="flex justify-between mt-10">
+                                <button type="submit" onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                                <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            </div>
                         </form>
                     </div>
                 </div>
