@@ -16,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.GroupDto.CreateGroupData;
-import com.example.demo.DTO.GroupDto.GetGroupsResponse;
-import com.example.demo.DTO.GroupDto.GroupGet;
-import com.example.demo.DTO.GroupDto.NewGroupData;
-import com.example.demo.DTO.GroupDto.UpdateGroupData;
-import com.example.demo.DTO.GroupDto.addUserGroup;
+import com.example.demo.DTO.GroupDTO.CreateGroupData;
+import com.example.demo.DTO.GroupDTO.GetGroupsResponse;
+import com.example.demo.DTO.GroupDTO.GroupGet;
+import com.example.demo.DTO.GroupDTO.NewGroupData;
+import com.example.demo.DTO.GroupDTO.UpdateGroupData;
+import com.example.demo.DTO.GroupDTO.addUserGroup;
 import com.example.demo.DTO.UserDTO.GetUsersData;
 import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.User;
+import com.example.demo.Repositories.GroupRepository;
 import com.example.demo.DTO.Token;
 import com.example.demo.Services.GroupServices;
 
@@ -35,8 +36,13 @@ public class GroupController {
     @Autowired
     GroupServices groupService;
     
+    @Autowired
+    GroupRepository groupRepo;
+
     @PostMapping
     public ResponseEntity<CreateGroupData> createNewGroup(@RequestBody NewGroupData data, @RequestAttribute("token") Token token) {
+
+        System.out.println(data);
 
         var response =  groupService.createGroup(data, token.getId());
 
@@ -63,9 +69,15 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "1") Integer page) {
+    public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "") String query) {
 
-        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page, 9), "All of the user group are on the list!");
+        Integer groupsCount = groupRepo.getGroupsCount(token.getId());
+
+        Double pages = Math.floor(groupsCount / 9);
+
+        System.out.println(pages);
+
+        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page - 1, 9, query), "All of the user group are on the list!", pages);
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

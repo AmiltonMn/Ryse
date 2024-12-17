@@ -11,25 +11,85 @@ import Image from "next/image";
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
-import search from "@/assets/lupa.png"
+import search from "@/assets/lupaBlack.png"
+import { api } from "@/constants/api";
+import { title } from "process";
+import { group } from "console";
+import { pages } from "next/dist/build/templates/app-page";
 
+interface groupsData {
+    title: string,
+    description: string,
+    photo: string 
+}
 
 export default function Home() {
+
+    const [groups, setGroupsData] = useState<groupsData[]>([])
+    const [limitPage, setLimitPage] = useState<number>(0)
+
+    const handleNewGroup = async () => {
+        await api.post("/group",
+            {
+                "name" : name,
+                "description" : description,
+                "objective" : goal
+            },
+            {
+                headers: {
+                    "Authorization" : localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert(res.data.message)
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
+    }
+
+    const handleSearchGroup = async (pag: string, query: string) => {
+            api.get(
+                `/group?page=${pag}&query=${query}`,
+                {
+                    headers: {
+                        "Authorization": localStorage.getItem("token")
+                    }
+                }
+            ).then((res) => {
+                console.log(res)
+                setGroupsData(res.data.groupsList)
+                setHasNext(pag <= res.data.pagesLimit)
+            }).catch((e) => {
+                console.log("Error to get the data!")
+            })
+    }
 
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [goal, setGoal] = useState<string>("");
-    const[ pag, setPag ] = useState<string>("1")
+    const [pag, setPag ] = useState<string>("1");
+    const [query, setQuery] = useState<string>("");
+    const [hasNext, setHasNext] = useState<Boolean>(false);
+
+
+    useEffect(() => {
+        handleSearchGroup(pag, query)
+    }, [pag, query])
+
 
     const pagina = Number(pag)
 
     const next = () => {
         if (!Number.isInteger(pagina) || pagina < 1) {
             setPag("1")
-        }
-        else{
-            setPag((pagina+1).toString())
+        } else if (pagina >= limitPage) {
+            
+        } else {
+            setPag((pagina + 1).toString())
         }
     }
 
@@ -64,7 +124,7 @@ export default function Home() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"}/>
-            <div className="pt-36 pl-[300px] pr-[100px] flex">
+            <div className="pt-32 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
                         <div className="flex flex-row items-center">
@@ -74,26 +134,21 @@ export default function Home() {
                         </button>
                         </div>
                         <div className="flex w-1/3 justify-center items-center">
-                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
-                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search"/>
                         </div>
                     </div>
                     <hr className="mt-4 w-[99%]" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
-                        <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"}/>
+                        {groups.map((item) => (
+                            <CardGroup key={Math.random()} foto={google.src} name={item.title} description={item.description}></CardGroup>
+                        ))}
                     </div>
-                    <div className="w-full flex justify-center mt-3 gap-3 mb-2">
-                        <button onClick={() => prev()} className={ pagina <=1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => setPag(e.target.value)}  className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                    <div className="w-full flex fixed bottom-6 left-[50%] mt-3 gap-3">
+                        <button disabled={pagina <= 1} onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
+                        <button disabled={!hasNext} onClick={() => next()} className={hasNext? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>▶</button>
                     </div>
                 </div>
             </div>
@@ -113,14 +168,11 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewGroup()}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        
+        </div>        
     );
 }

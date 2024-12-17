@@ -30,6 +30,16 @@ interface ForumData {
     questionsCount: number;
 }
 
+interface TopicChatData {
+    idTopicChat: number;
+    name: string;
+}
+
+interface TopicChatData {
+    idTopicChat: number;
+    name: string;
+}
+
 export default function Home() {
 
     const [modal, setModal] = useState(false);
@@ -37,6 +47,31 @@ export default function Home() {
     const [query, setQuery] = useState<string>("");
     const [size, setSize] = useState<number>(5);
     const [data, setData] = useState<ForumData[]>([]);
+    const [data2, setData2] = useState<TopicChatData[]>([]);
+
+    const [pag, setPag] = useState<string>("1");
+
+    const pagina = Number(pag)
+
+    const next = () => {
+        if (!Number.isInteger(pagina) || pagina < 1) {
+            setPag("1")
+        }
+        else {
+            setPag((pagina + 1).toString())
+        }
+    }
+
+    const prev = () => {
+
+        if (!Number.isInteger(pagina)) {
+            setPag("1")
+        }
+
+        if (pagina > 1) {
+            setPag((pagina - 1).toString())
+        }
+    }
 
     const closeModal = () => {
         setName("");
@@ -58,7 +93,7 @@ export default function Home() {
                 }
             })
             .then((res) => {
-                alert("Fórum cadastrado com sucesso")
+                alert("Forum registered successfully")
                 window.location.reload()   
             })
             .catch((e) => {
@@ -74,12 +109,33 @@ export default function Home() {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
-            }
+            },
         ).then((res) => {
-            console.log(res)
             setData(res.data)
         })
+
+        api.get("/topicChat/1", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log(res.data)
+            setData2(res.data)
+        })
         .catch((e) => {})
+
+        api.get("/topicChat/1", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log(res.data)
+            setData2(res.data)
+        })
     }, [query, size])
 
     return (
@@ -104,7 +160,7 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col justify-center items-center gap-10 mt-12">
                         {data.map((item) => (
-                            <CardForum key={item.idForum} linkForum={`/forum/${item.idForum}`} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
+                            <CardForum key={item.idForum} forumId={item.idForum} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
                         ))}
                         <button onClick={() => setSize(size + 5)} className="mt-8 bg-[#5B5B5B] p-2 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</button>
                         {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
@@ -115,10 +171,9 @@ export default function Home() {
                 <div className="flex flex-col bg-[#242424] ml-16 w-[18%] h-[70%] p-8 rounded-[10px] border-[#4B4B4B] border-[0.5px] text-white">
                     <h4 className="text-[#595959] font-bold text-[16px]">POPULAR CHAT</h4>
                     <div className="flex flex-col items-center">
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
+                        {data2.map((item) =>(
+                            <Link href={ROUTES.chats} key={item.idTopicChat} className={styles.chat}>{item.name}</Link>
+                        ))}
                     </div>
                     <Link href={ROUTES.chats} className="mt-8 bg-[#5B5B5B] p-1 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</Link>
                 </div>

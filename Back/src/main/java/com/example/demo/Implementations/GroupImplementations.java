@@ -9,11 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.demo.DTO.GroupDto.CreateGroupData;
-import com.example.demo.DTO.GroupDto.GroupGet;
-import com.example.demo.DTO.GroupDto.NewGroupData;
-import com.example.demo.DTO.GroupDto.UpdateGroupData;
-import com.example.demo.DTO.GroupDto.getGroupAll;
+import com.example.demo.DTO.GroupDTO.CreateGroupData;
+import com.example.demo.DTO.GroupDTO.GroupGet;
+import com.example.demo.DTO.GroupDTO.NewGroupData;
+import com.example.demo.DTO.GroupDTO.UpdateGroupData;
+import com.example.demo.DTO.GroupDTO.getGroupAll;
 import com.example.demo.Models.Group;
 import com.example.demo.Models.User;
 import com.example.demo.Models.UserGroup;
@@ -40,6 +40,10 @@ public class GroupImplementations implements GroupServices {
 
         if (data.name() == "" ||
             data.objective() == "" ||
+            data.description() == "") 
+            System.out.println("Estao nulos os nossos queridos");
+        if (data.name() == "" ||
+            data.objective() == "" ||
             data.description() == "") {
             System.out.println("Estao nulos os nossos queridos");
             return new ResponseEntity<>(new CreateGroupData("Enter all fields correctly", false),
@@ -56,6 +60,12 @@ public class GroupImplementations implements GroupServices {
         newGroup.setObjective(data.objective());
         newGroup.setDescription(data.description());
         groupRepo.save(newGroup);
+
+        newUserGroup.setGroup(newGroup);
+        newUserGroup.setUser(getUser);
+        userGroupRepo.save(newUserGroup);
+
+        System.out.println("O grupo foi criado!");
 
         newUserGroup.setGroup(newGroup);
         newUserGroup.setUser(getUser);
@@ -117,8 +127,7 @@ public class GroupImplementations implements GroupServices {
             groupsList.add(new getGroupAll(
                     results.get(i).getName(),
                     results.get(i).getDescription(),
-                    results.get(i).getObjective(),
-                    results.size() / 9));
+                    results.get(i).getObjective()));
         }
 
         return groupsList;

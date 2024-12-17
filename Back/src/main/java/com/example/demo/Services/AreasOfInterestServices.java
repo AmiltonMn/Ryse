@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import com.example.demo.DTO.AreasOfInterestDto.AreasOfInterestResponse;
 
 public interface AreasOfInterestServices {
-    ResponseEntity<AreasOfInterestResponse> getAllAreasByUser(Long idUser);
+    AreasOfInterestResponse getAllAreasByUser(Long idUser);
     ResponseEntity<AreasOfInterestResponse> newAreaOfInterest(String text, Long idUser);
     ResponseEntity<AreasOfInterestResponse> deleteAreaOfInterest(Long idUser, Long idArea);
 }

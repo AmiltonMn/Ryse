@@ -1,25 +1,38 @@
 package com.example.demo.Implementations;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
 import com.example.demo.DTO.UserDTO.UserProfileResponse;
+import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.AreasOfInterestDto.GetAreasOfInterest;
+import com.example.demo.DTO.UserDTO.AnswerComentarie;
+import com.example.demo.DTO.UserDTO.QuestionComentarie;
+import com.example.demo.DTO.UserDTO.appearanceUser;
+import com.example.demo.DTO.UserDTO.perfilInfo;
+import com.example.demo.DTO.UserDTO.perfilLikesReturn;
 import com.example.demo.JWTCreate;
 import com.example.demo.Models.AreasOfInterest;
 import com.example.demo.Models.HardSkill;
+import com.example.demo.Models.Answer;
+import com.example.demo.Models.LikeAnswer;
+import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
 import com.example.demo.Models.UserHardSkill;
 import com.example.demo.Repositories.AreasOfInterestRepository;
 import com.example.demo.Repositories.HardSkillRepository;
 import com.example.demo.Repositories.UserHardSkillRepository;
+import com.example.demo.Repositories.AnswerRepository;
+import com.example.demo.Repositories.LikeAnswerRepository;
+import com.example.demo.Repositories.QuestionRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -28,6 +41,15 @@ public class UserImplementations implements UserServices {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    LikeAnswerRepository likeAnswerRepo;
+
+    @Autowired
+    QuestionRepository questionRepo;
+
+    @Autowired
+    AnswerRepository answerRepo;
 
     @Autowired
     EncodeServices encode;
@@ -58,6 +80,7 @@ public class UserImplementations implements UserServices {
         User newUser = new User();
 
         newUser.setName(data.name());
+        newUser.setUsername(data.username());
         newUser.setEmail(data.email());
         newUser.setEdv(data.EDV());
         newUser.setPassword(encoder.encode(data.password()));
@@ -103,38 +126,58 @@ public class UserImplementations implements UserServices {
             return false;
         }
 
-        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[1-9]).+$")) {
-            return false;
-        }
-
-        return true;
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[1-9]).+$");
     }
 
     @Override
-    public UserProfileResponse getUserProfile(Long idUser) {
+    public perfilInfo getPerfilData(Long idUser) {
+       var user = userRepo.findById(idUser).get();
+       
+        return new perfilInfo(user.getName(), user.getName(), user.getPhoto(), "Oie! Seja bem-vindo(a) ao meu perfil 😁 Sou o Amilton, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...", user.getBio());
+    }
 
-        User user = userRepo.findById(idUser).get();
-        ArrayList<String> hardSkills = userHardkSkillRepo.getHardSkillUser(idUser);
-        ArrayList<AreasOfInterest> areasOfInterestsRaw = areasRepo.getAllByIdUser(idUser);
+    @Override
+    public String updatePhotoPerfil(String photo,Long idUser) {
+       userRepo.updatePhoto(photo, idUser);
+       return "let's Go";
+    }
 
-        ArrayList<GetAreasOfInterest> areasOfInterest = new ArrayList<>();
+    @Override
+    public perfilLikesReturn getLikes(Long idUser) {
 
-        for (AreasOfInterest areaOfInterest : areasOfInterestsRaw) {
-            
-            areasOfInterest.add(new GetAreasOfInterest(areaOfInterest.getText()));
+        var allLikes = likeAnswerRepo.getLikesUser(idUser);
+        List<Answer> answers = new ArrayList<>();
+        for (LikeAnswer like : allLikes) {
+            answers.add(answerRepo.getAnswers(like.getAnswer().getIdAnswer()));
+        }
+        List<String> allAnswers = new ArrayList<>();
+        List<appearanceUser> usersAnswer = new ArrayList<>();
+        for (Answer answer : answers) {
+            usersAnswer.add(new appearanceUser(answer.getUser().getName(), answer.getUser().getName(), answer.getUser().getPhoto()));
+            allAnswers.add(answer.getText());
         }
 
-        
-        UserProfileResponse userProfileData = new UserProfileResponse(user.getUsername(), 
-                                                                      user.getName(), 
-                                                                      user.getPhoto(), 
-                                                                      user.getCoverPhoto(), 
-                                                                      user.getBio(), 
-                                                                      areasOfInterest, 
-                                                                      hardSkills,
-                                                                      true);
+        return new perfilLikesReturn(usersAnswer, allAnswers);
+    }
 
-        return userProfileData;
+    @Override
+    public List<QuestionComentarie> getQuestionComentaries(Long idUser) {
+        var response = questionRepo.getQuestionByUser(idUser);
+        List<QuestionComentarie> questionComentaries = new ArrayList<>();
+        for (Question question : response) {
+            questionComentaries.add(new QuestionComentarie(question.getTopicForum().getName(), new appearanceUser(question.getUser().getUsername(),question.getUser().getName() , question.getUser().getPhoto()), question.getTitle(), question.getText(), question.getDate()));
+        }
+        return questionComentaries;
+    }
+
+    @Override
+    public List<AnswerComentarie> getAnswerComentaries(Long idUser) {
+        var response = answerRepo.getAnswersByUser(idUser);
+        List<AnswerComentarie> answerComentarie = new ArrayList<>();
+        for (Answer answer : response) {
+            answerComentarie.add(new AnswerComentarie(new QuestionComentarie(answer.getQuestion().getTopicForum().getName(), new appearanceUser(answer.getQuestion().getUser().getUsername(),answer.getQuestion().getUser().getName() , answer.getQuestion().getUser().getPhoto()), answer.getQuestion().getTitle(), answer.getQuestion().getText(), answer.getQuestion().getDate()), new appearanceUser(answer.getUser().getUsername(), answer.getUser().getName(), answer.getUser().getPhoto()), answer.getText()));
+        }
+        return answerComentarie;
     }
 
 }

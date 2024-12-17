@@ -40,18 +40,13 @@ public class User {
     private String photo;
 
     @Column
+    private String Backgroundphoto;
+
+    @Column
     private String careerFocus;
 
     @Column
     private String userState;
-    
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public Long getId() {
         return idUser;

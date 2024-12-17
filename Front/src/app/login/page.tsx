@@ -1,12 +1,12 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { ROUTES } from "@/constants/routes";
 import { useRouter } from 'next/navigation'
 import Image from "next/image";
 
 import google from "@/assets/google.png";
+import { api } from "@/constants/api";
 
 export default function Login() {
 
@@ -17,7 +17,7 @@ export default function Login() {
     console.log("entrou");
     
     try {
-      const response = await axios.post("http://localhost:8080/login",{
+      const response = await api.post("/login",{
         "email" : email,
         "password": password
       }, {
@@ -44,7 +44,7 @@ export default function Login() {
     return (
         <>
             <main className={style.main}>
-                <form  onSubmit={async(e) => {
+                <form onSubmit={async(e) => {
                   e.preventDefault();
                   await fetch(email,password)}} className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-10 p-10">
                     <div className="flex flex-col items-center">
