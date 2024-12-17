@@ -184,7 +184,7 @@ export default function Ideas() {
     useEffect(() => {
         fetchIdeas(status, query);
 
-        if (userState && userState.toLowerCase() === "student") {
+        if (userState && userState.toLowerCase() === "instructor") {
             setIsInstructor(true);
         }
     }, [status, query, liked, userState]);

@@ -10,7 +10,7 @@ import iconMessage from "@/assets/mensagem.png";
 import iconIdea from "@/assets/luz.png";
 import iconMore from "@/assets/luz.png";
 import iconSettings from "@/assets/settings.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SubmenuProps {
     home: string;
@@ -45,6 +45,15 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
     const [isChats, setIsChats] = useState(true);
     const [isIdeia, setIsIdeia] = useState(true);
     const [isSettings, setIsSettings] = useState(true);
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userState = localStorage.getItem("userState");
+
+    useEffect(() => {
+        if (userState && userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }, [userState]);
 
     return (
         <div className="text-white h-full w-[250px] fixed font-robFont text-large border-[0.5px] border-[#656565] bg-[#292929]">
@@ -106,28 +115,34 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
 
 
                 {/* PARTE QUE SÓ VAI APARECER PARA OS INSTRUTORES */}
-                <hr className={styleSubmenu.hr} />
-                <div className={styleSubmenu.div}>
-                    <div className="flex flex-row justify-between">
-                        <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
-                    </div>
-                    {isSettings && <div>
-                        <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
-                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
-                            {hardSkills}
-                        </Link>
-                        <Link href={ROUTES.ideas} className={styleSubmenu.link}>
-                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
-                            {events}
-                        </Link>
-                        <Link href={ROUTES.ideas} className={styleSubmenu.link}>
-                            <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img}/>
-                            {news}
-                        </Link>
-                    </div>}
-                </div>
+                {isInstructor ?
+                    <>
+                        <hr className={styleSubmenu.hr} />
+                        <div className={styleSubmenu.div}>
+                            <div className="flex flex-row justify-between">
+                                <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
+                            </div>
+                            {isSettings && <div>
+                                <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
+                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
+                                    {hardSkills}
+                                </Link>
+                                <Link href={ROUTES.ideas} className={styleSubmenu.link}>
+                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
+                                    {events}
+                                </Link>
+                                <Link href={ROUTES.ideas} className={styleSubmenu.link}>
+                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
+                                    {news}
+                                </Link>
+                            </div>}
+                        </div>
+                    </>
+                    :
+                    <></>
+                }
             </div>
-                <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>
+            <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>
         </div>
     )
 }
