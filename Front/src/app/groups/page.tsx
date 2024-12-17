@@ -130,7 +130,7 @@ export default function Home() {
                         </button>
                         </div>
                         <div className="flex w-1/3 justify-center items-center">
-                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
                             <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search"/>
                         </div>
                     </div>

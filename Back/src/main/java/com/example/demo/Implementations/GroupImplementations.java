@@ -42,11 +42,16 @@ public class GroupImplementations implements GroupServices {
             data.objective() == "" ||
             data.description() == "") {
             System.out.println("Estao nulos os nossos queridos");
+        if (data.name() == "" ||
+            data.objective() == "" ||
+            data.description() == "") {
+            System.out.println("Estao nulos os nossos queridos");
             return new ResponseEntity<>(new CreateGroupData("Enter all fields correctly", false),
                     HttpStatus.NO_CONTENT);
         }
 
         Group newGroup = new Group();
+        UserGroup newUserGroup = new UserGroup();
         UserGroup newUserGroup = new UserGroup();
         String now = LocalDateTime.now().toString();
 
@@ -56,6 +61,12 @@ public class GroupImplementations implements GroupServices {
         newGroup.setObjective(data.objective());
         newGroup.setDescription(data.description());
         groupRepo.save(newGroup);
+
+        newUserGroup.setGroup(newGroup);
+        newUserGroup.setUser(getUser);
+        userGroupRepo.save(newUserGroup);
+
+        System.out.println("O grupo foi criado!");
 
         newUserGroup.setGroup(newGroup);
         newUserGroup.setUser(getUser);
@@ -105,6 +116,9 @@ public class GroupImplementations implements GroupServices {
     }
 
     @Override
+    public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query) {
+
+        var results = groupRepo.findByNameContains(query, PageRequest.of(page, limit));
     public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query) {
 
         var results = groupRepo.findByNameContains(query, PageRequest.of(page, limit));

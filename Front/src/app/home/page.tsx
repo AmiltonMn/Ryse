@@ -58,7 +58,7 @@ export default function Home() {
                 }
             })
             .then((res) => {
-                alert("Fórum cadastrado com sucesso")
+                alert("Forum registered successfully")
                 window.location.reload()   
             })
             .catch((e) => {
@@ -76,7 +76,6 @@ export default function Home() {
                 }
             }
         ).then((res) => {
-            console.log(res)
             setData(res.data)
         })
         .catch((e) => {})
@@ -104,7 +103,7 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col justify-center items-center gap-10 mt-12">
                         {data.map((item) => (
-                            <CardForum key={item.idForum} linkForum={`/forum/${item.idForum}`} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
+                            <CardForum key={item.idForum} forumId={item.idForum} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
                         ))}
                         <button onClick={() => setSize(size + 5)} className="mt-8 bg-[#5B5B5B] p-2 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</button>
                         {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
@@ -125,7 +124,7 @@ export default function Home() {
             </div>
 
             {/* Modal novo fórum*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled hidden z-0 opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New forum</h2>

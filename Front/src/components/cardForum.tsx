@@ -1,9 +1,9 @@
 import { ROUTES } from "@/constants/routes";
-import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CardForumProps {
-    linkForum: string;
+    forumId: number;
     userPhoto: string;
     username: string;
     date: string;
@@ -11,9 +11,17 @@ interface CardForumProps {
     questions: number
 }
 
-export const CardForum: React.FC<CardForumProps> = ({linkForum, userPhoto, username, date, title, questions}) => {
+export const CardForum: React.FC<CardForumProps> = ({ forumId, userPhoto, username, date, title, questions}) => {
+
+    const router = useRouter();
+
+    const setId = (forumId: number) => {
+        localStorage.setItem("forum", forumId.toString());
+        router.push(ROUTES.forum);
+    }
+    
     return(
-        <Link href={linkForum} className="w-full">
+        <div onClick={() => setId(forumId)} className="w-full">
             <div className="bg-[#242424] rounded-[10px] text-white flex flex-col hover:bg-[#292929] p-6">
                 <div className="flex justify-between items-center">
                     <h3 className="text-[16px]">{title}</h3>
@@ -27,6 +35,6 @@ export const CardForum: React.FC<CardForumProps> = ({linkForum, userPhoto, usern
                 </div>
                 <p className="flex pb-3 text-[12px]">{questions} questions</p>
             </div>
-        </Link>
+        </div>
     );
 }

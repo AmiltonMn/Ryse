@@ -26,6 +26,7 @@ export default function Login() {
         }
       })
       localStorage.setItem("token", response.data.message)
+      localStorage.setItem("userState", response.data.userState)
       router.push("/home")
     } catch (error) {
       console.log("erro ao dar fecth", error)
