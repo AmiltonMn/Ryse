@@ -63,17 +63,10 @@ export default function Ideas() {
     const [odiei, setOdiei] = useState(false)
     const [isInstructor, setIsInstructor] = useState<boolean>(false);
 
-    const userToken = localStorage.getItem("token");
-    console.log(userToken)
+    const userState = localStorage.getItem("userState");
+    console.log(userState);
 
-    if (userToken) {
-        const parsedToken = JSON.parse(userToken);
-        const userState = parsedToken.role;
-
-        if (userState.toLowerCase() === "instructor") {
-            setIsInstructor(true);
-        }
-    }
+    
 
     const show = () => {
         setOptions(!options)
@@ -190,7 +183,11 @@ export default function Ideas() {
 
     useEffect(() => {
         fetchIdeas(status, query);
-    }, [status, query, liked]);
+
+        if (userState && userState.toLowerCase() === "student") {
+            setIsInstructor(true);
+        }
+    }, [status, query, liked, userState]);
 
     return (
         <div>
