@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { DarkModeProvider } from "@/context/darkMode";
+import Head from "next/head"; 
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500"],
@@ -22,6 +23,9 @@ export default function RootLayout({
     <DarkModeProvider>
       <html lang="en">
         <body className={`${poppins.variable} antialiased bg-[#1E1E1E] dark:bg-slate-50`}>
+          <Head>
+            <link rel="icon" href="https://www.imagemhost.com.br/image/zAqZO" type="image/png" /> 
+          </Head>
           {children}
         </body>
       </html>

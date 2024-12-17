@@ -4,7 +4,7 @@ import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
 
-import logo from "@/assets/user.png";
+import logo from "@/assets/logo-Photoroom.png";
 import iconNotify from "@/assets/sino.png";
 import iconNotifyDark from "@/assets/notification.png";
 import iconProfile from "@/assets/user.png";
