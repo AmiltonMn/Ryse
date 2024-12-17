@@ -51,11 +51,11 @@ export default function Register() {
                         <h2 className="text-[#F41C54] font-semibold text-2xl">Create account,</h2>
                         <h2 className="font-normal text-2xl">to get started now!</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
-                        <input className={style.inputz} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-                        <input className={style.inputz} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-                        <input className={style.inputz} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
-                        <input className={style.inputz} onChange={(e) => setEDV(e.target.value)} placeholder="EDV" />
-                        <input className={style.inputz} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+                        <input className={style.inputz} value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+                        <input className={style.inputz} value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                        <input className={style.inputz} value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
+                        <input className={style.inputz} value={EDV} onChange={(e) => setEDV(e.target.value)} placeholder="EDV" />
+                        <input className={style.inputz} value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
                     </div>
                     <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Sign Up</button>
                     <div className="flex flex-row justify-center gap-2">

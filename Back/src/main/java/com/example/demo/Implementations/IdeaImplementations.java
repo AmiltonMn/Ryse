@@ -1,10 +1,9 @@
 package com.example.demo.Implementations;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.management.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class IdeaImplementations implements IdeaServices {
         newIdea.setUserEntity(user.get());
         newIdea.setText(text);
         newIdea.setTitle(title);
-        newIdea.setDate(LocalDateTime.now().toString());
+        newIdea.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm")).toString());
         newIdea.setStatus(0);
 
         ideaRepo.save(newIdea);
