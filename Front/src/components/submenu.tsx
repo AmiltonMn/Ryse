@@ -60,7 +60,7 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
     return (
         <DarkModeProvider>
 
-            <div className="text-white dark:text-black h-full w-[250px] fixed font-robFont text-large border-[0.5px] border-[#656565] dark:border-slate-300 bg-[#292929] dark:bg-slate-50">
+            <div className="text-white dark:text-black h-full w-[250px] fixed font-robFont text-large border-[0.5px] border-[#656565] dark:border-slate-300 bg-[#292929] dark:bg-slate-50 overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="flex flex-col p-6 mt-16 dark:text-black">
                     <div className={styleSubmenu.div}>
                         <Link href={ROUTES.home} className={styleSubmenu.link}>
