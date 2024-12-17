@@ -28,6 +28,7 @@ interface ForumData {
     date: string;
     isOwner: boolean;
     questionsCount: number;
+    photoUser: string;
 }
 
 export default function Home() {
@@ -103,7 +104,7 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col justify-center items-center gap-10 mt-12">
                         {data.map((item) => (
-                            <CardForum key={item.idForum} forumId={item.idForum} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
+                            <CardForum key={item.idForum} forumId={item.idForum} userPhoto={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.photoUser}`} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
                         ))}
                         <button onClick={() => setSize(size + 5)} className="mt-8 bg-[#5B5B5B] p-2 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</button>
                         {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}

@@ -67,7 +67,8 @@ public class ForumImplementation implements ForumService{
                 (String) forum[2],
                 (String) forum[3],
                 forum[4].equals(1),
-                (Integer) forum[5]
+                (Integer) forum[5],
+                (String)forum[6]
             ));
         }
 
@@ -90,7 +91,8 @@ public class ForumImplementation implements ForumService{
             forum.getDate(), 
             forum.getName(), 
             forum.getUser().getId().equals(idUser), 
-            forum.getQuestions().size());
+            forum.getQuestions().size(),
+            forum.getUser().getPhoto());
 
         List<Question> questions = forum.getQuestions();
 

@@ -26,7 +26,7 @@ export const CardForum: React.FC<CardForumProps> = ({ forumId, userPhoto, userna
                 <div className="flex justify-between items-center">
                     <h3 className="text-[16px]">{title}</h3>
                     <div className="flex mr-6">
-                        <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl mr-6 mt-6" width={1000} height={1000}/>
+                        <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl mr-6 mt-6" width={1000} height={1000} unoptimized/>
                         <div className="flex flex-col justify-center pt-6 gap-2">
                             <h4 className="text-[14px]">{username}</h4>
                             <p className="text-[12px]">{date}</p>

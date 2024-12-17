@@ -6,5 +6,6 @@ public record ForumData(
     String date,
     String title,
     Boolean isOwner,
-    Integer questionsCount
+    Integer questionsCount,
+    String photoUser
 ) {}
