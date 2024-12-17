@@ -44,9 +44,15 @@ public class User {
 
     @Column
     private String userState;
-
-
     
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Long getId() {
         return idUser;
     }
@@ -117,14 +123,6 @@ public class User {
 
     public void setUserState(String userState) {
         this.userState = userState;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getCoverPhoto() {

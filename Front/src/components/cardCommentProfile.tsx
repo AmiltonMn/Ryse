@@ -16,7 +16,7 @@ export const CardCommentProfile = ({ username, text, image, date, group }: {
 
         <>
             <div className="flex justify-between flex-row">
-                <div className="text-white relative flex justify-start align-top items-end
+                <div className="text-white dark:text-black relative flex justify-start align-top items-end
                 ">
                     <Image className="absolute w-10 rounded-full " src={image} width={150} height={150} alt="Image Profile"></Image>
                     <div className="left-0 top-0 ml-16">
@@ -29,7 +29,7 @@ export const CardCommentProfile = ({ username, text, image, date, group }: {
                 </div>
                 <h1>{date}</h1>
             </div>
-            <hr className="my-6 border-[0.1] border-white" />
+            <hr className="my-6 border-[0.1] dark:border-black border-white" />
 
         </>
 

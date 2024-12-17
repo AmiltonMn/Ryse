@@ -12,11 +12,11 @@ export const TopicArea = ({ text, refe }: {
     return (
 
         <>
-            <div className="group/item flex flex-row border-0 rounded-[10px] justify-between mr-20 hover:bg-[#292929] p-2 items-center">
+            <div className="group/item flex flex-row border-0 rounded-[10px] justify-between hover:bg-[#292929] dark:hover:bg-slate-100 p-2 items-center">
                 <div>
                     <h1 className="font-light text-[16px]">• {text}</h1>
                 </div>
-                <a href={refe} className="group/edit invisible group-hover/item:visible transition duration-300 ease-in-out scale-100 flex flex-row hover:bg-[#383838] p-1 px-2 border-0 rounded-lg">
+                <a href={refe} className="group/edit invisible group-hover/item:visible transition duration-300 ease-in-out scale-100 flex flex-row hover:bg-[#383838]  dark:hover:bg-slate-200 p-1 px-2 border-0 rounded-lg">
                     <Image src={del.src} width={20} height={20} alt="Delete area of interest"></Image>
                 </a>
             </div>

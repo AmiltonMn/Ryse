@@ -8,13 +8,15 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { useDarkMode } from "@/context/darkMode";
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
+import searchDark from "@/assets/lupaBlack.png"
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full ",
-    button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
+    button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out dark:bg-slate-200 dark:text-black bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
@@ -25,6 +27,7 @@ export default function Home() {
     const [text, setText] = useState<string>("");
     const [topic, setTopic] = useState<string>("");
     const [pag, setPag] = useState<string>("1");
+    const { darkMode, setDarkMode } = useDarkMode();
 
     const closeModal = () => {
         setTitle("");
@@ -63,10 +66,10 @@ export default function Home() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="pt-36 pl-[300px] flex">
+            <div className="pt-36 pl-[300px] flex dark:text-black">
                 <div className="w-[97%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[20px] mb-6">Java project forum</h2>
+                        <h2 className="text-white dark:text-black font-bold text-[20px] mb-6">Java project forum</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             New question
@@ -75,10 +78,12 @@ export default function Home() {
                     <hr />
                     <div className="w-full pt-10 flex justify-between">
                         <div className="flex w-[80%]">
-                            <input type="text" placeholder="Search" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
-                            <Image src={search} alt="" className="w-5 h-5 m-2 relative right-8 cursor-pointer" id="search" />
+                            <div className="flex w-full justify-center items-center">
+                                <input type="text" placeholder="Search" className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-[#242424] border dark:border-gray-700 border-white dark:border-[2px]" />
+                                <Image src={!darkMode ? search : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                            </div>
                         </div>
-                        <select className="rounded-[3px] p-1 w-[20%] text-[14px]">
+                        <select className="text-white dark:text-black text-[14px] p-1.5 px-4 rounded-2xl w-[20%] dark:bg-slate-50 bg-[#242424] border dark:border-gray-700 border-white dark:border-[2px]">
                             <option value="topic1" hidden>Filter by topic</option>
                             <option value="topic1">Topic 1</option>
                             <option value="topic1">Topic 1</option>
@@ -88,10 +93,10 @@ export default function Home() {
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} />
                     </div>
-                     <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
-                        <button onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                    <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
+                        <button onClick={() => prev()} className={pagina <= 1 ? "text-#3b3b3b font-medium ps-1.5 pe-1.5" : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>{'<'}</button>
+                        <input defaultValue={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 p-2 dark:bg-slate-200 bg-[#494949] w-10 text-center text-white dark:text-black rounded-full font-medium" />
+                        <button onClick={() => next()} className=" text-white dark:text-black rounded-sm font-medium ps-1.5 pe-1.5 ">{'>'}</button>
                     </div>
                 </div>
             </div>
@@ -99,8 +104,8 @@ export default function Home() {
 
 
             {/* Modal */}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New question</h2>
                         <form className="flex flex-col">
@@ -113,7 +118,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)}className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

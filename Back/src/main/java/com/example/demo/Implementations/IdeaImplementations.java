@@ -1,11 +1,16 @@
 package com.example.demo.Implementations;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.management.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
 import com.example.demo.Models.Idea;
 import com.example.demo.Models.LikeIdea;
@@ -26,12 +31,15 @@ public class IdeaImplementations implements IdeaServices {
     LikeIdeaRepository likeIdeaRepo;
 
     @Override
-    public ResponseEntity<IdeaReturn> createIdea(String text, Long idUser) {
+    public ResponseEntity<IdeaReturn> createIdea(String title, String text, Long idUser) {
         var user = userRepo.findById(idUser);
 
         Idea newIdea = new Idea();
         newIdea.setUserEntity(user.get());
         newIdea.setText(text);
+        newIdea.setTitle(title);
+        newIdea.setDate(LocalDateTime.now().toString());
+        newIdea.setStatus(0);
 
         ideaRepo.save(newIdea);
 
@@ -57,7 +65,7 @@ public class IdeaImplementations implements IdeaServices {
 
         LikeIdea newLikeIdea = new LikeIdea();
 
-        if (getLikeIdeaUser(idea.get().getId(), user.get().getId()) > 1) {
+        if (getLikeIdeaUser(idea.get().getId(), user.get().getId()) >= 1) {
             return new ResponseEntity<>(new IdeaReturn("This user already have done a like in this idea", false),HttpStatus.CONFLICT);
         }
 
@@ -77,8 +85,52 @@ public class IdeaImplementations implements IdeaServices {
     }
 
     @Override
-    public List<Idea> getAllIdea() {
-        return ideaRepo.findAll();
+    public List<IdeaData> getAllIdea(Long idUser, Integer status, String query) {
+
+        List<Idea> findIdea;
+
+        if(status.equals(3) && query == "") {
+            System.out.println("Entrou no findAll");
+            findIdea = ideaRepo.findByQuery(query);
+        } else if (status == 3 && query != null) {
+            System.out.println("Entrou na pesquisa por query com todos");
+            findIdea = ideaRepo.findByQuery(query);
+        } else if(status != 3 && query == null) {
+            System.out.println("Entrou no find by status");
+            findIdea = ideaRepo.findByStatus(status);
+        } else {
+            System.out.println("Entrou no query e status");
+            findIdea = ideaRepo.findByQueryAndStatus(query, status);
+        }
+
+        List<IdeaData> response = new ArrayList<>();
+
+        for(Idea idea : findIdea){
+
+            System.out.println("TA AQUI A IDEIA OLHA: " + idea.getTitle());
+
+            Integer allLikes = likeIdeaRepo.getAllLikesIdea(idea.getId());
+            Boolean liked = false;
+
+            if (likeIdeaRepo.getLikesUserIdea(idea.getId(), idUser) != null) {
+                liked = true;
+            }
+
+            response.add(new IdeaData(
+                idea.getId(),
+                idea.getUserEntity().getId(), 
+                idea.getUserEntity().getPhoto(), 
+                idea.getUserEntity().getName(), 
+                idea.getTitle(),
+                idea.getText(),
+                idea.getDate(), 
+                idea.getStatus(),
+                allLikes,
+                liked
+            ));
+        }
+
+        return response;
     }
 
     @Override
