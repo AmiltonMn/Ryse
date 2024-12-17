@@ -488,7 +488,7 @@ const Profile: React.FC = () => {
                         <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
                         <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
                     </div>
-                    {isInstructor ?
+                    {instrutor ?
                         <>
                             {
                                 instrutor ?
