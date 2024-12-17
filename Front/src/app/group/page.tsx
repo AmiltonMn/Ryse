@@ -60,15 +60,15 @@ export default function Home() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="pt-36 pl-[300px] pr-[100px] flex">
-                <div className="w-full text-white">
+            <div className="pt-36 pl-[300px] pr-[100px] flex overflow-y-auto max-h-[calc(100vh-10px)]">
+                <div className="w-full text-white dark:text-black">
                     <div className="w-full flex justify-between">
                         <h2 className="text-[20px] font-medium">Nome do Projeto</h2>
                         <a href={ROUTES.groupchat} className="opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200   bg-[#F41C54] rounded-lg w-40 text-[16px] text-white flex justify-center items-center">Chats</a>
                     </div>
                     <hr className="mt-4" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center ">
-                        <div className="w-[48%] min-w-[280px] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
+                        <div className="w-[48%] min-w-[280px] bg-[#242424] dark:bg-slate-100 justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
                             <div className="w-full flex flex-col items-center pb-3">
                                 <div className="w-full flex justify-start items-center">
                                     <p className="text-[20px]">Description</p>
@@ -79,7 +79,7 @@ export default function Home() {
                             </div>
                         </div>
 
-                        <div className="w-[48%] min-w-[280px] bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
+                        <div className="w-[48%] min-w-[280px] dark:bg-slate-100 bg-[#242424] justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3">
                             <div className="w-full flex flex-col items-center pb-3">
                                 <div className="w-full flex justify-start items-center">
                                     <p className="text-[20px]">Goals</p>
@@ -96,7 +96,7 @@ export default function Home() {
                                     <Image src={more} alt="ícone ideia" className="w-6 mr-[35px] h-6 rounded-t-3xl hover:scale-110" />
                                 </button>
                             </div>
-                            <table className="bg-[#242424] w-full rounded-md mt-8">
+                            <table className="bg-[#242424] dark:bg-slate-100 w-full rounded-md mt-8">
                                 <tbody>
                                     <tr>
                                         <td className="w-16 p-1">
@@ -131,8 +131,8 @@ export default function Home() {
             </div>
 
             {/* Modal feedback*/}
-            <div className={modalfeedback ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col">
+            <div className={modalfeedback ? "fixed inset-0 flex items-center justify-center dark:text-black text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-100 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col">
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New Feedback</h2>
                         <form className="flex flex-col">
@@ -149,8 +149,8 @@ export default function Home() {
 
 
             {/* Modal novo integrante*/}
-            <div className={modal2 ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modal2 ? "fixed inset-0 flex items-center justify-center dark:text-black text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New collaborator</h2>
                         <form className="flex flex-col">
@@ -158,7 +158,7 @@ export default function Home() {
                             <input type="text" placeholder="Collaborator email" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" />
                         </form>
                         <form>
-                            <table className="bg-[#242424] w-full rounded-md mt-8">
+                            <table className="bg-[#242424] dark:bg-slate-100 w-full rounded-md mt-8">
                                 <tbody >
                                     <tr >
                                         <td className="p-1">
@@ -193,8 +193,9 @@ export default function Home() {
                                 </tbody>
                             </table>
                         </form>
-                        <div className="flex justify-center mt-10">
+                        <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal2()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
+                            <button onClick={() => closeModal2()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Confirm</button>
                         </div>
                     </div>
                 </div>

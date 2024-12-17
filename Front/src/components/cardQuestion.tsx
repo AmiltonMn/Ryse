@@ -23,8 +23,13 @@ export const CardQuestion: React.FC<CardQuestionProps> = ({idQuestion, userPhoto
     }
 
     return(
+<<<<<<< HEAD
         <div onClick={() => setId(idQuestion)} className="w-full">
             <div className="bg-[#242424] rounded-[10px] text-white hover:bg-[#292929]">
+=======
+        <Link href={linkQuestion} className="w-full">
+            <div className="bg-[#242424] dark:bg-slate-100 rounded-[10px] text-white dark:text-black hover:bg-[#292929]">
+>>>>>>> frontend
                 <div className="flex justify-between p-4">
                     <div className="flex">
                         <Image src={userPhoto} alt="ícone notificação" className="w-9 h-9 rounded-t-3xl m-2 mr-6" width={1000} height={1000}/>
@@ -34,7 +39,7 @@ export const CardQuestion: React.FC<CardQuestionProps> = ({idQuestion, userPhoto
                         </div>
                     </div>
                     <div>
-                        <h3 className="text-[#F41C54] font-bold bg-[#D9D9D9] p-1 pr-5 pl-5 rounded-[10px] text-[14px]">{topic}</h3>
+                        <h3 className="text-[#F41C54] font-bold bg-slate-200 p-1 pr-5 pl-5 rounded-[10px] text-[14px]">{topic}</h3>
                     </div>
                 </div>
 

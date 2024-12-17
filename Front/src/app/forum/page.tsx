@@ -9,13 +9,15 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { api } from "@/constants/api"
 
+import { useDarkMode } from "@/context/darkMode";
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
+import searchDark from "@/assets/lupaBlack.png"
 
 const styles = {
     chat: "p-2 mt-6 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full ",
-    button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out bg-[#454545] rounded-[10px] flex items-center",
+    button: "text-white text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out dark:bg-slate-200 dark:text-black bg-[#454545] rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2"
 }
 
@@ -109,6 +111,8 @@ export default function Home() {
             })
             .finally(() => setModal(false))
     }
+    const { darkMode, setDarkMode } = useDarkMode();
+    const [error, setError] = useState<string>("");
 
     const closeModal = () => {
         setTitle("");
@@ -144,14 +148,24 @@ export default function Home() {
         }
     }
 
+    const handleConfirm = () => {
+        if (title.trim() === "" || text.trim() === "" || topic.trim() === "") {
+            setError("All fields must be filled in!");
+        } else {
+            setError(""); 
+            setModal(false); 
+        }
+    };
+
+
     return (
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="mb-10 pt-36 pl-[300px] flex">
+            <div className="mb-10 pt-36 pl-[300px] flex dark:text-black overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="w-[97%]">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-white font-bold text-[20px] mb-6">{data?.forum.title}</h2>
+                        <h2 className="text-white dark:text-black font-bold text-[20px] mb-6">{data?.forum.title}</h2>
                         <button onClick={() => openModal()} className={styles.button}>
                             <Image src={iconMore} alt="ícone mais" className={styles.img} />
                             New question
@@ -178,9 +192,9 @@ export default function Home() {
                         <CardQuestion linkQuestion={"/question"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} topic={"Frontend"} question={"AAAA as fhsdjkfhsdjhgfjksdhgjs  sdjfbdsjbvjksdbv iasfeufsknvnsxmncz"} answers={0} /> */}
                     </div>
                      <div className="w-full flex fixed bottom-12 left-[50%] mt-3 gap-3">
-                        <button disabled={pagina <= 1} onClick={() => prev()} className={pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
-                        <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 ppe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button disabled={!hasNext} onClick={() => next()} className={hasNext? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>▶</button>
+                        <button disabled={pagina <= 1} onClick={() => prev()} className={pagina <= 1 ? "text-#3b3b3b font-medium ps-1.5 pe-1.5" : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>{'<'}</button>
+                        <input disabled value={pag} onChange={(e) => setPag(e.target.value)} className="s-1.5 p-2 dark:bg-slate-200 bg-[#494949] w-10 text-center text-white dark:text-black rounded-full font-medium" />
+                        <button disabled={!hasNext} onClick={() => next()} className={hasNext? " text-white dark:text-black rounded-sm font-medium ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>{'>'}</button>
                     </div>
                 </div>
             </div>
@@ -188,15 +202,17 @@ export default function Home() {
 
 
             {/* Modal */}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : " hidden disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New question</h2>
                         <div className="flex flex-col">
                             <label htmlFor="" className="mt-8">Title</label>
-                            <input type="text" placeholder="Forum title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
-                            <label htmlFor="" className="mt-8">Text</label>
-                            <input type="text" placeholder="Forum text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
+                             <input type="text" placeholder="Forum title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
+                             {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+                             <label htmlFor="" className="mt-8">Text</label>
+                             <input type="text" placeholder="Forum text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
+                             {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                             <label htmlFor="" className="mt-8">Topic</label>
                             <select onChange={(e) => setNewTopic(e.target.value)} className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black">
                                 {topics.map((topic) => (

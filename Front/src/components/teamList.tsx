@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import trash from "@/assets/trash.png";
+import trash from "@/assets/delete.png";
 
 interface TeamListProps {
     foto: string;

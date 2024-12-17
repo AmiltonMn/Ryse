@@ -16,7 +16,7 @@ interface CardNotificationProps {
 
 export const CardNotification: React.FC<CardNotificationProps> = ({userPhoto, username, date, title, state}) => {
     return(
-        <div className="bg-[#111111] rounded-[10px] w-full text-white">
+        <div className="bg-[#111111] dark:bg-slate-100 rounded-[10px] w-full dark:text-black text-white">
             <div className="flex justify-between p-2">
                 <div className="flex justify-center items-center">
                     <Image src={userPhoto} alt="ícone foto" className="w-7 h-7 rounded-t-3xl mr-4" width={1000} height={1000}/>
