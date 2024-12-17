@@ -44,9 +44,6 @@ public class User {
 
     @Column
     private String userState;
-
-    @Column
-    private String username;
     
     public String getUsername() {
         return username;
@@ -126,14 +123,6 @@ public class User {
 
     public void setUserState(String userState) {
         this.userState = userState;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getCoverPhoto() {

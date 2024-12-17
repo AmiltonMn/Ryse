@@ -197,7 +197,7 @@ public class ForumImplementation implements ForumService{
         Optional<Forum> forum = forumRepo.findByName(data.name());
 
         if(forum.isPresent())
-            return new Return("This name is already in use", false);
+            return new Return("This name is already in use", null, false);
 
         Optional<User> user = userRepo.findById(idUser);
 
@@ -209,7 +209,7 @@ public class ForumImplementation implements ForumService{
 
         forumRepo.save(newForum);
 
-        return new Return("Forum created with sucess!", true);
+        return new Return("Forum created with sucess!", null, true);
     }
 
     @Override
@@ -218,12 +218,12 @@ public class ForumImplementation implements ForumService{
         Optional<Forum> forum = forumRepo.findById(idForum);
 
         if (!forum.isPresent())
-            return new Return("This forum does not exist", false);
+            return new Return("This forum does not exist", null, false);
 
         Optional<ForumTopic> topic = topicRepo.findById(data.idTopic());
 
         if (!topic.isPresent())
-            return new Return("This topic does not exist", false);
+            return new Return("This topic does not exist", null, false);
 
         Optional<User> user = userRepo.findById(idUser);
         
@@ -238,7 +238,7 @@ public class ForumImplementation implements ForumService{
 
         questionRepo.save(newQuestion);
         
-        return new Return("Question created with sucess", true);
+        return new Return("Question created with sucess", null, true);
     }
 
     @Override
@@ -247,7 +247,7 @@ public class ForumImplementation implements ForumService{
         Optional<Question> question = questionRepo.findById(idQuestion);
 
         if (!question.isPresent()) {
-            return new Return("Question not found", false);
+            return new Return("Question not found", null, false);
         }
 
         Optional<User> user = userRepo.findById(idUser);
@@ -261,7 +261,7 @@ public class ForumImplementation implements ForumService{
 
         answerRepo.save(newAnswer);
 
-        return new Return("Answer created with sucess", true);
+        return new Return("Answer created with sucess", null, true);
     }
 
     @Override
@@ -272,18 +272,18 @@ public class ForumImplementation implements ForumService{
         if(opLike.isPresent()){
             userRepo.deleteById(opLike.get().getIdLikeAnswer());
 
-            return new Return("Like removed", true);
+            return new Return("Like removed", null, true);
         }
         
         Optional<User> user = userRepo.findById(idUser);
 
         if(!user.isPresent())
-        return new Return("User not found", false);
+        return new Return("User not found", null, false);
 
         Optional<Answer> answer = answerRepo.findById(idAnswer);
 
         if(!answer.isPresent())
-            return new Return("Answer not found", false);
+            return new Return("Answer not found", null, false);
 
         LikeAnswer newLike = new LikeAnswer();
 
@@ -292,7 +292,7 @@ public class ForumImplementation implements ForumService{
 
         likeRepo.save(newLike);
 
-        return new Return("Like added", true);
+        return new Return("Like added", null, true);
     }
     
 }

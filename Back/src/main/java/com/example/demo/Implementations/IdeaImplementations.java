@@ -147,7 +147,6 @@ public class IdeaImplementations implements IdeaServices {
     public ResponseEntity<IdeaReturn> updateStatus(Long idIdea, Integer status) {
         var idea = ideaRepo.findById(idIdea);
         idea.get().setStatus(status);
-        ideaRepo.save();
 
         return new ResponseEntity<>(new IdeaReturn("Status updated with success", true), HttpStatus.OK);
     }

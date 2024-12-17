@@ -106,7 +106,7 @@ public class ForumController {
     ResponseEntity<Return> createForum(@RequestAttribute("token") Token token, @RequestBody RegisterForumData data){
 
         if(data.name().isEmpty())
-        return new ResponseEntity<>(new Return("Please send a name", false), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new Return("Please send a name", null, false), HttpStatus.BAD_REQUEST);
         
         Return response = forumService.createForum(token.getId(), data);
 

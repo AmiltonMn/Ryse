@@ -29,7 +29,7 @@ export default function Login() {
       localStorage.setItem("userState", response.data.userState)
       router.push("/home")
     } catch (error) {
-      console.log("erro ao dar fecth", error)
+      console.log("erro ao dar fetch", error)
     }
   }
 

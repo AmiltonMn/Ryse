@@ -64,6 +64,7 @@ export default function Ideas() {
     const [isInstructor, setIsInstructor] = useState<boolean>(false);
 
     const userToken = localStorage.getItem("token");
+    console.log(userToken)
 
     if (userToken) {
         const parsedToken = JSON.parse(userToken);
