@@ -33,6 +33,18 @@ const Profile: React.FC = () => {
     const [name, setName] = useState<string>("");
     const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userToken = localStorage.getItem("token");
+
+    if(userToken) {
+        const parsedToken = JSON.parse(userToken);
+        const userState = parsedToken.role;
+
+        if (userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }
 
     const tornar = () => {
         setInstrutor(true)
@@ -129,11 +141,17 @@ const Profile: React.FC = () => {
                         <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
                         <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
                     </div>
-                    {
-                        instrutor ?
-                        <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
+                    {isInstructor ?
+                        <>
+                            {
+                                instrutor ?
+                                <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
+                                :
+                                <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
+                            }
+                        </>
                         :
-                        <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
+                        <></>
                     }
                 </div>
 

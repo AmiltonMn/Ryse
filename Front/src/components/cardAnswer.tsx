@@ -18,6 +18,18 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date
 
     const [verificado, setVerificado] = useState(false)
     const [love, setLove] = useState(false)
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userToken = localStorage.getItem("token");
+
+    if(userToken) {
+        const parsedToken = JSON.parse(userToken);
+        const userState = parsedToken.role;
+
+        if (userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }
 
     const verificar = () => {
         setVerificado(true)
@@ -37,7 +49,7 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({userPhoto, username, date
                         <p className="text-[12px]">{date}</p>
                     </div>
                 </div>
-                <div className="flex items-center">
+                <div className= {isInstructor ? "flex items-center" : "hidden"}>
                     {verificado==false ? 
                     <button onClick={() => verificar()} className="text-white text-[14px] bg-[#F41C54] p-2 rounded-md hover:text-[#F41C54] hover:bg-white transition-colors duration-150">Verificar Resposta</button>
                     :

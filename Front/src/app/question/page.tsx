@@ -20,7 +20,6 @@ const styles = {
 export default function Question() {
 
     const [newAnswer, setNewAnswer] = useState<string>("");
-    
 
     return (
         <div>
