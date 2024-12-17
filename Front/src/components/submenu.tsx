@@ -48,10 +48,10 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
     var baixo = "▼";
     var cima = "▲";
 
-    const [isGroup, setIsGroup] = useState(true);
-    const [isChats, setIsChats] = useState(true);
-    const [isIdeia, setIsIdeia] = useState(true);
-    const [isSettings, setIsSettings] = useState(true);
+    const [isGroup, setIsGroup] = useState(false);
+    const [isChats, setIsChats] = useState(false);
+    const [isIdeia, setIsIdeia] = useState(false);
+    const [isSettings, setIsSettings] = useState(false);
 
     const { darkMode, setDarkMode } = useDarkMode();
 
