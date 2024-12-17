@@ -11,11 +11,15 @@ import Image from "next/image";
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
+<<<<<<< HEAD
+import search from "@/assets/lupa.png"
+=======
 import search from "@/assets/lupaBlack.png"
 import { api } from "@/constants/api";
 import { title } from "process";
 import { group } from "console";
 import { pages } from "next/dist/build/templates/app-page";
+>>>>>>> GroupIntegration
 
 interface groupsData {
     title: string,
