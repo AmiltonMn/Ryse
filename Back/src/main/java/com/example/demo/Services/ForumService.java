@@ -11,6 +11,7 @@ import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
+import com.example.demo.DTO.Token;
 
 public interface ForumService {
     List<ForumData> getForuns(Long idUser, String query, Integer page, Integer size);
@@ -21,5 +22,5 @@ public interface ForumService {
     Return createForum(Long idUser, RegisterForumData data);
     Return createQuestion(Long idUser, Long idForum, RegisterQuestionData data);
     Return createAnswer(Long idUser, Long idQuestion, RegisterAnswerData data);
-    Return likeAnswer(Long idUser, Long idAnswer);
+    Return likeAnswer(Token token, Long idAnswer);
 }

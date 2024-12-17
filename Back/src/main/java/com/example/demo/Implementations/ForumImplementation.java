@@ -18,6 +18,7 @@ import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
+import com.example.demo.DTO.Token;
 import com.example.demo.Models.Answer;
 import com.example.demo.Models.Forum;
 import com.example.demo.Models.ForumTopic;
@@ -88,27 +89,34 @@ public class ForumImplementation implements ForumService{
             forum.getUser().getName(), 
             forum.getDate(), 
             forum.getName(), 
-            forum.getUser().getId().equals(idUser) ? true: false, 
+            forum.getUser().getId().equals(idUser), 
             forum.getQuestions().size());
 
         List<Question> questions = forum.getQuestions();
 
         List<QuestionData> responseQuestion = new ArrayList<>();
+        
+        var i = 0;
 
         for(Question question : questions){
+
             Long id_topic_question = question.getTopicForum().getidTopicForum();
 
-            if (id_topic_question.equals(id_topic) || id_topic == null) {
+            if ((id_topic_question.equals(id_topic) || id_topic == null) && i < size * page && i >= (page * size) - size) {
                 responseQuestion.add(new QuestionData(
                     question.getIdQuestion(), 
                     question.getUser().getName(), 
                     question.getTitle(), 
+                    question.getText(),
                     question.getTopicForum().getName(), 
                     question.getDate(), 
-                    question.getUser().getId().equals(idUser)? true : false
+                    question.getUser().getId().equals(idUser),
+                    question.getAnswers().size()
                     ));
-                }
             }
+
+            i++;
+        }
 
         ForumWithQuestionData response = new ForumWithQuestionData(responseForum, responseQuestion);
 
@@ -132,9 +140,11 @@ public class ForumImplementation implements ForumService{
                 question.getIdQuestion(), 
                 question.getUser().getName(), 
                 question.getTitle(), 
+                question.getText(),
                 question.getTopicForum().getName(), 
                 question.getDate(), 
-                question.getUser().getId().equals(idUser)? true : false
+                question.getUser().getId().equals(idUser),
+                question.getAnswers().size()
             ));
         }
 
@@ -154,9 +164,11 @@ public class ForumImplementation implements ForumService{
             idQuestion, 
             question.getUser().getName(), 
             question.getTitle(), 
+            question.getText(),
             question.getTopicForum().getName(), 
             question.getDate(), 
-            question.getUser().getId().equals(idUser)? true: false
+            question.getUser().getId().equals(idUser),
+            question.getAnswers().size()
         );
 
         List<Answer> answers = question.getAnswers();
@@ -165,11 +177,13 @@ public class ForumImplementation implements ForumService{
 
         for(Answer answer : answers){
             responseAnswer.add(new AnswerData(
+                answer.getIdAnswer(),
                 answer.getUser().getName(), 
                 answer.getDate(), 
                 answer.getText(), 
-                1, 
-                false, 
+                answer.getLikes().size(),
+                isLiked(answer, idUser),
+                answer.getVerified(), 
                 answer.getUser().getId().equals(idUser)? true: false
             ));
         }
@@ -256,8 +270,9 @@ public class ForumImplementation implements ForumService{
 
         newAnswer.setUser(user.get());
         newAnswer.setQuestion(question.get());
-        newAnswer.setDate(LocalDateTime.now().toString());
+        newAnswer.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm")).toString());
         newAnswer.setText(data.text());
+        newAnswer.setVerified(false);
 
         answerRepo.save(newAnswer);
 
@@ -265,17 +280,21 @@ public class ForumImplementation implements ForumService{
     }
 
     @Override
-    public Return likeAnswer(Long idUser, Long idAnswer) {
+    public Return likeAnswer(Token token, Long idAnswer) {
 
-        Optional<LikeAnswer> opLike = likeRepo.findByUserIdUserAndAnswerIdAnswer(idUser, idAnswer);
+        Optional<LikeAnswer> opLike = likeRepo.findByUserIdUserAndAnswerIdAnswer(token.getId(), idAnswer);
 
         if(opLike.isPresent()){
-            userRepo.deleteById(opLike.get().getIdLikeAnswer());
+            likeRepo.deleteById(opLike.get().getIdLikeAnswer());
+
+            if (token.getRole().equals("Instructor")) {
+                answerRepo.unverifyAnswer(idAnswer);
+            }
 
             return new Return("Like removed", true);
         }
         
-        Optional<User> user = userRepo.findById(idUser);
+        Optional<User> user = userRepo.findById(token.getId());
 
         if(!user.isPresent())
         return new Return("User not found", false);
@@ -292,7 +311,25 @@ public class ForumImplementation implements ForumService{
 
         likeRepo.save(newLike);
 
+        if (token.getRole().equals("Instructor")) {
+            answerRepo.verifyAnswer(idAnswer);
+        }
+
         return new Return("Like added", true);
+    }
+
+    private Boolean isLiked(Answer answer, Long idUser) {
+
+        Boolean result = false;
+
+        List<LikeAnswer> likes =  answer.getLikes();
+
+        for(LikeAnswer like : likes){
+            if(like.getUser().getId() == idUser)
+                result = true;
+        }
+
+        return result;
     }
     
 }

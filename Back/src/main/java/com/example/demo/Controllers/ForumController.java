@@ -143,7 +143,7 @@ public class ForumController {
     @PostMapping("/like/{idAnswer}")
     ResponseEntity<Return> likeAnswer(@RequestAttribute("token") Token token, @PathVariable Long idAnswer){
 
-        Return response = forumService.likeAnswer(token.getId(), idAnswer);
+        Return response = forumService.likeAnswer(token, idAnswer);
 
         if(response.result())
             return new ResponseEntity<>(response, HttpStatus.OK);
