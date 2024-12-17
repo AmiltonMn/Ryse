@@ -1,7 +1,10 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { ROUTES } from "@/constants/routes";
-import { useState } from "react";
+import { useRouter } from 'next/navigation'
+import Image from "next/image";
 
 export default function Register() {
     const [error, setError] = useState("");
@@ -25,6 +28,28 @@ export default function Register() {
         main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center overflow-y-auto max-h-[calc(100vh-10px)]",
         inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] text-white placeholder-[#999999] my-3",
     };
+
+  const [EDV, setEDV] = useState<string>("")
+
+  const fetch = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/register",{
+        "name" : name,
+        "username": username,
+        "email" : email,
+        "EDV": EDV,
+        "password": password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data)
+      alert(response.data.message)
+    } catch (error) {
+      console.error("Erro ao dar fetch", error);
+    }
+  }
 
     return (
         <main className={style.main}>

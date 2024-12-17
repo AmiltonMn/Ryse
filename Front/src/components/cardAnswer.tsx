@@ -6,13 +6,10 @@ import Image from "next/image";
 
 import verify from "@/assets/verificado.png"
 import heart from "@/assets/coracao.png"
-<<<<<<< HEAD
 import redHeart from "@/assets/coracaovermei.png"
 import { api } from "@/constants/api";
-=======
 import heartDark from "@/assets/coracaoBranco.png"
 import wheart from "@/assets/like.png"
->>>>>>> frontend
 import { useState } from "react";
 import { useDarkMode } from "@/context/darkMode";
 
@@ -31,7 +28,6 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
 
     const [verificado, setVerificado] = useState(false)
     const [love, setLove] = useState(false)
-<<<<<<< HEAD
     const [isInstructor, setIsInstructor] = useState<boolean>(false);
 
     const userToken = localStorage.getItem("token");
@@ -44,10 +40,8 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
             setIsInstructor(true);
         }
     }
-=======
         const { darkMode, setDarkMode } = useDarkMode();
         const toggleDarkMode = () => setDarkMode(!darkMode);
->>>>>>> frontend
 
     const verificar = () => {
         setVerificado(true)
@@ -56,7 +50,6 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
     const loved = () => {
         setLove(!love)
     }
-
     const handleLike = async () => {
 
         await api.post(`/forum/like/${idAnswer}`,
@@ -83,28 +76,6 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
                         <p className="text-[12px]">{date}</p>
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div className={ verified? "flex items-center" :"hidden"}>
-                    <div className= {isInstructor ? "flex items-center" : "hidden"}>
-                        {verificado==false ? 
-                            <button onClick={() => verificar()} className="text-white text-[14px] bg-[#F41C54] p-2 rounded-md hover:text-[#F41C54] hover:bg-white transition-colors duration-150">Verificar Resposta</button>
-                        :
-                            <>
-                                <h3 className="text-[#50aadf] text-[14px]">Resposta verificada</h3>
-                                <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
-                            </>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <div className="pl-8 pt-2 text-[14px] flex justify-between items-center pb-6">
-                <p className="w-[90%] break-words">{answer}</p>
-                <button onClick={handleLike} className="flex items-center">
-                    {likes}
-                    <Image src={liked? redHeart.src : heart.src} alt="ícone coração" className={"w-5 h-5 m-2 mr-8"} width={1000} height={1000}/>
-                </button>
-=======
                 <div className="flex items-center">
                     {verificado==false ? 
                     <button onClick={() => verificar()} className="text-white text-[14px] bg-[#F41C54] p-1 rounded-md hover:text-[#F41C54] hover:bg-white transition-colors duration-150">Verificar Resposta</button>
@@ -126,7 +97,6 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
 
                         }    
                     </button>
->>>>>>> frontend
             </div>
         </div>
     );

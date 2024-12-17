@@ -40,18 +40,6 @@ const Profile: React.FC = () => {
     const [name, setName] = useState<string>("");
     const [editBio, setEditBio] = useState(false)
     const [hardSkils, setHardSkils] = useState(false);
-    const [isInstructor, setIsInstructor] = useState<boolean>(false);
-
-    const userToken = localStorage.getItem("token");
-
-    if(userToken) {
-        const parsedToken = JSON.parse(userToken);
-        const userState = parsedToken.role;
-
-        if (userState.toLowerCase() === "instructor") {
-            setIsInstructor(true);
-        }
-    }
 
     const tornar = () => {
         setInstrutor(true)
@@ -141,54 +129,12 @@ const Profile: React.FC = () => {
                 <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
 
-            <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black overflow-y-auto max-h-[calc(100vh-10px)]">
+                <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black overflow-y-auto max-h-[calc(100vh-10px)]">
                     <div className="font-medium text-[16px] flex justify-between flex-row pb-8">
-                    <div className="flex">
-                        <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
-                        <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab == "feed" ? "underline decoration-4" : ""} />
-                        <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab == "interaction" ? "underline decoration-4" : ""} />
-                    </div>
-                    {isInstructor ?
-                        <>
-                            {
-                                instrutor ?
-                                <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
-                                :
-                                <button onClick={() => tornar()} className="bg-[#F41C54] hover:bg-white text-white hover:text-[#F41C54] transition-colors duration-500 delay-75 pl-2 pr-2 rounded-md">Tornar Instrutor</button>
-                            }
-                        </>
-                        :
-                        <></>
-                    }
-                </div>
-
-                <div className="flex">
-                    <CardProfile click={modalPhoto} imageCover={cover.src} imageProfile={profile.src} name="Maria Eduarda Santos" username="@maduEduarda" />
-                </div>
-
-                <div className="flex justify-end">
-                    <button onClick={handleEdit}><Image src={edita.src} width={17} height={17} alt="Edit biography"></Image></button>
-                </div>
-
-                <p contentEditable={editBio} suppressContentEditableWarning={true} className="font-light mt-10 text-[16px] w-full p-1" ref={editableRef} spellCheck="false" onKeyDown={closeEdit}>
-                    Oie! Seja bem-vindo(a) ao meu perfil 😁 <br /> <br />
-                    Sou a Maria, Engenheira de Software em formação e Técnica de Soluções Digitais na Bosch, com experiência em inovação, transformação digital e análise de dados...
-                </p>
-
-                {activeTab === "profile" && (
-                    <div className="flex flex-row justify-between">
-                        <div className="w-2/5">
-                            <div className="flex flex-col pb-8 pt-4">
-                                <div className="flex flex-row items-start">
-                                    <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skils</h1>
-                                    <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
-                                </div>
-                                <div className="flex flex-wrap order-4 gap-4 pt-6">
-                                    <HardSkils text="Java" />
-                                    <HardSkils text="JavaScript" />
-                                    <HardSkils text="React" />
-                                </div>
-                            </div>
+                        <div className="flex">
+                            <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab === "profile" ? "underline decoration-4" : ""} />
+                            <SelectProfile refe="#" title="FeedBacks" click={() => handleTabChange("feed")} classe={activeTab === "feed" ? "underline decoration-4" : ""} />
+                            <SelectProfile refe="#" title="Interaction" click={() => handleTabChange("interaction")} classe={activeTab === "interaction" ? "underline decoration-4" : ""} />
                         </div>
                         {instrutor ? (
                             <p className="text-[#F41C54] text-[16px] bg-white pl-2 pr-2 rounded-md font-semibold">Instrutor</p>
@@ -401,5 +347,4 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
-
 

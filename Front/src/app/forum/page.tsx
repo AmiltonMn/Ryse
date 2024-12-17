@@ -60,7 +60,6 @@ export default function Home() {
     let forumId = localStorage.getItem("forum");
 
     useEffect(() => {
-
         api.get(
             `/forum/${forumId}?topic=${topic}&page=${pag}`, 
             {
@@ -76,7 +75,6 @@ export default function Home() {
     }, [pag, topic])
 
     useEffect(() => {
-
         api.get(
             `/forum/topics`, 
             {
@@ -91,6 +89,10 @@ export default function Home() {
     }, [])
 
     const handleNewQuestion = async () => {
+        if(newTopic == "") {
+            alert('select a topic')
+            return
+        }
         await api.post(`/forum/${forumId}/question?`,
             {
                 "title": title,
@@ -107,7 +109,7 @@ export default function Home() {
                 window.location.reload()   
             })
             .catch((e) => {
-                alert(e.response.data.message)
+                console.log(e)
             })
             .finally(() => setModal(false))
     }
@@ -215,6 +217,7 @@ export default function Home() {
                              {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                             <label htmlFor="" className="mt-8">Topic</label>
                             <select onChange={(e) => setNewTopic(e.target.value)} className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black">
+                                <option value="">Select a topic</option>
                                 {topics.map((topic) => (
                                     <option key={topic.idTopic} value={topic.idTopic}>{topic.name}</option>
                                 ))}

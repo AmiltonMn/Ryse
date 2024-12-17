@@ -15,25 +15,85 @@ import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
 import search from "@/assets/lupa.png"
 import searchDark from "@/assets/lupaBlack.png"
+import { api } from "@/constants/api";
+import { title } from "process";
+import { group } from "console";
+import { pages } from "next/dist/build/templates/app-page";
 
+interface groupsData {
+    title: string,
+    description: string,
+    photo: string 
+}
 
 export default function Home() {
 
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode);
+    const [groups, setGroupsData] = useState<groupsData[]>([])
+    const [limitPage, setLimitPage] = useState<number>(0)
+
+    const handleNewGroup = async () => {
+        await api.post("/group",
+            {
+                "name" : name,
+                "description" : description,
+                "objective" : goal
+            },
+            {
+                headers: {
+                    "Authorization" : localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert(res.data.message)
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
+    }
+
+    const handleSearchGroup = async (pag: string, query: string) => {
+            api.get(
+                `/group?page=${pag}&query=${query}`,
+                {
+                    headers: {
+                        "Authorization": localStorage.getItem("token")
+                    }
+                }
+            ).then((res) => {
+                console.log(res)
+                setGroupsData(res.data.groupsList)
+                setHasNext(pag <= res.data.pagesLimit)
+            }).catch((e) => {
+                console.log("Error to get the data!")
+            })
+    }
+
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [goal, setGoal] = useState<string>("");
-    const [pag, setPag] = useState<string>("1")
+    const [pag, setPag ] = useState<string>("1");
+    const [query, setQuery] = useState<string>("");
+    const [hasNext, setHasNext] = useState<Boolean>(false);
+
+
+    useEffect(() => {
+        handleSearchGroup(pag, query)
+    }, [pag, query])
+
 
     const pagina = Number(pag)
 
     const next = () => {
         if (!Number.isInteger(pagina) || pagina < 1) {
             setPag("1")
-        }
-        else {
+        } else if (pagina >= limitPage) {
+            
+        } else {
             setPag((pagina + 1).toString())
         }
     }
@@ -68,8 +128,6 @@ export default function Home() {
     return (
 
         <DarkModeProvider>
-
-
             <div>
                 <Menu title={"Ryse"} />
                 <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
@@ -89,20 +147,9 @@ export default function Home() {
                         </div>
                         <hr className="mt-4 w-[99%]" />
                         <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
-                            <CardGroup foto={google.src} name={"Titulo"} description={"descrição do card do grupo aqui descrição do card do grupo aqui"} />
+                            {groups.map((item) => (
+                                <CardGroup key={Math.random()} foto={google.src} name={item.title} description={item.description}></CardGroup>
+                            ))}
                         </div>
                         <div className="w-full flex justify-center mt-10 gap-3 mb-2">
                             <button onClick={() => prev()} className={pagina <= 1 ? "text-#3b3b3b font-medium ps-1.5 pe-1.5" : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>{'<'}</button>
@@ -127,7 +174,7 @@ export default function Home() {
                             </form>
                             <div className="flex justify-between mt-10">
                                 <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                                <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                                <button onClick={() => handleNewGroup()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </div>
                     </div>
