@@ -1,7 +1,5 @@
 package com.example.demo.Models;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,11 +21,15 @@ public class ChatGroup {
     @JoinColumn(name= "idGroup", nullable= false)
     private Group groupEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "idUser", nullable= false)
+    private User userEntity;
+
     @Column
     private String name;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdChatGroup() {
         return idChatGroup;
@@ -49,12 +51,20 @@ public class ChatGroup {
         this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
     }
 
     

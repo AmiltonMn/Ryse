@@ -24,6 +24,8 @@ interface CardIdeaProps {
     title: string;
     description: string;
     state: number;
+    likes: number;
+    liked: boolean;
 }
 
 export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, title, description, state }) => {

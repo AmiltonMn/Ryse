@@ -1,7 +1,17 @@
+<<<<<<< HEAD
 "use client";
 
 import { ROUTES } from "@/constants/routes";
 import { useState } from "react";
+=======
+"use client"
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { ROUTES } from "@/constants/routes";
+import Image from "next/image";
+import google from "@/assets/google.png";
+>>>>>>> 1ac6a062b43450b971161bc746306f093416b97f
 
 export default function Register() {
     const [error, setError] = useState("");
@@ -11,6 +21,7 @@ export default function Register() {
     const [edv, setEdv] = useState("");
     const [password, setPassword] = useState("");
 
+<<<<<<< HEAD
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim() || !username.trim() || !email.trim() || !edv.trim() || !password.trim()) {
@@ -26,6 +37,39 @@ export default function Register() {
         inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] text-white placeholder-[#999999] my-3",
     };
 
+=======
+  const [name, setName] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [EDV, setEDV] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
+
+  const fetch = async (name: string, email: string, edv: string, password: string) => {
+    try {
+      const response = await axios.post("http://localhost:8080/register",{
+        "name" : name,
+        "email" : email,
+        "EDV": edv,
+        "password": password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error("Erro ao dar fetch", error);
+    }
+  }
+
+    const style =
+    {
+      main: "min-h-screen w-full bg-zinc-900 flex justify-center items-center",
+      inputz: "rounded-md ps-4 text-base w-full bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
+      imagen: "w-8 h-8 rounded-t-3xl m-2",
+    }
+  
+>>>>>>> 1ac6a062b43450b971161bc746306f093416b97f
     return (
         <main className={style.main}>
             <form onSubmit={handleSubmit} className="text-white h-1/2 w-96 bg-[#242424] rounded-lg border-2 border-[#656565] flex flex-col items-center gap-5 p-10">
@@ -47,4 +91,5 @@ export default function Register() {
             </form>
         </main>
     );
-}
+  }
+  

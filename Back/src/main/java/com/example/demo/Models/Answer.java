@@ -1,6 +1,6 @@
 package com.example.demo.Models;
 
-import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,36 +22,39 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "idUser", nullable = false)
-    private User userEntity;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "idQuestion", nullable = false)
-    private Question questionEntity;
+    private Question question;
 
     @Column
     private String text;
 
     @Column
-    private Date date;
+    private String date;
+
+    @OneToMany(mappedBy = "answer")
+    private List<LikeAnswer> likes;
 
     public Long getIdAnswer() {
         return idAnswer;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Question getQuestionEntity() {
-        return questionEntity;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuestionEntity(Question questionEntity) {
-        this.questionEntity = questionEntity;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getText() {
@@ -61,11 +65,11 @@ public class Answer {
         this.text = text;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

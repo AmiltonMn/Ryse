@@ -1,12 +1,12 @@
 package com.example.demo.Models;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +16,10 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idGroup;
+
+    @ManyToOne
+    @JoinColumn(name = "idUser", nullable = false)
+    private User userEntity;
 
     @Column
     private String name;
@@ -27,7 +31,7 @@ public class Group {
     private String objective;
 
     @Column
-    private Date date;
+    private String date;
 
     public Long getIdGroup() {
         return idGroup;
@@ -57,12 +61,20 @@ public class Group {
         this.objective = objective;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
     }
 
 }

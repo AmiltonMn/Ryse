@@ -1,11 +1,13 @@
 package com.example.demo.Services;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.RegisterData;
-import com.example.demo.Models.User;
+import com.example.demo.DTO.RegisterDTO.RegisterData;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
+import com.example.demo.DTO.Return;
 
 public interface UserServices {
-  String register(RegisterData data);
-  String Login(LoginData data);
+  Return register(RegisterData data);
+  Return Login(LoginData data);
+  UserProfileResponse getUserProfile(Long idUser);
   Boolean checkPassword(String password);
 }
