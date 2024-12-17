@@ -8,6 +8,7 @@ import verify from "@/assets/verificado.png"
 import heart from "@/assets/coracao.png"
 import redHeart from "@/assets/coracaovermei.png"
 import { api } from "@/constants/api";
+import { useState } from "react";
 
 interface CardAnswerProps {
     idAnswer: number;
@@ -72,12 +73,16 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
                     </div>
                 </div>
                 <div className={ verified? "flex items-center" :"hidden"}>
-                <div className= {isInstructor ? "flex items-center" : "hidden"}>
-                    {verificado==false ? 
-                    <button onClick={() => verificar()} className="text-white text-[14px] bg-[#F41C54] p-2 rounded-md hover:text-[#F41C54] hover:bg-white transition-colors duration-150">Verificar Resposta</button>
-                    :
-                    <h3 className="text-[#50aadf] text-[14px]">Resposta verificada</h3>
-                    <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
+                    <div className= {isInstructor ? "flex items-center" : "hidden"}>
+                        {verificado==false ? 
+                            <button onClick={() => verificar()} className="text-white text-[14px] bg-[#F41C54] p-2 rounded-md hover:text-[#F41C54] hover:bg-white transition-colors duration-150">Verificar Resposta</button>
+                        :
+                            <>
+                                <h3 className="text-[#50aadf] text-[14px]">Resposta verificada</h3>
+                                <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
+                            </>
+                        }
+                    </div>
                 </div>
             </div>
 
