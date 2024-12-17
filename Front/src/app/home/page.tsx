@@ -10,17 +10,28 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { api } from "@/constants/api";
+
 import iconProfile from "@/assets/user.png"
 import search from "@/assets/lupa.png"
 import searchDark from "@/assets/lupaBlack.png"
 import iconMore from "@/assets/mais.png";
 import iconMoreDark from "@/assets/maisDark.png";
-
+import { responseCookiesToRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 const styles = {
     chat: "p-2 mt-4 rounded-[10px] border-[#4B4B4B] border-[0.5px] w-full text-[14px] dark:hover:bg-slate-200 hover:bg-[#383838]",
     button: "text-white dark:text-black text-[16px] hover:text-gray-500 mb-3 black pl-4 pr-8 transition easy-in-out bg-[#454545] dark:bg-slate-200 rounded-[10px] flex items-center",
     img: "w-6 h-6 rounded-t-3xl m-2"
+}
+
+interface ForumData {
+    idForum: number;
+    title: string;
+    username: string;
+    date: string;
+    isOwner: boolean;
+    questionsCount: number;
 }
 
 export default function Home() {
@@ -29,6 +40,9 @@ export default function Home() {
     const [name, setName] = useState<string>("");
     const [pag, setPag] = useState<string>("1");
     const { darkMode, setDarkMode } = useDarkMode();
+    const [query, setQuery] = useState<string>("");
+    const [size, setSize] = useState<number>(5);
+    const [data, setData] = useState<ForumData[]>([]);
     const toggleDarkMode = () => setDarkMode(!darkMode);
 
     const pagina = Number(pag)
@@ -62,6 +76,41 @@ export default function Home() {
         setModal(true);
     }
 
+    const handleNewForum = async () => {
+        await api.post("/forum",
+            {
+                "name": name
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                alert("Fórum cadastrado com sucesso")
+                window.location.reload()   
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => setModal(false))
+    }
+
+    useEffect(() => {
+        api.get(
+            `/forum?query=${query}&size=${size}`, 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            console.log(res)
+            setData(res.data)
+        })
+        .catch((e) => {})
+    }, [query, size])
+
     return (
 
         <DarkModeProvider>
@@ -80,13 +129,17 @@ export default function Home() {
                     <hr />
                     <div className="w-[101.5%] pt-10 flex">
                         <div className="flex w-full justify-center items-center">
-                            <input type="text" placeholder="Search" className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-[#242424] border dark:border-gray-700 border-white dark:border-[2px]" />
+                            <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)} className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-[#242424] border dark:border-gray-700 border-white dark:border-[2px]" />
                             <Image src={!darkMode ? search : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                         </div>
                     </div>
                     <div className="flex flex-col justify-center items-center gap-10 mt-12">
-                        <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} />
-                        <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} />
+                        {data.map((item) => (
+                            <CardForum key={item.idForum} linkForum={`/forum/${item.idForum}`} userPhoto={iconProfile.src} username={item.username} date={item.date} title={item.title} questions={item.questionsCount} />
+                        ))}
+                        <button onClick={() => setSize(size + 5)} className="mt-8 bg-[#5B5B5B] p-2 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</button>
+                        {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
+                        {/* <CardForum linkForum={"/forum"} userPhoto={iconProfile.src} username={"Ingrid Rocha"} date={"12/12/2024"} title={"Nome do forum"} questions={0} /> */}
                     </div>
                 </div>
 
@@ -115,12 +168,12 @@ export default function Home() {
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New forum</h2>
                         <form className="flex flex-col">
-                            <label htmlFor="" className="mt-8">Name</label>
-                            <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                            <label className="mt-8">Name</label>
+                            <input type="text" placeholder="Forum name" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-black" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                            <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={() => handleNewForum()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>

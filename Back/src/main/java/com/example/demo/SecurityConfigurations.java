@@ -34,16 +34,16 @@ public class SecurityConfigurations {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                 // Permite acesso livre ao endpoint de login
-                .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/login").permitAll()
                 .requestMatchers("/register").permitAll()
                 // Permite acesso livre a todos os endpoints GET
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 // Restringe todos os POST para ADMIN
-                .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/**").permitAll()
                 // Restringe PUT para ADMIN
-                .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/**").permitAll()
                 // Restringe DELETE para ADMIN
-                .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/**").permitAll()
                 // Qualquer outra requisição precisa de autenticação
                 .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

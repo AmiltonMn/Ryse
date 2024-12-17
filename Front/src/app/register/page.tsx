@@ -1,17 +1,44 @@
+"use client"
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
-
 import google from "@/assets/google.png";
 
 export default function Register() {
 
+  const [name, setName] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [EDV, setEDV] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
+
+  const fetch = async (name: string, email: string, edv: string, password: string) => {
+    try {
+      const response = await axios.post("http://localhost:8080/register",{
+        "name" : name,
+        "email" : email,
+        "EDV": edv,
+        "password": password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.error("Erro ao dar fetch", error);
+    }
+  }
+
     const style =
     {
-        main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center",
-        inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
-        imagen: "w-7 h-7 rounded-t-3xl m-2"
+      main: "min-h-screen w-full bg-zinc-900 flex justify-center items-center",
+      inputz: "rounded-md ps-4 text-base w-full bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
+      imagen: "w-8 h-8 rounded-t-3xl m-2",
     }
-
+  
     return (
         <>
             <main className={style.main}>
@@ -35,4 +62,5 @@ export default function Register() {
             </main>
         </>
     );
-}
+  }
+  

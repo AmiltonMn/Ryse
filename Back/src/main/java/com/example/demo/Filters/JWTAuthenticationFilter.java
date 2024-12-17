@@ -1,9 +1,13 @@
 package com.example.demo.Filters;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,7 +28,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
         
-        if (path.startsWith("/user") || path.startsWith("/auth")) {
+        if (path.startsWith("/user") || path.startsWith("/login")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -43,9 +47,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String edv = token.getEDV();
+        String role = "ROLE_" + token.getRole();
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
         
-        var authentication = new UsernamePasswordAuthenticationToken(edv, null, null);
+        var authentication = new UsernamePasswordAuthenticationToken(role, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         request.setAttribute("token", token);
