@@ -22,24 +22,25 @@ public class AreaOfInteresstImplementations implements AreasOfInterestServices {
     @Autowired
     UserRepository userRepo;
 
-    @Override
-    public ResponseEntity<AreasOfInterestResponse> getAllAreasByUser(Long idUser) {
-        
-        ArrayList<AreasOfInterest> areasRaw = areasRepo.getAllByIdUser(idUser);
-        ArrayList<AreaOfInterestData> areas = new ArrayList<>();
-
-        for (AreasOfInterest areasOfInterest : areasRaw) {
-            AreaOfInterestData area = new AreaOfInterestData(areasOfInterest.getText(), areasOfInterest.getIdAreaOfInterest());
-
-            areas.add(area);
+    
+        @Override
+        public AreasOfInterestResponse getAllAreasByUser(Long idUser) {
+            ArrayList<AreasOfInterest> areasRaw = areasRepo.getAllByIdUser(idUser);
+            ArrayList<AreaOfInterestData> areas = new ArrayList<>();
+    
+            for (AreasOfInterest areasOfInterest : areasRaw) {
+                AreaOfInterestData area = new AreaOfInterestData(areasOfInterest.getText(), areasOfInterest.getIdAreaOfInterest());
+    
+                areas.add(area);
+            }
+    
+            if (areas.isEmpty()) {
+                return new AreasOfInterestResponse(areas, "You don't have any areas of interest!", true);
+            }
+    
+            return new AreasOfInterestResponse(areas, "Your areas of interest are here!", true);
         }
 
-        if (areas.isEmpty()) {
-            return new ResponseEntity<>(new AreasOfInterestResponse(areas, "You don't have any areas of interest!", true), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(new AreasOfInterestResponse(areas, "Your areas of interest are here!", true), HttpStatus.OK);
-    }
 
     @Override
     public ResponseEntity<AreasOfInterestResponse> newAreaOfInterest(String text, Long idUser) {
@@ -47,11 +48,11 @@ public class AreaOfInteresstImplementations implements AreasOfInterestServices {
         ArrayList<AreasOfInterest> validationByName = areasRepo.getByText(text);
 
         if (!validationByName.isEmpty()) {
-            return new ResponseEntity<>(new AreasOfInterestResponse(null, "You can't have Areas of Interest with the same name", false), HttpStatus.BAD_REQUEST);   
+            return new ResponseEntity<>( new AreasOfInterestResponse(null, "You can't have Areas of Interest with the same name", false), HttpStatus.OK);
         }
 
         if (text.isEmpty()) {
-            return new ResponseEntity<>(new AreasOfInterestResponse(null, "Please put a text to your Area of Interest!", false), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AreasOfInterestResponse(null, "Please put a text to your Area of Interest!", false), HttpStatus.OK);
         }
 
         ArrayList<AreasOfInterest> areasRaw = areasRepo.getAllByIdUser(idUser);
@@ -64,7 +65,7 @@ public class AreaOfInteresstImplementations implements AreasOfInterestServices {
         }
 
         if (areas.size() >= 5) {
-            return new ResponseEntity<>(new AreasOfInterestResponse(areas, "You can't have more than 5 areas of interest!", false), HttpStatus.BAD_REQUEST);            
+            return new ResponseEntity<>(new AreasOfInterestResponse(areas, "You can't have more than 5 areas of interest!", false), HttpStatus.BAD_REQUEST);
         }
         
         AreasOfInterest newArea = new AreasOfInterest();
@@ -84,8 +85,7 @@ public class AreaOfInteresstImplementations implements AreasOfInterestServices {
 
             areas.add(area);
         }
-
-        return new ResponseEntity<>(new AreasOfInterestResponse(areas, "New area successfully gotten!", false), HttpStatus.OK);
+        return new ResponseEntity<>(new AreasOfInterestResponse(areas, "New area successfully gotten!", true), HttpStatus.OK);
     }
 
     @Override

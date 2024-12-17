@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTO.HardSkillDTO.HardSkillName;
 import com.example.demo.DTO.HardSkillDTO.HardSkillReturn;
 import com.example.demo.DTO.HardSkillDTO.addSkillUser;
-import com.example.demo.Models.HardSkill;
 import com.example.demo.Services.HardSkillService;
 
 @RestController
@@ -61,7 +60,7 @@ public class HardSkillController {
     }
 
     @GetMapping
-    public ResponseEntity<List<HardSkill>> getHardSkill() {
+    public ResponseEntity<List<HardSkillName>> getHardSkill() {
         return new ResponseEntity<>(hardSkillService.getAllHardSkill(), HttpStatus.OK);
     }
 

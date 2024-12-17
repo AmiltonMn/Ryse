@@ -1,11 +1,13 @@
 package com.example.demo.Implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.DTO.HardSkillDTO.HardSkillName;
 import com.example.demo.DTO.HardSkillDTO.HardSkillReturn;
 import com.example.demo.Models.HardSkill;
 import com.example.demo.Models.UserHardSkill;
@@ -74,8 +76,16 @@ public class HardSkillImplementation implements HardSkillService {
 
 
     @Override
-    public List<HardSkill> getAllHardSkill() {
-        return hardSkillRepo.findAll();
+    public List<HardSkillName> getAllHardSkill() {
+
+        var all = hardSkillRepo.findAll();
+        List<HardSkillName> list = new ArrayList<>();
+
+        for (HardSkill hardSkill : all) {
+            list.add(new HardSkillName(hardSkill.getName()));
+        }
+
+        return list;
     }
 
 
