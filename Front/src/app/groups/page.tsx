@@ -26,6 +26,7 @@ interface groupsData {
 export default function Home() {
 
     const [groups, setGroupsData] = useState<groupsData[]>([])
+    const [limitPage, setLimitPage] = useState<number>(0)
 
     const handleNewGroup = async () => {
         await api.post("/group",
@@ -60,7 +61,10 @@ export default function Home() {
             ).then((res) => {
                 console.log(res)
                 setGroupsData(res.data.groupsList)
+                setLimitPage(res.data.pagesLimit);
                 console.log(groups)
+                console.log("Limite de paginas: " + limitPage);
+                console.log("paginas: " + pag);
             }).catch((e) => {
                 console.log("Error to get the data!")
             })
@@ -83,9 +87,10 @@ export default function Home() {
     const next = () => {
         if (!Number.isInteger(pagina) || pagina < 1) {
             setPag("1")
-        }
-        else{
-            setPag((pagina+1).toString())
+        } else if (pagina >= limitPage) {
+            
+        } else {
+            setPag((pagina + 1).toString())
         }
     }
 
@@ -130,7 +135,7 @@ export default function Home() {
                         </button>
                         </div>
                         <div className="flex w-1/3 justify-center items-center">
-                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
                             <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search"/>
                         </div>
                     </div>
@@ -141,9 +146,9 @@ export default function Home() {
                         ))}
                     </div>
                     <div className="w-full flex justify-center mt-3 gap-3 mb-2">
-                        <button onClick={() => prev()} className={ pagina <=1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 " : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
+                        <button onClick={() => prev()} className={ pagina <= 1 ? "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 "}>◀</button>
                         <input value={pag} onChange={(e) => {setPag(e.target.value), handleSearchGroup(pag, query)}}  className="ps-1.5 pe-1.5 pb-0.5 border-t border-b border-s border-e border-[#3b3b3b] bg-[#242424] w-20 text-center text-white rounded-sm font-bold" />
-                        <button onClick={() => next()} className="bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5 ">▶</button>
+                        <button onClick={() => next()} className={ (Number(pag) - 1) >= limitPage ? "bg-white text-black rounded-sm font-bold ps-1.5 pe-1.5" : "bg-[#3b3b3b] text-black rounded-sm font-bold ps-1.5 pe-1.5 disabled"} >▶</button>
                     </div>
                 </div>
             </div>
