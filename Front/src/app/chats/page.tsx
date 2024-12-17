@@ -8,66 +8,66 @@ import { CardChat } from "@/components/cardChat";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
 import Image from "next/image";
-import search2 from "@/assets/lupa.png"
-
-import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
-import searchBlack from "@/assets/lupaBlack.png"
-import search from "@/assets/lupa.png"
-import searchDark from "@/assets/lupaBlack.png"
-
+import search from "@/assets/lupa.png";
+import searchDark from "@/assets/lupaBlack.png";
 
 export default function Home() {
-
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState<string>("");
     const [name, setName] = useState<string>("");
-    const [pag, setPag] = useState<string>("1")
+    const [pag, setPag] = useState<string>("1");
+    const [error, setError] = useState<string>("");
+
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode);
 
-    const pagina = Number(pag)
+    const pagina = Number(pag);
 
     const next = () => {
         if (!Number.isInteger(pagina) || pagina < 1) {
-            setPag("1")
+            setPag("1");
+        } else {
+            setPag((pagina + 1).toString());
         }
-        else {
-            setPag((pagina + 1).toString())
-        }
-    }
+    };
 
     const prev = () => {
-
         if (!Number.isInteger(pagina)) {
-            setPag("1")
+            setPag("1");
         }
-
         if (pagina > 1) {
-            setPag((pagina - 1).toString())
+            setPag((pagina - 1).toString());
         }
-    }
+    };
 
     const closeModal = () => {
         setName("");
+        setError("");
         setModal(false);
-    }
+    };
 
     const openModal = () => {
         setModal(true);
-    }
+    };
 
-    const style =
-    {
+    const handleConfirm = () => {
+        if (name.trim() === "") {
+            setError("Chat name cannot be empty!");
+        } else {
+            setError("");
+            setModal(false);
+        }
+    };
+
+    const style = {
         inputz: "rounded-md ps-4 text-base w-4/12 bg-[#484848] border-t border-b border-s border-e border-[#999999] text-white placeholder-[#999999]",
         imagen: "w-8 h-8 rounded-t-3xl m-2",
         imagen2: "w-6 h-6 rounded-t-3xl m-2 hover:scale-110",
-    }
+    };
 
     return (
-
         <DarkModeProvider>
             <div>
                 <Menu title={"Ryse"} />
@@ -108,18 +108,25 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Modal novo topico*/}
+                {/* Modal novo tópico */}
                 <div className={modal ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
-                    <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+                    <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col">
                         <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                             <h2 className="text-xl font-semibold">New Chat</h2>
                             <form className="flex flex-col">
                                 <label htmlFor="" className="mt-8">Name</label>
-                                <input type="text" placeholder="Chat name" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={name} onChange={(e) => { setName(e.target.value) }} ></input>
+                                <input
+                                    type="text"
+                                    placeholder="Chat name"
+                                    className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]"
+                                    value={name}
+                                    onChange={(e) => { setName(e.target.value) }}
+                                />
+                                {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                             </form>
-                            <div className="flex justify-between mt-10">
+                            <div className="flex justify-between mt-4">
                                 <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                                <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                                <button onClick={handleConfirm} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </div>
                     </div>

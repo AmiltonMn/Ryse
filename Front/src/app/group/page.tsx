@@ -149,8 +149,8 @@ export default function Home() {
 
 
             {/* Modal novo integrante*/}
-            <div className={modal2 ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modal2 ? "fixed inset-0 flex items-center justify-center dark:text-black text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New collaborator</h2>
                         <form className="flex flex-col">
@@ -158,7 +158,7 @@ export default function Home() {
                             <input type="text" placeholder="Collaborator email" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" />
                         </form>
                         <form>
-                            <table className="bg-[#242424] w-full rounded-md mt-8">
+                            <table className="bg-[#242424] dark:bg-slate-100 w-full rounded-md mt-8">
                                 <tbody >
                                     <tr >
                                         <td className="p-1">
@@ -193,8 +193,9 @@ export default function Home() {
                                 </tbody>
                             </table>
                         </form>
-                        <div className="flex justify-center mt-10">
+                        <div className="flex justify-between mt-10">
                             <button onClick={() => closeModal2()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
+                            <button onClick={() => closeModal2()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Confirm</button>
                         </div>
                     </div>
                 </div>

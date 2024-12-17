@@ -28,6 +28,7 @@ export default function Home() {
     const [topic, setTopic] = useState<string>("");
     const [pag, setPag] = useState<string>("1");
     const { darkMode, setDarkMode } = useDarkMode();
+    const [error, setError] = useState<string>("");
 
     const closeModal = () => {
         setTitle("");
@@ -61,6 +62,16 @@ export default function Home() {
             setPag((pagina - 1).toString())
         }
     }
+
+    const handleConfirm = () => {
+        if (title.trim() === "" || text.trim() === "" || topic.trim() === "") {
+            setError("All fields must be filled in!");
+        } else {
+            setError(""); 
+            setModal(false); 
+        }
+    };
+
 
     return (
         <div>
@@ -111,13 +122,24 @@ export default function Home() {
                         <form className="flex flex-col">
                             <label htmlFor="" className="mt-8">Title</label>
                             <input type="text" placeholder="Forum title" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={title} onChange={(e) => { setTitle(e.target.value) }} ></input>
+                            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                             <label htmlFor="" className="mt-8">Text</label>
                             <input type="text" placeholder="Forum text" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={text} onChange={(e) => { setText(e.target.value) }} ></input>
+                            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                             <label htmlFor="" className="mt-8">Topic ID</label>
                             <input type="text" placeholder="Topic id" className="border-2 rounded-[5px] p-1 mt-2 text-[13px]" value={topic} onChange={(e) => { setTopic(e.target.value) }} ></input>
+                            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                         </form>
                         <div className="flex justify-between mt-10">
-                            <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
+                            <button
+                                onClick={() => {
+                                    closeModal();
+                                    handleConfirm();
+                                }}
+                                className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
+                            >
+                                Cancelar
+                            </button>
                             <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>

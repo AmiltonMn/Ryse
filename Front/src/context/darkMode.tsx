@@ -15,13 +15,26 @@ export const useDarkMode = () => {
 export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const storedDarkMode =
-    typeof window !== "undefined" ? localStorage.getItem("darkMode") === "true" : false;
-  
-  const [darkMode, setDarkMode] = useState(storedDarkMode);
+  const [darkMode, setDarkMode] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const storedDarkMode =
+      localStorage.getItem("darkMode") === "true" ? true : false;
+
+    setDarkMode(storedDarkMode);
+
     const root = document.documentElement;
+    if (storedDarkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (darkMode === null) return; 
+    const root = document.documentElement;
+
     if (darkMode) {
       root.classList.add("dark");
       localStorage.setItem("darkMode", "true");
@@ -29,11 +42,11 @@ export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({
       root.classList.remove("dark");
       localStorage.setItem("darkMode", "false");
     }
-  }, [darkMode]); 
+  }, [darkMode]);
 
   return (
     <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-      {children}
+      {darkMode !== null && children} {/* Renderiza apenas após o carregamento */}
     </DarkModeContext.Provider>
   );
 };
