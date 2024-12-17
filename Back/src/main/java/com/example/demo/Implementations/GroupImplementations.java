@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -37,14 +38,16 @@ public class GroupImplementations implements GroupServices {
 
         var getUser = userRepo.findById(idUser).get();
 
-        if (data.name().isEmpty() ||
-                data.objective().isEmpty() ||
-                data.description().isEmpty()) {
+        if (data.name() == "" ||
+            data.objective() == "" ||
+            data.description() == "") {
+            System.out.println("Estao nulos os nossos queridos");
             return new ResponseEntity<>(new CreateGroupData("Enter all fields correctly", false),
                     HttpStatus.NO_CONTENT);
         }
 
         Group newGroup = new Group();
+        UserGroup newUserGroup = new UserGroup();
         String now = LocalDateTime.now().toString();
 
         newGroup.setUserEntity(getUser);
@@ -53,6 +56,12 @@ public class GroupImplementations implements GroupServices {
         newGroup.setObjective(data.objective());
         newGroup.setDescription(data.description());
         groupRepo.save(newGroup);
+
+        newUserGroup.setGroup(newGroup);
+        newUserGroup.setUser(getUser);
+        userGroupRepo.save(newUserGroup);
+
+        System.out.println("O grupo foi criado!");
 
         return new ResponseEntity<>(new CreateGroupData("Group created successfully", true), HttpStatus.OK);
     }
@@ -96,20 +105,21 @@ public class GroupImplementations implements GroupServices {
     }
 
     @Override
-    public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit) {
+    public ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query) {
 
-        var results = userGroupRepo.findUserGroupsWithPagination(idUser, ((page-1)*limit), limit);
+        var results = groupRepo.findByNameContains(query, PageRequest.of(page, limit));
+
+        System.out.println(results);
 
         ArrayList<getGroupAll> groupsList = new ArrayList<>();
 
         for (int i = 0; i < results.size(); i++) {
             groupsList.add(new getGroupAll(
-                    results.get(i).getGroup().getName(),
-                    results.get(i).getGroup().getDescription(),
-                    results.get(i).getGroup().getObjective()));
+                    results.get(i).getName(),
+                    results.get(i).getDescription(),
+                    results.get(i).getObjective(),
+                    results.size() / 9));
         }
-
-        System.out.println(groupsList);
 
         return groupsList;
     }

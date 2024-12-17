@@ -12,6 +12,7 @@ export default function Register() {
   const [email, setEmail] = useState<string>("")
   const [EDV, setEDV] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
 
   const fetch = async (name: string, email: string, edv: string, password: string) => {
     try {

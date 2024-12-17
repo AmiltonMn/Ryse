@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
-import com.example.demo.Models.Idea;
 
 public interface IdeaServices {
-    ResponseEntity<IdeaReturn> createIdea(String text, Long idUser);
+    ResponseEntity<IdeaReturn> createIdea(String title, String text, Long idUser);
 
     ResponseEntity<IdeaReturn> deleteIdea(Long idIdea);
 
@@ -16,7 +16,7 @@ public interface IdeaServices {
 
     ResponseEntity<IdeaReturn> deleteLikeToIdea(Long idUser, Long idIdea);
 
-    List<Idea> getAllIdea();
+    List<IdeaData> getAllIdea(Long idUser, Integer status, String query);
 
     Integer getAllLikesIdea(Long idIdea);
 
