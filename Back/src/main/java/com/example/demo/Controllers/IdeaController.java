@@ -83,4 +83,11 @@ public class IdeaController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping
+    public ResponseEntity<IdeaReturn> updateStatus(@PathVariable Long idIdea, Integer status) {
+
+        var response = ideaServices.updateStatus(idIdea, status);
+        return response;
+    }
 }
