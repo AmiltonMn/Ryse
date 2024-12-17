@@ -32,11 +32,23 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
     const [love, setLove] = useState(false)
     const [gostei, setGostei] = useState(false)
     const [odiei, setOdiei] = useState(false)
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userToken = localStorage.getItem("token");
+
+    if(userToken) {
+        const parsedToken = JSON.parse(userToken);
+        const userState = parsedToken.role;
+
+        if (userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }
 
     const show = () => {
         setOptions(!options)
     }
-
+ 
     const loved = () => {
         setLove(!love)
     }
@@ -80,7 +92,7 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
                         </div>
                     </div>
                     {options == true ?
-                        <div className="flex items-center">
+                        <div className={isInstructor ? "flex items-center" : "hidden"}>
                             <button onClick={() => liked()} className="">
                                 {
                                     gostei ?
