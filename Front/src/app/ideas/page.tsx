@@ -131,7 +131,7 @@ export default function Ideas() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="pt-[180px] pl-[300px] flex">
+            <div className="pt-[180px] pl-[300px] flex overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="flex w-[99%]">
                     <input type="text" placeholder="Search idea" className="text-black p-1 pl-4 rounded-[3px] w-full text-[14px]" />
                     <Image src={search} alt="" className="w-5 h-5 m-2 relative right-8 cursor-pointer" id="search" />

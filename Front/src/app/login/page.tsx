@@ -9,7 +9,7 @@ export default function Login() {
     const [error, setError] = useState("");
 
     const style = {
-        main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center p-30",
+        main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center p-30 overflow-y-auto max-h-[calc(100vh-10px)]",
         inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] text-white placeholder-[#999999]",
     };
 

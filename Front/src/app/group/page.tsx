@@ -60,7 +60,7 @@ export default function Home() {
         <div>
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="pt-36 pl-[300px] pr-[100px] flex">
+            <div className="pt-36 pl-[300px] pr-[100px] flex overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="w-full text-white dark:text-black">
                     <div className="w-full flex justify-between">
                         <h2 className="text-[20px] font-medium">Nome do Projeto</h2>

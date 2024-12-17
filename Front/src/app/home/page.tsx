@@ -117,7 +117,7 @@ export default function Home() {
 
             <Menu title={"Ryse"} />
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
-            <div className="pt-36 pl-[300px] flex">
+            <div className="pt-36 pl-[300px] flex overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="w-[75%]">
                     <div className="flex justify-between items-center">
                         <h2 className="text-white dark:text-black font-bold text-[20px] mb-3">Forum and Discussions</h2>

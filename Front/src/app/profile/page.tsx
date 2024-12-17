@@ -129,7 +129,7 @@ const Profile: React.FC = () => {
                 <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
 
-                <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black">
+                <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black overflow-y-auto max-h-[calc(100vh-10px)]">
                     <div className="font-medium text-[16px] flex justify-between flex-row pb-8">
                         <div className="flex">
                             <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab === "profile" ? "underline decoration-4" : ""} />
