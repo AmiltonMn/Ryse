@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
-import search from "@/assets/lupa.png"
+import search2 from "@/assets/lupa.png"
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
@@ -73,13 +73,13 @@ export default function Home() {
                                 <Image src={more} alt="ícone ideia" className={style.imagen2} />
                             </button>
                         </div>
-                        <div className="w-full flex justify-end items-center">
-                            <input type="text" placeholder="Search" className="text-black w-4/12 p-1 pl-4 rounded-[3px] " />
-                            <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
+                        <div className="flex w-1/3 justify-center items-center">
+                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
+                            <Image src={search2} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search" />
                         </div>
                     </div>
                     <hr className="mt-4" />
-                    <div className="w-full flex flex-wrap mt-8 gap-9 justify-center">
+                    <div className="w-full flex flex-wrap mt-8 gap-9 justify-start px-10">
                         <CardChat name={"Front"} />
                         <CardChat name={"Back"} />
                         <CardChat name={"Python"} />
@@ -100,8 +100,8 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Modal novo topico*/}
-            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 opacity-0"}>
+            {/* Modal novo chat*/}
+            <div className={modal ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 hidden fixed opacity-0"}>
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New Chat</h2>

@@ -19,6 +19,8 @@ export default function Home() {
     const [modal, setModal] = useState(false);
     const [modal2, setModal2] = useState(false);
     const [name, setName] = useState<string>("");
+    const [feed, setFeed] = useState<string>("");
+    const [modalfeedback, setModalfeedback] = useState(false);
 
     const closeModal = () => {
         setName("");
@@ -36,6 +38,16 @@ export default function Home() {
     const openModal2 = () => {
         setModal2(true);
     }
+
+    const closeModalfeedback = () => {
+        setFeed("");
+        setModalfeedback(false);
+    }
+
+    const openModalfeedback = () => {
+        setModalfeedback(true);
+    }
+
 
     const style =
     {
@@ -92,8 +104,8 @@ export default function Home() {
                                         </td>
                                         <td className="text-[16px]">Juliana</td>
                                     </tr>
-                                    <TeamList foto={user.src} name={"Adrian"} />
-                                    <TeamList foto={user.src} name={"Amilton"} />
+                                    <TeamList foto={user.src} name={"Adrian"} openModalfeedback={openModalfeedback}/>
+                                    <TeamList foto={user.src} name={"Amilton"} openModalfeedback={openModalfeedback}/>
                                 </tbody>
                             </table>
                             <div className="w-full mt-8 flex justify-end">
@@ -117,6 +129,24 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            {/* Modal feedback*/}
+            <div className={modalfeedback ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled z-0 fixed opacity-0"}>
+                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col">
+                    <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
+                        <h2 className="text-xl font-semibold">New Feedback</h2>
+                        <form className="flex flex-col">
+                            <label htmlFor="" className="mt-8">Feedback</label>
+                            <input type="text" placeholder="Feedback here" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" value={feed} onChange={(e) => { setFeed(e.target.value) }} />
+                        </form>
+                        <div className="flex justify-between mt-10">
+                            <button onClick={() => closeModalfeedback()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
+                            <button onClick={() => setModalfeedback(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             {/* Modal novo integrante*/}
             <div className={modal2 ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "disabled fixed z-0 opacity-0"}>
