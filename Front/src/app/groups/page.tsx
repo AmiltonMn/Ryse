@@ -40,7 +40,7 @@ export default function Home() {
                 }
             })
             .then((res) => {
-                alert(res.data.result)
+                alert(res.data.message)
                 window.location.reload()
             })
             .catch((e) => {

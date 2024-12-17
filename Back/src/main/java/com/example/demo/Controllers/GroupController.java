@@ -25,6 +25,7 @@ import com.example.demo.DTO.GroupDto.addUserGroup;
 import com.example.demo.DTO.UserDTO.GetUsersData;
 import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.User;
+import com.example.demo.Repositories.GroupRepository;
 import com.example.demo.DTO.Token;
 import com.example.demo.Services.GroupServices;
 
@@ -35,6 +36,9 @@ public class GroupController {
     @Autowired
     GroupServices groupService;
     
+    @Autowired
+    GroupRepository groupRepo;
+
     @PostMapping
     public ResponseEntity<CreateGroupData> createNewGroup(@RequestBody NewGroupData data, @RequestAttribute("token") Token token) {
 
@@ -67,7 +71,13 @@ public class GroupController {
     @GetMapping
     public ResponseEntity<GetGroupsResponse> getAllGroups(@RequestAttribute("token") Token token, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "") String query) {
 
-        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page - 1, 9, query), "All of the user group are on the list!");
+        Integer groupsCount = groupRepo.getGroupsCount(token.getId());
+
+        Double pages = Math.floor(groupsCount / 9);
+
+        System.out.println(pages);
+
+        GetGroupsResponse response = new GetGroupsResponse(groupService.getGroupsPageable(token.getId(), page - 1, 9, query), "All of the user group are on the list!", pages);
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

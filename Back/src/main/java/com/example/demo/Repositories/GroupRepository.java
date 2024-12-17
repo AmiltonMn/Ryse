@@ -21,5 +21,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     void updateGroup(@Param("newDescription") String newDescription, @Param("newName") String newName, @Param("newObjective") String newObjective, @Param("idGroup") Long idGroup);
 
     List<Group> findByNameContains(String name, PageRequest req);
+
+    @Query(value = "SELECT count(id_group) FROM tb_group WHERE id_user = :idUser", nativeQuery = true)
+    Integer getGroupsCount(@Param("idUser") Long idUser);
 }
 
