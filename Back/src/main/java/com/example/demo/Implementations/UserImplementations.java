@@ -64,16 +64,16 @@ public class UserImplementations implements UserServices {
     public Return register(RegisterData data) {
 
         if (!checkPassword(data.password()))
-            return new Return("Password does not meet the criteria", false);
+            return new Return("Password does not meet the criteria", null, false);
 
         if (!userRepo.findByEmail(data.email()).isEmpty())
-            return new Return("Already have a user with this email", false);
+            return new Return("Already have a user with this email", null, false);
 
         if (!userRepo.findByName(data.name()).isEmpty())
-            return new Return("Already have a user with this name", false);
+            return new Return("Already have a user with this name", null, false);
 
         if (!userRepo.findByedv(data.name()).isEmpty())
-            return new Return("Already have a user with this EDV", false);
+            return new Return("Already have a user with this EDV", null, false);
 
         var encoder = new BCryptPasswordEncoder();
 
@@ -88,7 +88,7 @@ public class UserImplementations implements UserServices {
 
         userRepo.save(newUser);
 
-        return new Return("User created with sucess", true);
+        return new Return("User created with sucess", newUser.getUserState(), true);
 
     }
 
@@ -96,17 +96,17 @@ public class UserImplementations implements UserServices {
     public Return Login(LoginData data) {
 
         if (data.email().isEmpty() || data.password().isEmpty())
-            return new Return("All fields must be filled in", false);
+            return new Return("All fields must be filled in", null, false);
 
         Optional<User> userOptional = userRepo.findByEmail(data.email());
 
         if (userOptional.isEmpty())
-            return new Return("User not found", false);
+            return new Return("User not found", null, false);
 
         User user = userOptional.get();
 
         if (!encode.validate(data.password(), user.getPassword()))
-            return new Return("Password incorrect", false);
+            return new Return("Password incorrect", null, false);
 
         Token token = new Token();
 
@@ -117,7 +117,7 @@ public class UserImplementations implements UserServices {
 
         String jwt = "Bearer " + jwtCreate.get(token);
 
-        return new Return(jwt, true);
+        return new Return(jwt, user.getUserState(), true);
     }
 
     @Override
