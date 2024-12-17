@@ -6,19 +6,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.Return;
-import com.example.demo.DTO.RegisterDTO.RegisterData;
-import com.example.demo.DTO.UserDTO.UserProfileResponse;
-import com.example.demo.DTO.Token;
 import com.example.demo.DTO.AreasOfInterestDto.GetAreasOfInterest;
+import com.example.demo.DTO.LoginData;
+import com.example.demo.DTO.RegisterDTO.RegisterData;
+import com.example.demo.DTO.Return;
+import com.example.demo.DTO.Token;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.JWTCreate;
 import com.example.demo.Models.AreasOfInterest;
-import com.example.demo.Models.HardSkill;
 import com.example.demo.Models.User;
-import com.example.demo.Models.UserHardSkill;
 import com.example.demo.Repositories.AreasOfInterestRepository;
-import com.example.demo.Repositories.HardSkillRepository;
 import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
@@ -47,8 +44,8 @@ public class UserImplementations implements UserServices {
         if (!userRepo.findByEmail(data.email()).isEmpty())
             return new Return("Already have a user with this email", false);
 
-        if (!userRepo.findByName(data.name()).isEmpty())
-            return new Return("Already have a user with this name", false);
+        if (!userRepo.findByUsername(data.username()).isEmpty())
+            return new Return("Already have a user with this username", false);
 
         if (!userRepo.findByedv(data.name()).isEmpty())
             return new Return("Already have a user with this EDV", false);
@@ -59,6 +56,7 @@ public class UserImplementations implements UserServices {
 
         newUser.setName(data.name());
         newUser.setEmail(data.email());
+        newUser.setUsername(data.username());
         newUser.setEdv(data.EDV());
         newUser.setPassword(encoder.encode(data.password()));
         newUser.setUserState("Student");

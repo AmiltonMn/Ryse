@@ -5,6 +5,7 @@ import { Submenu } from "@/components/submenu";
 import { MyMsg } from "@/components/myMsg";
 import { DeletedMsg } from "@/components/deletedMsg";
 import { OtherMsg } from "@/components/otherMsg";
+import { OtherMsgDeleted } from "@/components/otherMsgDeleted";
 import { GroupChat } from "@/components/groupChat";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
@@ -17,6 +18,7 @@ import { api } from "@/constants/api";
 import Image from "next/image";
 
 import send from "@/assets/send.png";
+import edit from "@/assets/edita.png";
 import more from "@/assets/mais.png";
 import moredark from "@/assets/maisDark.png";
 import user from "@/assets/user.png";
@@ -27,6 +29,7 @@ interface ChatData {
     name: string;
     date: string;
     user: string;
+    id: number;
 }
 
 interface Message {
@@ -36,6 +39,7 @@ interface Message {
     user: {
         photo: string;
         name: string;
+        userName: string;
     };
 }
 import ideasCss from "@/app/ideas/ideas.module.css"
@@ -46,6 +50,7 @@ export default function Home() {
     const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
     const [msg, setMsg] = useState<string>("");
+    const [loggedUser, setLoggedUser] = useState<string>("");
     const [data, setData] = useState<ChatData[]>([]);
     const [messages, setMessages] = useState<Message[]>([]);
     const { darkMode, setDarkMode } = useDarkMode();
@@ -64,7 +69,7 @@ export default function Home() {
         await api.post("/topicChat",
             {
                 "name": name,
-                idTopic: 1 //deve ser do topico que entrou, -> localstorage?
+                idTopic: localStorage.getItem("topic") //deve ser do topico que entrou, -> localstorage?
             },
             {
                 headers: {
@@ -83,7 +88,7 @@ export default function Home() {
 
     useEffect(() => {
         api.get(
-            `/topicChat/1`,
+            `/topicChat/${localStorage.getItem("topic")}`,
             {
                 headers: {
                     "Authorization": localStorage.getItem("token")
@@ -97,13 +102,15 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        api.get(`/topicChat/message/1`, {
+        api.get(`/topicChat/message/${localStorage.getItem("topicChat")}`, {
             headers: {
                 "Authorization": localStorage.getItem("token") || "",
             },
         })
             .then((res) => {
                 setMessages(res.data.messages);
+                setLoggedUser(res.data.loggedUser);
+                console.log(res.data.loggedUser);
             })
             .catch((e) => {
                 console.error("Erro ao buscar mensagens:", e);
@@ -114,7 +121,7 @@ export default function Home() {
         await api.post("/topicChat/message",
             {
                 text: msg,
-                idChatTopic: 1 //deve ser do chat que entrou, -> localstorage?
+                idChatTopic: localStorage.getItem("topicChat") //deve ser do chat que entrou, -> localstorage?
             },
             {
                 headers: {
@@ -147,8 +154,11 @@ export default function Home() {
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
                                 <div className="flex w-full h-12 rounded-t dark:bg-slate-100 bg-[#313131] items-center ">
-                                    <div className="w-full h-full flex items-center justify-start pl-4">
-                                        <p className="text-[16px] font-semibold z-20 group-hover:animate-pulse">Nome do Chat</p>
+                                    <div className="w-full h-full flex items-center justify-start pl-4 group">
+                                        <p className="text-[16px] font-semibold z-20">{localStorage.getItem("topicName")}</p>
+                                        <button>
+                                            <Image src={edit} alt="lapids" className="ml-2 w-4 h-4 hover:scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        </button>
                                     </div>
                                 </div>
                                 <hr className="" />
@@ -157,20 +167,9 @@ export default function Home() {
 
                                 <div className="flex flex-col w-[20%] dark:bg-slate-100 bg-[#373737] rounded-l">
 
-                                    <div className="flex flex-col">
-                                        <div className="flex flex-row items-center p-3 gap-2 dark:hover:bg-slate-200 hover:bg-[#505050]">
-
-                                            <div className=" rounded-[100%] h-2 w-2 bg-[#F41C54]"></div>
-                                            <p className="text-[14px] font-medium text-[#F41C54]">Back</p>
-                                        </div>
-                                        <hr />
-                                    </div>
                                     {data.map((item) => (
-                                        <GroupChat name={item.name} />
+                                        <GroupChat key={item.id} name={item.name} id={item.id} />
                                     ))}
-                                    <GroupChat name={"Front"} />
-
-                                    <GroupChat name={"Outra coisa"} />
 
                                     <button onClick={() => openModal()} className="flex flex-col dark:hover:bg-slate-200 hover:bg-[#505050]" >
                                         <div className="flex flex-row items-center p-3 gap-2">
@@ -189,38 +188,26 @@ export default function Home() {
 
                                     <div className={`bg-[#252525] dark:bg-[#e9eef3] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
 
-                                        {/* mensagem sua */}
-                                        <MyMsg date={"10:20 09/12/2024"} message={"oie"} />
-
-                                        <MyMsg date={"10:22 09/12/2024"} message={"Outra mensagem"} />
-
-                                        <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
-
-
-
-
-                                        {/* mensagem do outro */}
-
-                                        <OtherMsg foto={user.src} name={"Joao"} message={"memnsagem do outro"} date={"10:23 09/12/2024"} />
-
-                                        <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
-                                        <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
-
-                                        <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
-
-                                        <OtherMsg foto={user.src} name={"Maria"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} date={"10:25 09/12/2024"} />
-
-                                        <MyMsg date={"10:26 09/12/2024"} message={"teste de mesagem gigantesca para ver a quebra da linha, ainda maior ha ha ah"} />
-
-                                        {/* Renderizando as mensagens */}
-                                        {messages.map((message, index) => (
-                                            message.user.name === "adrian" ? (
-                                                message.deleted == false ? (<MyMsg key={index} date={message.date} message={message.text} />) : (<DeletedMsg/>)
-                                                
-                                            ) : (
-                                                <OtherMsg key={index} foto={user.src} name={message.user.name} message={message.text} date={message.date} />
-                                            )
-                                        ))}
+                                        {!(localStorage.getItem("topicChat") == '0') ? (
+                                            // Renderizando as mensagens
+                                            messages.map((message, index) => (
+                                                message.user.userName === loggedUser ? (
+                                                    message.deleted === false ? (
+                                                        <MyMsg key={index} date={message.date} message={message.text} />
+                                                    ) : (
+                                                        <DeletedMsg key={index} />
+                                                    )
+                                                ) : (
+                                                    message.deleted === false ? (
+                                                        <OtherMsg key={index} foto={user.src} name={message.user.name} message={message.text} date={message.date} />
+                                                    ) : (
+                                                        <OtherMsgDeleted key={index} foto={user.src} name={message.user.name}/>
+                                                    )
+                                                )
+                                            ))
+                                        ) : (
+                                            <p>nada</p>
+                                        )}
 
                                     </div>
 

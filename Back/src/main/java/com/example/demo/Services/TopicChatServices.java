@@ -17,6 +17,6 @@ public interface TopicChatServices {
     TopicChatReturn updateNameChatTopic(TopicChatUpdate data);
     TopicChatMessageResponse inativeMessageTopicChat(Long idTopicChatMessage, Long idUser);
     ArrayList<GetTopicChats> getTopicChats(Long idTopic);
-    GetTopicChatMessagesResponse getTopicMessage(Long idTopicChat);
+    GetTopicChatMessagesResponse getTopicMessage(Long idUser, Long idTopicChat);
 
 }

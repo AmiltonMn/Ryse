@@ -5,5 +5,6 @@ import com.example.demo.DTO.UserDTO.UserData;
 public record GetTopicChats(
     String name,
     String date,
-    UserData user
+    UserData user,
+    Long id
 ) {}

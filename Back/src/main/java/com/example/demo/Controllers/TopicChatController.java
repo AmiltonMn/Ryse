@@ -84,8 +84,8 @@ public class TopicChatController {
     }
 
     @GetMapping("/message/{idTopicChat}")
-    public ResponseEntity<GetTopicChatMessagesResponse> getChatMessages(@PathVariable Long idTopicChat) {
-        return new ResponseEntity<>(topicChatServices.getTopicMessage(idTopicChat), HttpStatus.OK);
+    public ResponseEntity<GetTopicChatMessagesResponse> getChatMessages(@RequestAttribute("token") Token token, @PathVariable Long idTopicChat) {
+        return new ResponseEntity<>(topicChatServices.getTopicMessage(token.getId(), idTopicChat), HttpStatus.OK);
     }
 
 }

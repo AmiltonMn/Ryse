@@ -21,6 +21,7 @@ import search from "@/assets/lupa.png"
 import searchDark from "@/assets/lupaBlack.png"
 
 interface TopicData {
+    id: number;
     name: string;
     date: string;
     idUser: number;
@@ -32,7 +33,7 @@ export default function Home() {
     const [search, setSearch] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [page, setPage] = useState<string>("1")
-    const [size, setSize] = useState<number>(5);
+    const [size, setSize] = useState<number>(10);
     const [data, setData] = useState<TopicData[]>([]);
 
     const pagina = Number(page)
@@ -132,9 +133,9 @@ export default function Home() {
                             </div>
                         </div>
                         <hr className="mt-4" />
-                        <div className="w-full flex flex-wrap mt-8 gap-9 justify-center">
+                        <div className="w-full flex flex-wrap mt-8 gap-9 justify-start ml-10">
                             {data.map((item) => (
-                                <CardChat name={item.name}/>
+                                <CardChat key={item.id} name={item.name} id={item.id}/>
                             ))}
                         </div>
                         <div className="w-full fixed items-center left-1/2 flex bottom-12 gap-3 ">
@@ -156,7 +157,7 @@ export default function Home() {
                             </form>
                             <div className="flex justify-between mt-10">
                                 <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                                <button onClick={() => setModal(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                                <button onClick={() => handleNewTopic()} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </div>
                     </div>

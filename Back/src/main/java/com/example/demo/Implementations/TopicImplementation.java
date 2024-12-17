@@ -32,7 +32,7 @@ public class TopicImplementation implements TopicService {
         List<TopicDTO> topicsReturn = new ArrayList<>();
 
         for(Topic topic : topics){
-            topicsReturn.add(new TopicDTO(topic.getName(), topic.getDate(), topic.getUser().getId()));
+            topicsReturn.add(new TopicDTO(topic.getName(), topic.getDate(), topic.getUser().getId(), topic.getIdTopic()));
         }
 
         return topicsReturn;

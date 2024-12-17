@@ -5,6 +5,8 @@ import axios from "axios";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 import google from "@/assets/google.png";
+import { api } from "@/constants/api";
+import { log } from "console";
 
 export default function Register() {
 
@@ -14,22 +16,27 @@ export default function Register() {
   const [password, setPassword] = useState<string>("")
   const [username, setUsername] = useState<string>("")
 
-  const fetch = async (name: string, email: string, edv: string, password: string) => {
-    try {
-      const response = await axios.post("http://localhost:8080/register",{
+  const handleNewUser = async () => {
+    await api.post("/register",
+      {
         "name" : name,
         "email" : email,
-        "EDV": edv,
+        "username" : username,
+        "EDV": EDV,
         "password": password
-      }, {
+      }, 
+      {
         headers: {
           'Content-Type': 'application/json'
         }
       })
-      console.log(response.data)
-    } catch (error) {
-      console.error("Erro ao dar fetch", error);
-    }
+      .then((res) => {
+        alert("Usuário criado com sucesso")
+        window.location.reload();
+      })
+      .catch((e) => {
+        alert(e.response.data.message)
+      })
   }
 
     const style =
@@ -47,13 +54,13 @@ export default function Register() {
                         <h2 className="text-[#F41C54] font-semibold text-2xl">Create account,</h2>
                         <h2 className="font-normal text-2xl">to get started now!</h2></div>
                     <div className="flex flex-col items-center gap-3  text-black w-11/12 ">
-                        <input className={style.inputz} placeholder="Name" />
-                        <input className={style.inputz} placeholder="Username" />
-                        <input className={style.inputz} type="email" placeholder="Email" />
-                        <input className={style.inputz} placeholder="EDV" />
-                        <input className={style.inputz} type="password" placeholder="Password" />
+                        <input className={style.inputz} value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+                        <input className={style.inputz} value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+                        <input className={style.inputz} value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
+                        <input className={style.inputz} value={EDV} onChange={(e) => setEDV(e.target.value)} placeholder="EDV" />
+                        <input className={style.inputz} value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
                     </div>
-                    <button type="submit" className="bg-white text-black p-3 rounded w-11/12 font-bold">Sign Up</button>
+                    <button onClick={handleNewUser} className="bg-white text-black p-3 rounded w-11/12 font-bold">Sign Up</button>
                     <div className="flex flex-row justify-center gap-2">
                         <p>Already have an account?</p>
                         <a href={ROUTES.login} className="text-[#F41C54] font-normal" >Login Now</a>

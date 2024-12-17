@@ -1,13 +1,11 @@
 package com.example.demo.Implementations;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.DTO.ChatGroupDto.MessagesData;
 import com.example.demo.DTO.TopicChatDTO.CreateChat;
 import com.example.demo.DTO.TopicChatDTO.CreateMessage;
 import com.example.demo.DTO.TopicChatDTO.GetTopicChatMessagesResponse;
@@ -19,6 +17,7 @@ import com.example.demo.DTO.TopicChatDTO.TopicMessagesData;
 import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.TopicChat;
 import com.example.demo.Models.TopicMessage;
+import com.example.demo.Models.User;
 import com.example.demo.Repositories.TopicChatRepository;
 import com.example.demo.Repositories.TopicMessagesRepository;
 import com.example.demo.Repositories.TopicRepository;
@@ -179,7 +178,8 @@ public class TopicChatImplementations implements TopicChatServices {
                         topicChat.getUser().getName(), 
                         topicChat.getUser().getPhoto(), 
                         topicChat.getUser().getUserState()
-                    )
+                    ),
+                topicChat.getIdTopicChat()
                 )
             );
         }
@@ -188,7 +188,11 @@ public class TopicChatImplementations implements TopicChatServices {
     }
 
     @Override
-    public GetTopicChatMessagesResponse getTopicMessage(Long idTopicChat) {
+    public GetTopicChatMessagesResponse getTopicMessage(Long idUser, Long idTopicChat) {
+
+        User user = userRepo.findById(idUser).get();
+
+        System.out.println(user.getName());
 
         ArrayList<TopicMessage> topicChatMessagesRaw = topicMessageRepo.findMessagesWithChat(idTopicChat);
         ArrayList<TopicMessagesData> messages = new ArrayList<>();
@@ -211,7 +215,7 @@ public class TopicChatImplementations implements TopicChatServices {
             );
         }
 
-        return new GetTopicChatMessagesResponse(messages, topicChat.getName(), true);
+        return new GetTopicChatMessagesResponse(messages, topicChat.getName(), user.getUsername(), true);
     }
 
 }
