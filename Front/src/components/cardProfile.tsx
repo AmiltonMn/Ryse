@@ -20,7 +20,7 @@ export const CardProfile = ({ imageCover, imageProfile, name, username, click }:
             <div className="w-full text-white relative ">
                 <Image className="absolute w-full  h-[230px] object-cover rounded-sm" src={imageCover} width={200} height={200} alt="Image Cover"></Image>
                 <div>
-                    <Image className="absolute w-1/8 rounded-full top-36 ml-12 transition ease-in-out delay-150 cursor-pointer" src={imageProfile} width={170} height={170} alt="Image Profile"></Image>
+                    <Image className="absolute w-1/8 rounded-full top-36 ml-12 transition ease-in-out delay-150 cursor-pointer" src={imageProfile} width={170} height={170} alt="Image Profile" unoptimized ></Image>
                     <div className="left-0 top-0  mt-60 ml-60">
                         <h1 className="text-[30px] font-medium">{name} <button onClick={(event) => {
                             event.preventDefault();

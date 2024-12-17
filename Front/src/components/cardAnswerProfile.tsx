@@ -20,7 +20,7 @@ export const CardAnswerProfile = ({ username, usernameQuestion, imageQuestion, i
         <>
             <div className="flex justify-between flex-row">
                 <div className="text-white relative flex justify-start align-top items-end">
-                    <Image className="absolute w-10 rounded-full " src={imageQuestion} width={150} height={150} alt="Image Profile"></Image>
+                    <Image className="absolute w-10 rounded-full " src={imageQuestion} width={150} height={150} alt="Image Profile"unoptimized ></Image>
                     <div className="left-0 top-0 ml-16">
                         <h1 className="text-[15px] text-[#F41C54] font-medium mb-2">{group}</h1>
                         <h1 className="text-[13px] font-medium">{usernameQuestion}</h1>
@@ -33,7 +33,7 @@ export const CardAnswerProfile = ({ username, usernameQuestion, imageQuestion, i
             </div>
 
             <div className="text-white relative flex justify-start items-center align-top mt-8 ml-14 ">
-                <Image className="absolute w-10 rounded-full " src={image} width={150} height={150} alt="Image Profile"></Image>
+                <Image className="absolute w-10 rounded-full " src={image} width={150} height={150} alt="Image Profile" unoptimized></Image>
                 <div className="left-0 top-0 ml-16">
                     <h1 className="text-[13px] font-medium">{username}</h1>
                 </div>

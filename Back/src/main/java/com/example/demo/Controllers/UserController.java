@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.LoginData;
-import com.example.demo.DTO.Return;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
 import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.Repositories.UserRepository;
+import com.example.demo.DTO.Return;
 import com.example.demo.Services.UserServices;
+
 
 @RestController
 public class UserController {
 
     @Autowired
     UserServices userServices;
+
+    
 
     @PostMapping("/register")
     public ResponseEntity<Return> Register(@RequestBody RegisterData data) {
