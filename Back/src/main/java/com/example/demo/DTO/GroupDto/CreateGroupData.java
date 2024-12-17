@@ -1,4 +1,4 @@
-package com.example.demo.DTO.GroupDTO;
+package com.example.demo.DTO.GroupDto;
 
 public record CreateGroupData(
     String message,
