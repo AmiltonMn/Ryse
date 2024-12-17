@@ -50,7 +50,6 @@ export const CardAnswer: React.FC<CardAnswerProps> = ({idAnswer, userPhoto, user
                 </div>
                 <div className={ verified? "flex items-center" :"hidden"}>
                     <h3 className="text-[#50aadf] text-[14px]">Resposta verificada</h3>
-                    }
                     <Image src={verify.src} alt="ícone notificação" className="w-5 h-5 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
                 </div>
             </div>
