@@ -13,8 +13,13 @@ export const CardFeed = ({ imageFeed, name, username, feedback }: {
 
         <>
             <div>
+<<<<<<< HEAD
             <div className="w-full text-white dark:text-black relative flex justify-start align-top">
                 <Image className="absolute w-12 rounded-full " src={imageFeed} width={170} height={170} alt="Image Profile"></Image>
+=======
+            <div className="w-full text-white relative flex justify-start align-top">
+                <Image className="absolute w-12 rounded-full " src={imageFeed} width={170} height={170} alt="Image Profile" unoptimized></Image>
+>>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
                 <div className="left-0 top-0 ml-16">
                     <h1 className="text-[15px] font-medium">{name}</h1>
                     <h1 className="text-[12px] font-extralight dark:font-normal">{username}</h1>

@@ -34,6 +34,16 @@ interface ForumData {
     questionsCount: number;
 }
 
+interface TopicChatData {
+    idTopicChat: number;
+    name: string;
+}
+
+interface TopicChatData {
+    idTopicChat: number;
+    name: string;
+}
+
 export default function Home() {
 
     const [modal, setModal] = useState(false);
@@ -43,7 +53,13 @@ export default function Home() {
     const [query, setQuery] = useState<string>("");
     const [size, setSize] = useState<number>(5);
     const [data, setData] = useState<ForumData[]>([]);
+<<<<<<< HEAD
     const toggleDarkMode = () => setDarkMode(!darkMode);
+=======
+    const [data2, setData2] = useState<TopicChatData[]>([]);
+
+    const [pag, setPag] = useState<string>("1");
+>>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
 
     const pagina = Number(pag)
 
@@ -103,11 +119,33 @@ export default function Home() {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
-            }
+            },
         ).then((res) => {
             setData(res.data)
         })
+
+        api.get("/topicChat/1", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log(res.data)
+            setData2(res.data)
+        })
         .catch((e) => {})
+
+        api.get("/topicChat/1", 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            },
+        ).then((res) => {
+            console.log(res.data)
+            setData2(res.data)
+        })
     }, [query, size])
 
     return (
@@ -145,10 +183,9 @@ export default function Home() {
                 <div className="flex flex-col dark:bg-slate-100 bg-[#242424] ml-16 w-[18%] h-[70%] p-8 rounded-[10px] dark:border-gray-200 border-[#4B4B4B] border-[0.5px] dark:text-black text-white">
                     <h4 className="text-[#595959] font-bold text-[16px]">POPULAR CHAT</h4>
                     <div className="flex flex-col items-center">
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
-                        <Link href={ROUTES.chats} className={styles.chat}>Javinha</Link>
+                        {data2.map((item) =>(
+                            <Link href={ROUTES.chats} key={item.idTopicChat} className={styles.chat}>{item.name}</Link>
+                        ))}
                     </div>
                     <Link href={ROUTES.chats} className="mt-8 dark:bg-gray-300 bg-[#5B5B5B] p-1 rounded-[10px] text-[12px] hover:opacity-80 flex justify-center">See more</Link>
 

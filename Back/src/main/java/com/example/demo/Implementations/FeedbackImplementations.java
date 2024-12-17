@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.DTO.FeedbackDTO.CreateFeedback;
 import com.example.demo.DTO.FeedbackDTO.FeedbackGet;
 import com.example.demo.DTO.FeedbackDTO.FeedbackReturn;
-import com.example.demo.DTO.FeedbackDTO.returnGetFeedback;
+import com.example.demo.DTO.FeedbackDTO.UserInfoFeedback;
 import com.example.demo.Models.Feedback;
 import com.example.demo.Models.Group;
 import com.example.demo.Models.User;
@@ -52,43 +52,39 @@ public class FeedbackImplementations implements FeedbackServices {
     }
 
     @Override
-    public returnGetFeedback getFeedbackReceiver(Long idUser, Long idGroup) {
-
-        var FeedbacksReturn = feedbackRepo.getFeedbacksReceiver(idUser, idGroup);
+    public List<FeedbackGet> getFeedbackReceiver(Long idUser) {
+        var FeedbacksReturn = feedbackRepo.getFeedbacksReceiver(idUser);
         List<FeedbackGet> listFeedbacks = new ArrayList<>();
         
         for (Feedback feedback : FeedbacksReturn) {
-
-            listFeedbacks.add(new FeedbackGet(
-                    feedback.getText(), 
-                    feedback.getUserSender().getName(), 
-                    feedback.getUserSender().getPhoto(),
-                    feedback.getPrivacity()
-                ));
+            listFeedbacks.add(new FeedbackGet(feedback.getText(), new UserInfoFeedback(feedback.getUserReceiver().getId(),feedback.getUserReceiver().getName(), feedback.getUserReceiver().getPhoto(),feedback.getUserReceiver().getName())));
         }
 
         if (listFeedbacks.isEmpty()) {
-            return new returnGetFeedback(listFeedbacks, new FeedbackReturn("There are no feedbacks here!", false));
+            return listFeedbacks;
         }
 
-        return new returnGetFeedback(listFeedbacks, new FeedbackReturn("get done with sucess", true));
+        return listFeedbacks;
     }
 
     @Override
-    public returnGetFeedback getFeedbackSender(Long idUser, Long idGroup) {
-        var FeedbacksReturn = feedbackRepo.getFeedbacksSender(idUser,idGroup);
+    public List<FeedbackGet> getFeedbackSender(Long idUser) {
+        var FeedbacksReturn = feedbackRepo.getFeedbacksSender(idUser);
+
+        
+
+        
+        
         List<FeedbackGet> listFeedbacks = new ArrayList<>();
         for (Feedback feedback : FeedbacksReturn) {
-
-            listFeedbacks.add(new FeedbackGet(
-                feedback.getText(), 
-                feedback.getUserSender().getName(), 
-                feedback.getUserSender().getPhoto(),
-                feedback.getPrivacity()
-            ));
+            listFeedbacks.add(new FeedbackGet(feedback.getText(), new UserInfoFeedback(feedback.getUserSender().getId(),feedback.getUserSender().getName(), feedback.getUserSender().getPhoto(),feedback.getUserSender().getName())));
+        }
+        
+        if (listFeedbacks.isEmpty()) {
+            return listFeedbacks;
         }
 
-        return new returnGetFeedback(listFeedbacks, new FeedbackReturn("get done with sucess", true));
+        return listFeedbacks;
     }
 
 }
