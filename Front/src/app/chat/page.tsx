@@ -3,6 +3,7 @@
 import { Menu } from "@/components/menu";
 import { Submenu } from "@/components/submenu";
 import { MyMsg } from "@/components/myMsg";
+import { DeletedMsg } from "@/components/deletedMsg";
 import { OtherMsg } from "@/components/otherMsg";
 import { GroupChat } from "@/components/groupChat";
 import { ROUTES } from "@/constants/routes";
@@ -207,7 +208,7 @@ export default function Home() {
                                         {/* Renderizando as mensagens */}
                                         {messages.map((message, index) => (
                                             message.user.name === "adrian" ? (
-                                                message.deleted == false ? (<MyMsg key={index} date={message.date} message={message.text} />) : (<MyMsg key={index} date={""} message={"Mensagem deletada"} />)
+                                                message.deleted == false ? (<MyMsg key={index} date={message.date} message={message.text} />) : (<DeletedMsg/>)
                                                 
                                             ) : (
                                                 <OtherMsg key={index} foto={user.src} name={message.user.name} message={message.text} date={message.date} />
