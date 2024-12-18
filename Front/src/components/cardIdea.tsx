@@ -34,7 +34,6 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
     const [love, setLove] = useState(false)
     const [gostei, setGostei] = useState(false)
     const [odiei, setOdiei] = useState(false)
-<<<<<<< HEAD
     const [isInstructor, setIsInstructor] = useState<boolean>(false);
 
     const userToken = localStorage.getItem("token");
@@ -47,10 +46,8 @@ export const CardIdea: React.FC<CardIdeaProps> = ({ userPhoto, username, date, t
             setIsInstructor(true);
         }
     }
-=======
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode)
->>>>>>> frontend
 
     const show = () => {
         setOptions(!options)

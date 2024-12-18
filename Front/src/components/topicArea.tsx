@@ -32,13 +32,8 @@ export const TopicArea = ({ text, refe, idAreaInterest }: {
                 <div>
                     <h1 className="font-light text-[16px]">• {text}</h1>
                 </div>
-<<<<<<< HEAD
                 <a href={refe} className="group/edit invisible group-hover/item:visible transition duration-300 ease-in-out scale-100 flex flex-row hover:bg-[#383838]  dark:hover:bg-slate-200 p-1 px-2 border-0 rounded-lg">
-                    <Image src={del.src} width={20} height={20} alt="Delete area of interest"></Image>
-=======
-                <a href={refe} className="group/edit invisible group-hover/item:visible transition duration-300 ease-in-out scale-100 flex flex-row hover:bg-[#383838] p-1 px-2 border-0 rounded-lg">
                     <Image src={del.src} width={20} height={20} alt="Delete area of interest" onClick={async () => removeAreaofInterest()}></Image>
->>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
                 </a>
             </div>
         </>

@@ -25,7 +25,7 @@ export const Menu: React.FC<MenuProps> = ({ title }) => {
   const { darkMode, setDarkMode } = useDarkMode();
 
   const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev); 
+    setDarkMode((prev: any) => !prev); 
   };
 
   const openModal = () => {
