@@ -12,15 +12,106 @@ import Image from "next/image";
 import trash from "@/assets/trash.png";
 import more from "@/assets/maisrosa.png";
 import user from "@/assets/user.png";
+import { api } from "@/constants/api";
+
+interface GroupData {
+    name: string,
+    description: string,
+    objective: string,
+    isOwner: boolean
+}
+
+interface UserData {
+    userId: number;
+    userName: string;
+    name: string;
+    Photo: string | null;
+    userState: string;
+}
 
 
 export default function Home() {
 
     const [modal, setModal] = useState(false);
     const [modal2, setModal2] = useState(false);
+    const [idUser, setIdUser] = useState<number>(0);
     const [name, setName] = useState<string>("");
     const [feed, setFeed] = useState<string>("");
     const [modalfeedback, setModalfeedback] = useState(false);
+    const [group, setGroup] = useState<GroupData>();
+    const [userData, setUserData] = useState<UserData[]>([]);
+
+    let groupId = localStorage.getItem("group");
+
+    useEffect(() => {
+        api.get(
+            `/group/${groupId}`, 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            setGroup(res.data)
+        })
+        .catch((e) => {})
+    }, [])
+
+    useEffect(() => {
+        api.get(
+            `/group/${groupId}/users`, 
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            console.log(res.data)
+            setUserData(res.data.users)
+        })
+        .catch((e) => {})
+    }, [])
+
+    const addUser = (idUser: number) => {
+        api.post(
+            `/group/user`, 
+            {
+                "idUser": idUser,
+                "idGroup": groupId
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            alert('foi')
+        })
+        .catch((e) => {})
+        .finally(() => setModal2(false))
+    }
+
+    const sendFeedback = () => {
+
+        api.post(
+            `/feedback`, 
+            {
+                "idUserReceiver": idUser,
+                "idGroup": groupId,
+                "text": feed,
+                "privacity": false
+            },
+            {
+                headers: {
+                    "Authorization": localStorage.getItem("token")
+                }
+            }
+        ).then((res) => {
+            alert('feedback enviado!')
+        })
+        .catch((e) => {})
+        .finally(() => setModalfeedback(false))
+    }
 
     const closeModal = () => {
         setName("");
@@ -29,6 +120,7 @@ export default function Home() {
 
     const openModal = () => {
         setModal(true);
+
     }
 
     const closeModal2 = () => {
@@ -44,8 +136,9 @@ export default function Home() {
         setModalfeedback(false);
     }
 
-    const openModalfeedback = () => {
+    const openModalfeedback = (userId: number) => {
         setModalfeedback(true);
+        setIdUser(userId)
     }
 
 
@@ -63,7 +156,7 @@ export default function Home() {
             <div className="pt-36 pl-[300px] pr-[100px] flex">
                 <div className="w-full text-white">
                     <div className="w-full flex justify-between">
-                        <h2 className="text-[20px] font-medium">Nome do Projeto</h2>
+                        <h2 className="text-[20px] font-medium">{group?.name}</h2>
                         <a href={ROUTES.groupchat} className="opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200   bg-[#F41C54] rounded-lg w-40 text-[16px] text-white flex justify-center items-center">Chats</a>
                     </div>
                     <hr className="mt-4" />
@@ -74,7 +167,7 @@ export default function Home() {
                                     <p className="text-[20px]">Description</p>
                                 </div>
                                 <div className="flex w-full justify-start">
-                                    <p className="mt-8 text-[14px]">texto de descricao do grupo uma descricao legal texto de descricao do grupo uma descricao legal</p>
+                                    <p className="mt-8 text-[14px]">{group?.description}</p>
                                 </div>
                             </div>
                         </div>
@@ -85,13 +178,13 @@ export default function Home() {
                                     <p className="text-[20px]">Goals</p>
                                 </div>
                                 <div className="flex w-full justify-start">
-                                    <p className="mt-8 text-[14px]">um texto falando sobre as metas metas muito legais eb aeba eba mais texto pra ter 2 linhas</p>
+                                    <p className="mt-8 text-[14px]">{group?.objective}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-col w-full p-6">
                             <div className="w-full flex flex-row justify-between items-center">
-                                <p className="text-[20px]">Integrantes</p>
+                                <p className="text-[20px]">members</p>
                                 <button onClick={() => openModal2()}>
                                     <Image src={more} alt="ícone ideia" className="w-6 mr-[35px] h-6 rounded-t-3xl hover:scale-110" />
                                 </button>
@@ -102,13 +195,15 @@ export default function Home() {
                                         <td className="w-16 p-1">
                                             <Image src={user} alt="ícone ideia" className={style.imagen} />
                                         </td>
-                                        <td className="text-[16px]">Juliana</td>
+                                        <td className="text-[16px]">{userData.at(0)?.name}</td>
                                     </tr>
-                                    <TeamList foto={user.src} name={"Adrian"} openModalfeedback={openModalfeedback}/>
-                                    <TeamList foto={user.src} name={"Amilton"} openModalfeedback={openModalfeedback}/>
+                                    {userData.slice(1).map((item) => (
+                                        <TeamList key={item.userId} foto={user.src} name={item.name} openModalfeedback={() => openModalfeedback(item.userId)} idUser={item.userId}/>
+                                    ))}
+                                    {/* <TeamList foto={user.src} name={"Amilton"} openModalfeedback={openModalfeedback}/> */}
                                 </tbody>
                             </table>
-                            <div className="w-full mt-8 flex justify-end">
+                            <div className={group?.isOwner? "hidden": "w-full mt-8 flex justify-end"}>
                                 <button onClick={() => openModal()} className="border-[#F41C54] h-10 rounded-lg border w-40 text-[#F41C54] flex justify-center items-center text-[16px] opacity-85 hover:opacity-100 hover:scale-105 hover:-translate-y-1 transition duration-200 ">Delete Group</button>
                             </div>
                         </div>
@@ -141,7 +236,7 @@ export default function Home() {
                         </form>
                         <div className="flex justify-between mt-10">
                             <button onClick={() => closeModalfeedback()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancel</button>
-                            <button onClick={() => setModalfeedback(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                            <button onClick={sendFeedback} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -153,29 +248,32 @@ export default function Home() {
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-semibold">New collaborator</h2>
-                        <form className="flex flex-col">
+                        {/* <form className="flex flex-col">
                             <label htmlFor="" className="mt-4">Email</label>
                             <input type="text" placeholder="Collaborator email" className="text-gray-800 border-2 rounded-[5px] p-1 mt-1 text-[13px]" />
-                        </form>
+                        </form> */}
                         <form>
                             <table className="bg-[#242424] w-full rounded-md mt-8">
                                 <tbody >
-                                    <tr >
-                                        <td className="p-1">
-                                            <div className="flex flex-row justify-start items-center gap-2">
-                                                <Image src={user} alt="ícone ideia" className={style.imagen} />
-                                                Adrian
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="flex justify-end pe-3">
-                                                <button onClick={() => setModal2(false)} className="flex justify-center items-center">
-                                                    <Image src={more} alt="ícone ideia" className="w-6 h-6 rounded-t-3xl hover:scale-110" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-t">
+                                    {userData.map((item) => (
+                                        <tr key={item.userId}>
+                                            <td className="p-1">
+                                                <div className="flex flex-row justify-start items-center gap-2">
+                                                    <Image src={user} alt="ícone ideia" className={style.imagen} />
+                                                    {item.userName}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="flex justify-end pe-3">
+                                                    <button onClick={() => addUser(item.userId)} className="flex justify-center items-center">
+                                                        <Image src={more} alt="ícone ideia" className="w-6 h-6 rounded-t-3xl hover:scale-110" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    
+                                    {/* <tr className="border-t">
                                         <td className="p-1">
                                             <div className="flex flex-row justify-start items-center gap-2">
                                                 <Image src={user} alt="ícone ideia" className={style.imagen} />
@@ -189,7 +287,7 @@ export default function Home() {
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </form>

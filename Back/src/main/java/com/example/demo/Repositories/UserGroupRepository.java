@@ -24,7 +24,7 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
     @Query(value = "SELECT * FROM tb_user_group WHERE id_user = :idUser ORDER BY id_user_group OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
     List<UserGroup> findUserGroupsWithPagination(@Param("idUser") Long idUser,@Param("offset") int offset, @Param("limit") int limit);
 
-    @Query(value = "SELECT * FROM tb_user_group WHERE id_group = :idGroup", nativeQuery = true)
-    ArrayList<User> findUsersInGroup(@Param("idGroup") Long idGroup);
+    @Query(value = "select u.* from tb_user_group ug inner join tb_user u on u.id_user = ug.id_user WHERE ug.id_group = :idGroup", nativeQuery = true)
+    List<User> findUsersInGroup(@Param("idGroup") Long idGroup);
 }
 

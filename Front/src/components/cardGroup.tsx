@@ -1,16 +1,25 @@
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CardGroupProps {
+    groupId: number;
     foto: string;
     name: string;
     description: string;
 }
 
-export const CardGroup: React.FC<CardGroupProps> = ({ foto, name, description }) => {
+export const CardGroup: React.FC<CardGroupProps> = ({ groupId, foto, name, description }) => {
+
+    const router = useRouter();
+
+    const setId = (groupId: number) => {
+        localStorage.setItem("group", groupId.toString());
+        router.push(ROUTES.group);
+    }
 
     return (
-        <div className="w-96 bg-[#242424] h-52 justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3 ">
+        <div onClick={() => setId(groupId)} className="w-96 bg-[#242424] h-52 justify-between pb-3 rounded-md flex flex-col ps-6 pe-6 pt-3 ">
             <div className="w-full flex flex-col items-center">
                 <div className="w-full flex justify-between items-center">
                     <p className="text-[20px]">{name}</p>

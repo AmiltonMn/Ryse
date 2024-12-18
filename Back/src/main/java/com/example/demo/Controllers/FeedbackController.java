@@ -28,8 +28,8 @@ public class FeedbackController {
     FeedbackServices feedbackServices;
 
     @PostMapping
-    public ResponseEntity<FeedbackReturn> postFeedback(@RequestBody CreateFeedback data) {
-        var response = feedbackServices.createFeedback(data);
+    public ResponseEntity<FeedbackReturn> postFeedback(@RequestAttribute("token") Token token, @RequestBody CreateFeedback data) {
+        var response = feedbackServices.createFeedback(token.getId(), data);
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

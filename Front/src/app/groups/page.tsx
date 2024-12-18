@@ -11,17 +11,14 @@ import Image from "next/image";
 
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
-<<<<<<< HEAD
-import search from "@/assets/lupa.png"
-=======
 import search from "@/assets/lupaBlack.png"
 import { api } from "@/constants/api";
 import { title } from "process";
 import { group } from "console";
 import { pages } from "next/dist/build/templates/app-page";
->>>>>>> GroupIntegration
 
 interface groupsData {
+    groupId: number,
     title: string,
     description: string,
     photo: string 
@@ -139,14 +136,13 @@ export default function Home() {
                         </div>
                         <div className="flex w-1/3 justify-center items-center">
                             <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
-                            <input type="text" placeholder="Search" value={query} onChange={(e) => {setQuery(e.target.value), handleSearchGroup(pag, query)}} className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-[#242424] border border-white" />
                             <Image src={search} alt="" className="w-5 h-5 relative right-7 cursor-pointer" id="search"/>
                         </div>
                     </div>
                     <hr className="mt-4 w-[99%]" />
                     <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
                         {groups.map((item) => (
-                            <CardGroup key={Math.random()} foto={google.src} name={item.title} description={item.description}></CardGroup>
+                            <CardGroup key={Math.random()} groupId={item.groupId} foto={google.src} name={item.title} description={item.description}></CardGroup>
                         ))}
                     </div>
                     <div className="w-full flex fixed bottom-6 left-[50%] mt-3 gap-3">

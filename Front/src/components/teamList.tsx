@@ -1,17 +1,18 @@
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 
 import trash from "@/assets/trash.png";
 
 interface TeamListProps {
+    idUser: number;
     foto: string;
     name: string;
-    openModalfeedback: () => void;
+    openModalfeedback: (idUser: number) => void;
 }
 
-export const TeamList: React.FC<TeamListProps> = ({ foto, name, openModalfeedback }) => {
+export const TeamList: React.FC<TeamListProps> = ({ idUser, foto, name, openModalfeedback }) => {
 
     return (
         <tr className="border-t border-[#D9D9D9]">
@@ -20,7 +21,7 @@ export const TeamList: React.FC<TeamListProps> = ({ foto, name, openModalfeedbac
             </td>
             <td className="text-start text-[16px]">{name}</td>
             <td className="w-16">
-                <button onClick={openModalfeedback} className="flex items-center justify-center mr-2 bg-[#F41C54] text-white p-0.5 px-2 rounded-md">
+                <button onClick={() => openModalfeedback(idUser)} className="flex items-center justify-center mr-2 bg-[#F41C54] text-white p-0.5 px-2 rounded-md">
                     Feedback
                 </button>
             </td>
