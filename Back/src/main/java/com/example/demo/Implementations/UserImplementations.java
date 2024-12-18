@@ -1,5 +1,3 @@
-package com.example.demo.Implementations;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -170,9 +168,6 @@ public class UserImplementations implements UserServices {
         }
         return answerComentarie;
     }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> f8ab853197145312588b620796f88521f9f885ad
 }
