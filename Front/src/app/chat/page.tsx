@@ -109,9 +109,7 @@ export default function Home() {
             .catch((e) => { })
     }, [])
 
-    
-
-    const getMessages = () => {
+    useEffect(() => {
         api.get(`/topicChat/message/${localStorage.getItem("topicChat")}`, {
             headers: {
                 "Authorization": localStorage.getItem("token") || "",
@@ -123,9 +121,7 @@ export default function Home() {
                 console.log(res.data.loggedUser);
                 console.log(res.data)
             })
-    } ;
-
-    setTimeout(getMessages, 1000);
+    }, []);
 
     const handleNewMessage = async () => {
         await api.post("/topicChat/message",
