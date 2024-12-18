@@ -459,7 +459,7 @@ const Profile: React.FC = () => {
 
     useEffect(() => {
         console.log(likes);
-        
+
     }, [feedbackReceiver, feedbackSender, answerCommentary, questionComentary, likes])
 
     useEffect(() => {
@@ -562,8 +562,8 @@ const Profile: React.FC = () => {
                         </div>
 
                         {interactionTab === "likes" ? (
-                            likes.map((item)=> (<CardLike name={item.user.name} username={item.user.name} text={item.answer} image={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`} />))
-                            
+                            likes.map((item) => (<CardLike name={item.user.name} username={item.user.name} text={item.answer} image={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.user.photo}`} />))
+
                         ) : (
                             <div>
                                 {questionComentary.map((item) => (

@@ -5,31 +5,26 @@ import { ROUTES } from "@/constants/routes";
 import { useRouter } from 'next/navigation'
 import Image from "next/image";
 
-<<<<<<< HEAD
-=======
-import google from "@/assets/google.png";
-import { api } from "@/constants/api";
-
->>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-<<<<<<< HEAD
     const style = {
-        main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center p-30 overflow-y-auto max-h-[calc(100vh-10px)]",
-        inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] text-white placeholder-[#999999]",
-    };
+      main: "min-h-screen w-full bg-[#1E1E1E] flex justify-center items-center p-30 overflow-y-auto max-h-[calc(100vh-10px)]",
+      inputz: "rounded-md p-1 ps-3 text-base w-full bg-[#484848] text-white placeholder-[#999999]",
+  };
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        if (!email.trim() || !password.trim()) {
-            setError("Please fill in all fields.");
-            return;
-=======
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+      e.preventDefault();
+      if (!email.trim() || !password.trim()) {
+          setError("Please fill in all fields.");
+          return;
+      }
+      setError("");
+      window.location.href = ROUTES.home;
+  };
+
   const router = useRouter();
   const fetch = async (email: string,password: string) => {
     console.log("entrou");
@@ -41,11 +36,12 @@ export default function Login() {
       }, {
         headers: {
           'Content-Type': 'application/json'
->>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
         }
         setError("");
         window.location.href = ROUTES.home;
-    };
+      });
+      c
+    }
 
     const router = useRouter();
     const fetch = async (email: string,password: string) => {
