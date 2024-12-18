@@ -1,10 +1,15 @@
 package com.example.demo.Models;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,9 +45,6 @@ public class User {
     private String photo;
 
     @Column
-    private String Backgroundphoto;
-
-    @Column
     private String careerFocus;
 
     @Column
@@ -54,6 +56,17 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @ManyToMany
+    private List<Group> groups;
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     public Long getId() {

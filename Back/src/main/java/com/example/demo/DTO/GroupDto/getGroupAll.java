@@ -1,6 +1,7 @@
-package com.example.demo.DTO.GroupDTO;
+package com.example.demo.DTO.GroupDto;
 
-public record getGroupAll(    
+public record getGroupAll(  
+    Long groupId,  
     String title,
     String description,
     String photo

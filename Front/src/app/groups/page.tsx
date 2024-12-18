@@ -21,6 +21,7 @@ import { group } from "console";
 import { pages } from "next/dist/build/templates/app-page";
 
 interface groupsData {
+    groupId: number,
     title: string,
     description: string,
     photo: string 
@@ -148,7 +149,7 @@ export default function Home() {
                         <hr className="mt-4 w-[99%]" />
                         <div className="w-full flex flex-wrap mt-8 gap-6 justify-center">
                             {groups.map((item) => (
-                                <CardGroup key={Math.random()} foto={google.src} name={item.title} description={item.description}></CardGroup>
+                                <CardGroup key={Math.random()} groupId={item.groupId} foto={google.src} name={item.title} description={item.description}></CardGroup>
                             ))}
                         </div>
                         <div className="w-full flex justify-center mt-10 gap-3 mb-2">

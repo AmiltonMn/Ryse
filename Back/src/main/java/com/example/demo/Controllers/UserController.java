@@ -19,6 +19,8 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
+    
+
     @PostMapping("/register")
     public ResponseEntity<Return> Register(@RequestBody RegisterData data) {
 
@@ -34,9 +36,10 @@ public class UserController {
     public ResponseEntity<Return> Login(@RequestBody LoginData data) {
 
         var response = userServices.Login(data);
-
+        System.out.println(response);
         return response.result()? 
             new ResponseEntity<>(response, HttpStatus.OK) : 
             new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
 }

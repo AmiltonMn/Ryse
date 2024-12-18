@@ -1,5 +1,6 @@
 "use client"
 
+import { DarkModeProvider } from "@/context/darkMode";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { CardCommentProfile } from "@/components/cardCommentProfile";
 import { CardAnswerProfile } from "@/components/cardAnswerProfile";
@@ -22,6 +23,9 @@ import { Checkbox } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { api } from "@/constants/api";
 import axios from "axios";
+import searchDark from "@/assets/lupaBlack.png"
+import { useDarkMode } from "@/context/darkMode";
+import editaDark from "@/assets/editaDark.png";
 
 
 interface areasOfInterest {
@@ -130,7 +134,7 @@ const Profile: React.FC = () => {
         if (event.key == 'Enter') {
             event.preventDefault();
 
-            editableRef.current.blur();
+            editableRef.current?.blur();
             setEditBio(false)
         }
     }
@@ -165,6 +169,9 @@ const Profile: React.FC = () => {
         fileInput?.click();
     };
 
+    const { darkMode, setDarkMode } = useDarkMode();
+    const toggleDarkMode = () => setDarkMode(!darkMode);
+
     const [instrutor, setInstrutor] = useState(false)
     const [activeTab, setActiveTab] = useState("profile");
     const [text, setText] = useState("");
@@ -177,6 +184,7 @@ const Profile: React.FC = () => {
 
     const roter = useRouter();
 
+    const [modal, setModal] = useState(false);
     const [name, setName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [bio, setBio] = useState<string>("");
@@ -188,7 +196,6 @@ const Profile: React.FC = () => {
     const [areasofInterest, setAreasofInterest] = useState<areasOfInterest[]>([])
     const [feedbackSender, setFeedbackSender] = useState<FeedbacksUserLoged[]>([])
     const [feedbackReceiver, setfeedbackReceiver] = useState<FeedbacksUserLoged[]>([])
-
     const [answerCommentary, setAnswerCommentary] = useState<AnswerCommentary[]>([])
     const [questionComentary, setQuestionComentary] = useState<Perguntacomentarios[]>([])
     const [likes, setLikes] = useState<Likes[]>([])
@@ -216,6 +223,14 @@ const Profile: React.FC = () => {
         }
     }
 
+    const handleConfirmArea = () => {
+        if (name.trim() === "") {
+            setError("Area name cannot be empty!");
+        } else {
+            setError("");
+            setModalArea(false);
+        }
+    };
 
     const getFeedbackSender = async () => {
         try {
@@ -264,12 +279,11 @@ const Profile: React.FC = () => {
     };
 
 
-
-
     const [file, setFile] = useState<File | null>(null);
     const [filename, setFilename] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string | null>("");
     const [publicId, setPublicId] = useState<string>("");
+    const [error, setError] = useState<string>("");
 
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -422,6 +436,12 @@ const Profile: React.FC = () => {
     }
 
     useEffect(() => {
+        fetch('API_URL') // Substitua pela URL real
+          .then((response) => response.json())
+          .then((data) => sethardSkillsUser(data.hardSkills));
+      }, []);
+
+    useEffect(() => {
         api.get(
             "/perfil",
             {
@@ -435,6 +455,8 @@ const Profile: React.FC = () => {
             sethardSkillsUser(res.data.HardSkillUser)
             sethardSkills(res.data.HardSkills)
             setAreasofInterest(res.data.areas);
+            console.log(res.data.areas);
+            
             setBio(res.data.info.bio)
 
             if (res.data.info.photo === null) {
@@ -481,7 +503,7 @@ const Profile: React.FC = () => {
             <Submenu home={"Home"} chats={"Chats"} newGroup={"New group"} myGroup={"My groups"} chatPrincipal1={"Chat 1"} chatPrincipal2={"Chat 2"} chatPrincipal3={"Chat 3"} newIdea={"New idea"} ideas={"Ideas"} hardSkills={"Hard Skills"} events={"Events"} news={"News"} />
 
 
-            <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black">
+            <div className="pt-24 pl-[320px] pr-[70px] flex flex-col text-white dark:text-black overflow-y-auto max-h-[calc(100vh-10px)]">
                 <div className="font-medium text-[16px] flex justify-between flex-row pb-8">
                     <div className="flex">
                         <SelectProfile refe="#" title="Profile" click={() => handleTabChange("profile")} classe={activeTab == "profile" ? "underline decoration-4" : ""} />
@@ -515,7 +537,7 @@ const Profile: React.FC = () => {
                             <div className="flex flex-col pb-8 pt-4">
                                 <div className="flex flex-row items-start">
                                     <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Hard Skils</h1>
-                                    <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                    <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                                 </div>
                                 <div className="flex flex-wrap order-4 gap-4 pt-6">
                                     {hardSkillsUser.map((item, index) => (<HardSkils text={item} key={index} />))}
@@ -525,7 +547,7 @@ const Profile: React.FC = () => {
                         <div className="w-2/5">
                             <div className="flex flex-row pb-4 pt-4 items-start">
                                 <h1 className="font-medium text-[16px] flex flex-row underline underline-offset-4 decoration-[#F41C54] decoration-2">Areas of interest</h1>
-                                <a onClick={modalHardSkils} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
+                                <a onClick={modalArea} className="font-medium text-[20px] pl-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-125 hover:text-[#F41C54] duration-200" href="#">+</a>
                             </div>
                             {areasofInterest.map((item) => (
                                 <TopicArea key={item.areaOfInterestId} text={item.areaName} refe="" idAreaInterest={item.areaOfInterestId} />
@@ -586,13 +608,13 @@ const Profile: React.FC = () => {
             </div>
 
             {/* Modal Hard Skils */}
-            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
+            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col text-[8px]" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-[16px] font-medium">Hard Skils</h2>
                         <div className="flex w-full justify-center items-center mt-4">
-                            <input type="text" placeholder="Search" className="text-white text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] bg-zinc-800 border border-white" />
-                            <Image src={search} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                            <input type="text" placeholder="Search" className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-zinc-800 border border-white dark:border-gray-700 dark:border-[2px]" />
+                            <Image src={!darkMode ? search : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                         </div>
                         <form className="flex flex-col">
                             <div className="flex flex-wrap order-4 gap-4 pt-6">
@@ -618,18 +640,23 @@ const Profile: React.FC = () => {
             </div>
 
             {/* Modal areas of interest */}
-            <div className={modalSkils ? "fixed inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
-                <div className="bg-zinc-800 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
+            <div className={modalAreaa ? "fixed inset-0 flex items-center justify-center text-white dark:text-black bg-black bg-opacity-50 z-50" : "hidden disabled z-0 opacity-0"}>
+                <div className="bg-zinc-800 dark:bg-slate-50 p-8 rounded-lg shadow-lg flex items-center justify-center flex-col" >
                     <div className="p-2 flex flex-col w-96 bg-opacity-50 z-50">
                         <h2 className="text-xl font-medium text-center">Add area of interrest</h2>
-                        <form className="flex flex-col" onSubmit={() => {
-                            addAreaInterest()
-                        }}>
+                        <form className="flex flex-col" onSubmit={(e) => {
+                            e.preventDefault();
+                            if (!error) {
+                                addAreaInterest();
+                            }
+                        }
+                        }>
                             <label htmlFor="" className="mt-8">Name</label>
                             <input type="text" id="areaText" placeholder="New area" className="border-2 rounded-[5px] p-1 mt-2 text-[13px] text-zinc-900" ></input>
-                            <div className="flex justify-between mt-10">
+                            {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+                            <div className="flex justify-between mt-4">
                                 <button onClick={() => closeModal()} className="flex justify-center items-center h-8 text-[15px] bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">Cancelar</button>
-                                <button type="submit" onClick={() => setModalSkils(false)} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
+                                <button type="submit" onClick={handleConfirmArea} className="flex justify-center items-center h-8 text-[15px] bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Confirm</button>
                             </div>
                         </form>
                     </div>

@@ -13,6 +13,7 @@ import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.UserDTO.AnswerComentarie;
 import com.example.demo.DTO.UserDTO.QuestionComentarie;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.DTO.UserDTO.appearanceUser;
 import com.example.demo.DTO.UserDTO.perfilInfo;
 import com.example.demo.DTO.UserDTO.perfilLikesReturn;
@@ -47,11 +48,7 @@ public class UserImplementations implements UserServices {
     @Autowired
     EncodeServices encode;
 
-    @Autowired
-    UserHardSkillRepository userHardkSkillRepo;
 
-    @Autowired
-    AreasOfInterestRepository areasRepo;
 
     @Override
     public Return register(RegisterData data) {
@@ -109,6 +106,7 @@ public class UserImplementations implements UserServices {
         JWTCreate jwtCreate = new JWTCreate();
 
         String jwt = "Bearer " + jwtCreate.get(token);
+        System.out.print(jwt);
 
         return new Return(jwt, user.getUserState(), true);
     }
@@ -172,4 +170,9 @@ public class UserImplementations implements UserServices {
         }
         return answerComentarie;
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f8ab853197145312588b620796f88521f9f885ad
 }

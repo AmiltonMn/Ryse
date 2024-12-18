@@ -23,6 +23,7 @@ export default function Login() {
       return;
     }
     setError("");
+    fetch(email,password);
     window.location.href = ROUTES.home;
   };
 
@@ -40,9 +41,10 @@ export default function Login() {
         }
       })
       localStorage.setItem("token", response.data.message)
+      localStorage.setItem("userState", response.data.userState)
       router.push("/home")
     } catch (error) {
-      console.log("erro ao dar fecth", error)
+      console.log("erro ao dar fetch", error)
     }
   }
 

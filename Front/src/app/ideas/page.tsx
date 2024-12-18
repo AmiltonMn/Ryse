@@ -21,9 +21,15 @@ import { api } from "@/constants/api"
 
 import heart from "@/assets/coracao.png"
 import heartLike from "@/assets/coracaoRosa.png"
+import amei from "@/assets/like.png"
+import like from "@/assets/joinha.png"
+import wlike from "@/assets/joinhacheio.png"
+import dislike from "@/assets/dislike.png"
+import wdislike from "@/assets/dislikecheio.png"
 import lampadaVermelha from "@/assets/lampadaVermelha.png"
 import lampadaAmarela from "@/assets/lampadaAmarela.png"
 import lampadaVerde from "@/assets/lampadaVerde.png"
+import pontos from "@/assets/pontos.png"
 
 
 const styles = {
@@ -53,6 +59,34 @@ export default function Ideas() {
     const [text, setText] = useState<string>("");
     const [idIdea, setIdIdea] = useState<number>();
     const [liked, setLiked] = useState<boolean>(false);
+    const [options, setOptions] = useState(false);
+    const [love, setLove] = useState(false)
+    const [gostei, setGostei] = useState(false)
+    const [odiei, setOdiei] = useState(false)
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userState = localStorage.getItem("userState");
+    console.log(userState);
+
+    
+
+    const show = () => {
+        setOptions(!options)
+    }
+
+    const likedAnswer = () => {
+        if (odiei) {
+            setOdiei(false)
+        }
+        setGostei(!gostei)
+    }
+
+    const disliked = () => {
+        if (gostei) {
+            setGostei(false)
+        }
+        setOdiei(!odiei)
+    }
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode);
 
@@ -77,7 +111,7 @@ export default function Ideas() {
         ).then((res) => {
             setDataIdeas(res.data)
         })
-        .catch((e) => {})
+            .catch((e) => { })
         console.log(dataIdeas)
     }
 
@@ -123,9 +157,37 @@ export default function Ideas() {
             .finally(() => setIdIdea(0))
     }
 
+    const updateState = async (idIdea: number, status: number) => {
+    
+        await api.put("/idea",
+            {
+                "idIdea": idIdea,
+                "status": status
+            },
+            {
+                headers: {
+                    'Authorization': localStorage.getItem("token")
+                }
+            })
+            .then((res) => {
+                window.location.reload()
+            })
+            .catch((e) => {
+                alert(e.response.data.message)
+            })
+            .finally(() => {
+                setIdIdea(0);
+                setStatus(3);
+            })
+    }
+
     useEffect(() => {
         fetchIdeas(status, query);
-    }, [status, query, liked]);
+
+        if (userState && userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }, [status, query, liked, userState]);
 
     return (
         <div>
@@ -152,33 +214,65 @@ export default function Ideas() {
                         {dataIdeas.map((item, key) => {
                             return (
                                 // <CardIdea userPhoto={""} username={item.username} date={item.date} title={item.title} description={item.text} state={item.status} key={item.idIdea} likes={item.likes} liked={item.liked}/>
-
+                                
                                 <div className="bg-[#242424] rounded-[10px] w-full text-white ">
                                     <div className="flex justify-between p-4">
                                         <div className="flex justify-center items-center">
-                                            <Image src={""} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2 mr-4" width={1000} height={1000}/>
+                                            <Image src={`https://res.cloudinary.com/dxunnhglr/image/upload/${item.userPhoto}`} alt="ícone notificação" className="w-7 h-7 rounded-t-3xl m-2 mr-4" width={1000} height={1000} unoptimized />
                                             <h4 className="text-[14px]">{item.username}</h4>
                                         </div>
-                                        <p className="text-[12px] p-4">{item.date}</p>
+                                        <div className="flex items-center">
+                                            <p className="text-[12px] p-4">{item.date}</p>
+                                        </div>
                                     </div>
                                     <div className="flex justify-between">
                                         <div className="pl-8 pt-4 text-[14px] flex justify-between pb-8 w-full">
                                             <div className="flex gap-8">
-                                                <Image src={item.status == 0 ? lampadaAmarela : item.status == 1 ? lampadaVerde : lampadaVermelha} alt="lampada" className="w-12"/>
+                                                <Image src={item.status == 0 ? lampadaAmarela : item.status == 1 ? lampadaVerde : lampadaVermelha} alt="lampada" className="w-12" />
                                                 <div className="">
                                                     <h4 className="text-[16px] mb-2">{item.title}</h4>
                                                     <p>{item.text}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex justify-center items-center">
-                                                <button className="pr-2" onClick={() => newLikeIdea(item.idIdea)}>
-                                                    <Image src={item.liked ? heartLike.src : heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000}/>
-                                                </button>
-                                                <p className="pr-12">{item.likes}</p>
-                                            </div>
+                                            {isInstructor ?
+                                                <div className="flex items-center">
+                                                    <button onClick={() => {updateState(item.idIdea, 2), disliked()}} className="">
+                                                        {
+                                                            item.status == 2 ?
+                                                                <Image src={wdislike.src} alt="dislike" className="w-5 h-5 m-2 transform scale-x-[-1]" width={1000} height={1000} />
+                                                                :
+                                                                <Image src={dislike.src} alt="dislike" className="w-5 h-5 m-2 transform scale-x-[-1]" width={1000} height={1000} />
+                                                        }
+                                                    </button>
+                                                    <div className="flex items-center">
+                                                    <button onClick={() => {newLikeIdea(item.idIdea), updateState(item.idIdea, 1), likedAnswer()}} className="pr-6">
+                                                        {
+                                                            item.status == 1 ?
+                                                                <Image src={amei.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                                                :
+                                                                <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                                            }
+                                                    </button>
+                                                    <p className="pr-12">{item.likes}</p>
+                                                </div>
+                                                </div>
+                                                :
+                                                <div className="flex items-center">
+                                                    <button onClick={() => {newLikeIdea(item.idIdea), updateState(item.idIdea, 1), likedAnswer()}} className="pr-6">
+                                                        {
+                                                            item.status == 1 ?
+                                                                <Image src={amei.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                                                :
+                                                                <Image src={heart.src} alt="ícone coração" className="w-5 h-5 m-2 " width={1000} height={1000} />
+                                                            }
+                                                    </button>
+                                                    <p className="pr-12">{item.likes}</p>
+                                                </div>
+                                            
+                                            }
                                         </div>
                                     </div>
-                                    <hr/>
+                                    <hr />
                                 </div>
                             )
                         })}
@@ -188,6 +282,7 @@ export default function Ideas() {
                 <div className="flex flex-col dark:text-black dark:bg-slate-100 bg-[#242424] ml-16 w-[18%] h-full p-8 rounded-[10px] dark:border-slate-200 border-[#4B4B4B] border-[0.5px] text-white">
                     <h4 className="text-white dark:text-black font-bold text-[16px]">FILTER IDEAS</h4>
                     <div className="flex flex-col items-center">
+                        <button className="p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900" onClick={() => setStatus(3)}>All</button>
                         <button className="border-green-700 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-green-900" onClick={() => setStatus(1)}>Approved</button>
                         <button className="border-red-800 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-red-900" onClick={() => setStatus(2)}>Disapproved</button>
                         <button className="border-yellow-600 p-2 mt-8 rounded-[10px] border-[2px] w-full text-[14px] hover:bg-yellow-700" onClick={() => setStatus(0)}>Under analysis</button>

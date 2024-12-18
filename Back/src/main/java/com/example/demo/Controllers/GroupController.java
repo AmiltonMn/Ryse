@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.GroupDTO.CreateGroupData;
-import com.example.demo.DTO.GroupDTO.GetGroupsResponse;
-import com.example.demo.DTO.GroupDTO.GroupGet;
-import com.example.demo.DTO.GroupDTO.NewGroupData;
-import com.example.demo.DTO.GroupDTO.UpdateGroupData;
-import com.example.demo.DTO.GroupDTO.addUserGroup;
+import com.example.demo.DTO.GroupDto.CreateGroupData;
+import com.example.demo.DTO.GroupDto.GetGroupsResponse;
+import com.example.demo.DTO.GroupDto.GroupGet;
+import com.example.demo.DTO.GroupDto.NewGroupData;
+import com.example.demo.DTO.GroupDto.UpdateGroupData;
+import com.example.demo.DTO.GroupDto.addUserGroup;
+import com.example.demo.DTO.Token;
 import com.example.demo.DTO.UserDTO.GetUsersData;
 import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.GroupRepository;
-import com.example.demo.DTO.Token;
 import com.example.demo.Services.GroupServices;
 
 @RestController
@@ -99,16 +99,9 @@ public class GroupController {
     @GetMapping("/{idGroup}/users")
     public ResponseEntity<GetUsersData> getAllUsersInGroup(@PathVariable("idGroup") Long idGroup) {
 
-        ArrayList<User> usersRaw = groupService.getAllUserInGroup(idGroup);
 
-        ArrayList<UserData> users = new ArrayList<>();
+        ArrayList<UserData> users = new ArrayList<>(groupService.getAllUserInGroup(idGroup));
 
-        for (User user : usersRaw) {
-            
-            UserData userInGroup = new UserData(user.getUsername(), user.getName(), user.getPhoto(), user.getUserState());
-
-            users.add(userInGroup);
-        }
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(new GetUsersData(null, false), HttpStatus.NOT_FOUND);

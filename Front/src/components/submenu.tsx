@@ -15,7 +15,7 @@ import iconIdeaDark from "@/assets/luzDark.png";
 import iconMore from "@/assets/luz.png";
 import iconSettings from "@/assets/settings.png";
 import iconSettingsDark from "@/assets/configuracoes.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DarkModeProvider } from "@/context/darkMode";
 import { useDarkMode } from "@/context/darkMode";
 
@@ -56,6 +56,20 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
     const { darkMode, setDarkMode } = useDarkMode();
 
     const toggleDarkMode = () => setDarkMode(!darkMode);
+    const [isInstructor, setIsInstructor] = useState<boolean>(false);
+
+    const userState = localStorage.getItem("userState");
+
+    const logout = () => {
+        localStorage.setItem("token", "");
+        localStorage.setItem("userState", "");
+    }
+
+    useEffect(() => {
+        if (userState && userState.toLowerCase() === "instructor") {
+            setIsInstructor(true);
+        }
+    }, [userState]);
 
     return (
         <DarkModeProvider>
@@ -119,18 +133,24 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
 
 
                     {/* PARTE QUE SÓ VAI APARECER PARA OS INSTRUTORES */}
-                    <hr className={styleSubmenu.hr} />
-                    <div className={styleSubmenu.div}>
-                        <div className="flex flex-row justify-between">
-                            <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
+                    {isInstructor ?
+                    <>
+                        <hr className={styleSubmenu.hr} />
+                        <div className={styleSubmenu.div}>
+                            <div className="flex flex-row justify-between">
+                                <h5 className={styleSubmenu.h5}>SETTINGS</h5><button className="text-[13px]" onClick={() => setIsSettings(!isSettings)}>{!isIdeia ? baixo : cima}</button>
+                            </div>
+                            {isSettings && <div>
+                                <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
+                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
+                                    {hardSkills}
+                                </Link>
+                            </div>}
                         </div>
-                        {isSettings && <div>
-                            <Link href={ROUTES.hardSkills} className={styleSubmenu.link}>
-                                <Image src={!darkMode ? iconSettings : iconSettingsDark} alt="ícone ferramenta" className={styleSubmenu.img} />
-                                {hardSkills}
-                            </Link>
-                        </div>}
-                    </div>
+                    </>
+                    :
+                    <></>
+                }
                 </div>
                 <a href={ROUTES.login} className="text-white dark:text-black text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6">Logout</a>
             </div>

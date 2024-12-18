@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.Token;
 import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
+import com.example.demo.DTO.IdeaDTO.IdeaStatus;
 import com.example.demo.DTO.IdeaDTO.LikeData;
 import com.example.demo.DTO.IdeaDTO.newIdeaData;
+import com.example.demo.DTO.Token;
 import com.example.demo.Services.IdeaServices;
 
 @RestController
@@ -82,5 +84,12 @@ public class IdeaController {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<IdeaReturn> updateStatus(@RequestBody IdeaStatus data) {
+
+        var response = ideaServices.updateStatus(data.idIdea(), data.status());
+        return response;
     }
 }

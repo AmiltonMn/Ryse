@@ -29,9 +29,9 @@ public class FeedbackImplementations implements FeedbackServices {
     FeedbackRepository feedbackRepo;
 
     @Override
-    public FeedbackReturn createFeedback(CreateFeedback data) {
+    public FeedbackReturn createFeedback(Long idUser, CreateFeedback data) {
 
-        User userSender = userRepo.findById(data.idUserSender()).get();
+        User userSender = userRepo.findById(idUser).get();
         User userReceiver = userRepo.findById(data.idUserReceiver()).get();
         Group group = groupRepo.findById(data.idGroup()).get();
 

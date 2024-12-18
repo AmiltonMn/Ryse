@@ -16,7 +16,7 @@ export const CardLike = ({ name, username, text, image }: {
         <>
             <div>
                 <div className="w-full text-white dark:text-black relative flex justify-start align-top">
-                    <Image className="absolute w-10 rounded-full " src={image} width={150} height={150} alt="Image Profile" unoptimized></Image>
+                    <Image className="absolute w-[40px] h-[40px] object-cover rounded-full " src={image} width={150} height={150} alt="Image Profile" unoptimized></Image>
                     <div className="left-0 top-0 ml-12">
                         <h1 className="text-[15px] font-medium">{name}</h1>
                         <h1 className="text-[12px] font-extralight dark:font-normal">{username}</h1>

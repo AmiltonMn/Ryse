@@ -1,13 +1,11 @@
 package com.example.demo.Implementations;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.DTO.ChatGroupDto.MessagesData;
 import com.example.demo.DTO.TopicChatDTO.CreateChat;
 import com.example.demo.DTO.TopicChatDTO.CreateMessage;
 import com.example.demo.DTO.TopicChatDTO.GetTopicChatMessagesResponse;
@@ -92,6 +90,7 @@ public class TopicChatImplementations implements TopicChatServices {
                     topicMessage.getDate(), 
                     topicMessage.getDeleted(), 
                     new UserData(
+                        topicMessage.getUser().getId(),
                         topicMessage.getUser().getUsername(), 
                         topicMessage.getUser().getName(), 
                         topicMessage.getUser().getPhoto(), 
@@ -151,6 +150,7 @@ public class TopicChatImplementations implements TopicChatServices {
                     topicMessage.getDate(), 
                     topicMessage.getDeleted(), 
                     new UserData(
+                        topicMessage.getUser().getId(), 
                         topicMessage.getUser().getUsername(), 
                         topicMessage.getUser().getName(), 
                         topicMessage.getUser().getPhoto(), 
@@ -175,6 +175,7 @@ public class TopicChatImplementations implements TopicChatServices {
                 topicChat.getName(), 
                 topicChat.getDate(), 
                 new UserData(
+                        topicChat.getUser().getId(), 
                         topicChat.getUser().getUsername(), 
                         topicChat.getUser().getName(), 
                         topicChat.getUser().getPhoto(), 
@@ -202,6 +203,7 @@ public class TopicChatImplementations implements TopicChatServices {
                     topicMessage.getDate(), 
                     topicMessage.getDeleted(), 
                     new UserData(
+                        topicMessage.getUser().getId(), 
                         topicMessage.getUser().getUsername(), 
                         topicMessage.getUser().getName(), 
                         topicMessage.getUser().getPhoto(), 
