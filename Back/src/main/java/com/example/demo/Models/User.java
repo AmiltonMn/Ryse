@@ -148,12 +148,4 @@ public class User {
     public void setCoverPhoto(String coverPhoto) {
         this.coverPhoto = coverPhoto;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }
