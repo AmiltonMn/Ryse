@@ -145,14 +145,6 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                                     <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
                                     {hardSkills}
                                 </Link>
-                                <Link href={ROUTES.ideas} className={styleSubmenu.link}>
-                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
-                                    {events}
-                                </Link>
-                                <Link href={ROUTES.ideas} className={styleSubmenu.link}>
-                                    <Image src={iconSettings} alt="ícone ferramenta" className={styleSubmenu.img} />
-                                    {news}
-                                </Link>
                             </div>}
                         </div>
                     </>
