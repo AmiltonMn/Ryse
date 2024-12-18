@@ -53,13 +53,8 @@ export default function Home() {
     const [query, setQuery] = useState<string>("");
     const [size, setSize] = useState<number>(5);
     const [data, setData] = useState<ForumData[]>([]);
-<<<<<<< HEAD
     const toggleDarkMode = () => setDarkMode(!darkMode);
-=======
     const [data2, setData2] = useState<TopicChatData[]>([]);
-
-    const [pag, setPag] = useState<string>("1");
->>>>>>> ea10bc347693ad020762fbd3babaac70a4c7b7a8
 
     const pagina = Number(pag)
 
