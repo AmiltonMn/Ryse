@@ -36,6 +36,7 @@ interface Message {
     text: string;
     date: string;
     deleted: boolean;
+    id: number;
     user: {
         photo: string;
         name: string;
@@ -191,15 +192,15 @@ export default function Home() {
                                             messages.map((message, index) => (
                                                 message.user.userName === loggedUser ? (
                                                     message.deleted === false ? (
-                                                        <MyMsg key={index} date={message.date} message={message.text} />
+                                                        <MyMsg key={message.id} date={message.date} message={message.text} id={message.id}/>
                                                     ) : (
-                                                        <DeletedMsg key={index} />
+                                                        <DeletedMsg key={message.id}/>
                                                     )
                                                 ) : (
                                                     message.deleted === false ? (
-                                                        <OtherMsg key={index} foto={`https://res.cloudinary.com/dxunnhglr/image/upload/${message.user.photo}`} name={message.user.name} message={message.text} date={message.date} />
+                                                        <OtherMsg key={index} foto={message.user.photo === null ? user.src : `https://res.cloudinary.com/dxunnhglr/image/upload/${message.user.photo}`} name={message.user.name} message={message.text} date={message.date} />
                                                     ) : (
-                                                        <OtherMsgDeleted key={index} foto={`https://res.cloudinary.com/dxunnhglr/image/upload/${message.user.photo}`} name={message.user.name}/>
+                                                        <OtherMsgDeleted key={index} foto={user.src} name={message.user.name}/>
                                                     )
                                                 )
                                             ))

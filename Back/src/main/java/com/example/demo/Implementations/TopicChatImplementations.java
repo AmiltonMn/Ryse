@@ -106,10 +106,12 @@ public class TopicChatImplementations implements TopicChatServices {
     @Override
     public TopicChatReturn deleteTopicChat(Long idTopicChat, Long idUser) {
 
+        TopicChat deleteChat = topicChatRepo.findById(idTopicChat).get();
+
         if (!Objects.equals(topicChatRepo.findById(idTopicChat).get().getUser().getId(), idUser)) {
             return new TopicChatReturn("You are not the admin of the chat", false);
         }
-        topicChatRepo.deleteById(idTopicChat);
+        topicChatRepo.delete(deleteChat);
         return new TopicChatReturn("deleted chat with sucess", true);
     }
 

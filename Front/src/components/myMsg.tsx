@@ -6,13 +6,15 @@ import pontos from "@/assets/pontos.png";
 import pontosDark from "@/assets/pontosDark.png";
 import lixo from "@/assets/trash.png";
 import { useState } from "react";
+import { api } from "@/constants/api";
 
 interface myMsgProps {
     date: string;
     message: string;
+    id: number;
 }
 
-export const MyMsg: React.FC<myMsgProps> = ({ date, message }) => {
+export const MyMsg: React.FC<myMsgProps> = ({ date, message, id }) => {
 
     const [mais, setMais] = useState(false)
     const { darkMode, setDarkMode } = useDarkMode();
@@ -22,11 +24,27 @@ export const MyMsg: React.FC<myMsgProps> = ({ date, message }) => {
         setMais(!mais)
     }
 
+    const DeleteMessage = async () => {
+            await api.delete(`/topicChat/message/${id}`,
+                {
+                    headers: {
+                        "Authorization": localStorage.getItem("token")
+                    }
+                })
+                .then((res) => {
+                    alert("mensagem excluida com sucesso")
+                    window.location.reload()
+                })
+                .catch((e) => {
+                    alert(e.response.data.message)
+                })
+        }
+
     return (
         <div className="w-full flex justify-end pt-4 pe-4">
             {mais ?
                 <div className="flex items-start pt-1 pr-2">
-                    <button className="text-[14px] bg-[#e74a4a] rounded-md p-2 hover:bg-[#cc3f3f]">
+                    <button onClick={DeleteMessage} className="text-[14px] bg-[#e74a4a] rounded-md p-2 hover:bg-[#cc3f3f]">
                         <Image src={lixo.src} alt="like" className="w-5 h-5 " width={1000} height={1000} />
                     </button>
                 </div>
