@@ -59,10 +59,6 @@ export default function Ideas() {
     const [text, setText] = useState<string>("");
     const [idIdea, setIdIdea] = useState<number>();
     const [liked, setLiked] = useState<boolean>(false);
-<<<<<<< HEAD
-    const { darkMode, setDarkMode } = useDarkMode();
-    const toggleDarkMode = () => setDarkMode(!darkMode);
-=======
     const [options, setOptions] = useState(false);
     const [love, setLove] = useState(false)
     const [gostei, setGostei] = useState(false)
@@ -91,7 +87,8 @@ export default function Ideas() {
         }
         setOdiei(!odiei)
     }
->>>>>>> instructor-features
+    const { darkMode, setDarkMode } = useDarkMode();
+    const toggleDarkMode = () => setDarkMode(!darkMode);
 
     const closeModal = () => {
         setTitle("");

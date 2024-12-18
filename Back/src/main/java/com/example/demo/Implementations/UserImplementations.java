@@ -22,8 +22,11 @@ import com.example.demo.Models.Answer;
 import com.example.demo.Models.LikeAnswer;
 import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
-import com.example.demo.Repositories.AnswerRepository;
+import com.example.demo.Models.UserHardSkill;
 import com.example.demo.Repositories.AreasOfInterestRepository;
+import com.example.demo.Repositories.HardSkillRepository;
+import com.example.demo.Repositories.UserHardSkillRepository;
+import com.example.demo.Repositories.AnswerRepository;
 import com.example.demo.Repositories.LikeAnswerRepository;
 import com.example.demo.Repositories.QuestionRepository;
 import com.example.demo.Repositories.UserHardSkillRepository;
@@ -171,13 +174,5 @@ public class UserImplementations implements UserServices {
         return answerComentarie;
     }
 
-<<<<<<< HEAD
-=======
-    @Override
-    public UserProfileResponse getUserProfile(Long idUser) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserProfile'");
-    }
->>>>>>> instructor-features
 
 }
