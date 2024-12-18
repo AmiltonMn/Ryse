@@ -25,7 +25,7 @@ export const MyMsg: React.FC<myMsgProps> = ({ date, message, id }) => {
     }
 
     const DeleteMessage = async () => {
-            await api.delete(`/topicChat/message/${id}`,
+            await api.put(`/topicChat/message/${id}`,
                 {
                     headers: {
                         "Authorization": localStorage.getItem("token")

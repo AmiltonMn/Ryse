@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useDarkMode } from "@/context/darkMode";
 
 
+
 import { api } from "@/constants/api";
 
 import Image from "next/image";
@@ -56,6 +57,12 @@ export default function Home() {
     const [messages, setMessages] = useState<Message[]>([]);
     const { darkMode, setDarkMode } = useDarkMode();
     const toggleDarkMode = () => setDarkMode(!darkMode);
+    
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //       window.location.reload(); // Recarrega a página
+    //     }, 1000); // A cada 1 segundo
+    // })
 
     const closeModal = () => {
         setName("");
@@ -102,7 +109,9 @@ export default function Home() {
             .catch((e) => { })
     }, [])
 
-    useEffect(() => {
+    
+
+    const getMessages = () => {
         api.get(`/topicChat/message/${localStorage.getItem("topicChat")}`, {
             headers: {
                 "Authorization": localStorage.getItem("token") || "",
@@ -114,10 +123,9 @@ export default function Home() {
                 console.log(res.data.loggedUser);
                 console.log(res.data)
             })
-            .catch((e) => {
-                console.error("Erro ao buscar mensagens:", e);
-            });
-    }, []);
+    } ;
+
+    setTimeout(getMessages, 1000);
 
     const handleNewMessage = async () => {
         await api.post("/topicChat/message",
@@ -185,7 +193,7 @@ export default function Home() {
 
                                 <div className="flex flex-col h-full w-[80%]">
 
-                                    <div className={`bg-[#252525] dark:bg-[#e9eef3] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
+                                    <div  className={`bg-[#252525] dark:bg-[#e9eef3] w-full h-[600px] flex flex-col overflow-x-auto ${ideasCss.scroll} max-h-[600px] pb-4`}>
 
                                         {!(localStorage.getItem("topicChat") == '0') ? (
                                             // Renderizando as mensagens
@@ -194,7 +202,7 @@ export default function Home() {
                                                     message.deleted === false ? (
                                                         <MyMsg key={message.id} date={message.date} message={message.text} id={message.id}/>
                                                     ) : (
-                                                        <DeletedMsg key={message.id}/>
+                                                        <DeletedMsg key={index}/>
                                                     )
                                                 ) : (
                                                     message.deleted === false ? (
@@ -205,7 +213,7 @@ export default function Home() {
                                                 )
                                             ))
                                         ) : (
-                                            <p>nada</p>
+                                            <></>
                                         )}
 
                                     </div>

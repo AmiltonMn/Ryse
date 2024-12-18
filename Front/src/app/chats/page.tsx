@@ -17,7 +17,7 @@ import { api } from "@/constants/api";
 import google from "@/assets/user.png";
 import more from "@/assets/maisrosa.png";
 import searchBlack from "@/assets/lupaBlack.png"
-import search from "@/assets/lupa.png"
+import searchLight from "@/assets/lupa.png"
 import searchDark from "@/assets/lupaBlack.png"
 
 interface TopicData {
@@ -129,7 +129,7 @@ export default function Home() {
                             </div>
                             <div className="w-1/3 flex justify-end items-center">
                                 <input type="text" placeholder="Search" className="text-white dark:text-black text-[14px] p-1.5 pl-4 rounded-2xl w-[100%] dark:bg-slate-50 bg-[#242424] border dark:border-gray-700 border-white dark:border-[2px]" />
-                                <Image src={!darkMode ? search : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
+                                <Image src={!darkMode ? searchLight : searchDark} alt="" className="w-5 h-5 relative right-8 cursor-pointer" id="search" />
                             </div>
                         </div>
                         <hr className="mt-4" />

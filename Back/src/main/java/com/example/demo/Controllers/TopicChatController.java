@@ -71,8 +71,8 @@ public class TopicChatController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/message/{idTopicChatMessage}")
-    public ResponseEntity<TopicChatMessageResponse> InativeMessage(@RequestAttribute("token") Token token, @PathVariable Long idTopicChatMessage) {
+    @PutMapping("/message/{idTopicChatMessage}")
+    public ResponseEntity<TopicChatMessageResponse> InativeMessage(@RequestAttribute("token") Token token,@PathVariable Long idTopicChatMessage) {
         var response = topicChatServices.inativeMessageTopicChat(idTopicChatMessage, token.getId());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
