@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.Token;
 import com.example.demo.DTO.ForumDTO.ForumData;
 import com.example.demo.DTO.ForumDTO.ForumTopicData;
 import com.example.demo.DTO.ForumDTO.ForumWithQuestionData;
@@ -24,6 +23,7 @@ import com.example.demo.DTO.ForumDTO.RegisterAnswerData;
 import com.example.demo.DTO.ForumDTO.RegisterForumData;
 import com.example.demo.DTO.ForumDTO.RegisterQuestionData;
 import com.example.demo.DTO.Return;
+import com.example.demo.DTO.Token;
 import com.example.demo.Services.ForumService;
 
 
@@ -102,7 +102,7 @@ public class ForumController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     ResponseEntity<Return> createForum(@RequestAttribute("token") Token token, @RequestBody RegisterForumData data){
 
         if(data.name().isEmpty())
