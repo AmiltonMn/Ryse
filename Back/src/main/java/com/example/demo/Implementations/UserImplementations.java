@@ -1,7 +1,6 @@
 package com.example.demo.Implementations;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,29 +9,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.DTO.LoginData;
 import com.example.demo.DTO.RegisterDTO.RegisterData;
-import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
-import com.example.demo.DTO.AreasOfInterestDto.GetAreasOfInterest;
 import com.example.demo.DTO.UserDTO.AnswerComentarie;
 import com.example.demo.DTO.UserDTO.QuestionComentarie;
 import com.example.demo.DTO.UserDTO.appearanceUser;
 import com.example.demo.DTO.UserDTO.perfilInfo;
 import com.example.demo.DTO.UserDTO.perfilLikesReturn;
 import com.example.demo.JWTCreate;
-import com.example.demo.Models.AreasOfInterest;
-import com.example.demo.Models.HardSkill;
 import com.example.demo.Models.Answer;
 import com.example.demo.Models.LikeAnswer;
 import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
-import com.example.demo.Models.UserHardSkill;
-import com.example.demo.Repositories.AreasOfInterestRepository;
-import com.example.demo.Repositories.HardSkillRepository;
-import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.AnswerRepository;
+import com.example.demo.Repositories.AreasOfInterestRepository;
 import com.example.demo.Repositories.LikeAnswerRepository;
 import com.example.demo.Repositories.QuestionRepository;
+import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -179,5 +172,4 @@ public class UserImplementations implements UserServices {
         }
         return answerComentarie;
     }
-
 }

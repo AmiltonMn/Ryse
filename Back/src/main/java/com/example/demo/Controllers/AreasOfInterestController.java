@@ -28,7 +28,7 @@ public class AreasOfInterestController {
     @PostMapping("/newArea")
     public ResponseEntity<AreasOfInterestResponse> newAreaOfInterest(@RequestAttribute("token") Token token, @RequestBody NewAreaData data) {
 
-        ResponseEntity<AreasOfInterestResponse> response = areaService.newAreaOfInterest(data.areaName(), token.getId());
+        ResponseEntity<AreasOfInterestResponse> response = areaService.newAreaOfInterest(data.text(), token.getId());
 
         return response;
     }
