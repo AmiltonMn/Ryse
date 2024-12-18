@@ -2,7 +2,9 @@ package com.example.demo.Implementations;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +16,7 @@ import com.example.demo.DTO.GroupDto.GroupGet;
 import com.example.demo.DTO.GroupDto.NewGroupData;
 import com.example.demo.DTO.GroupDto.UpdateGroupData;
 import com.example.demo.DTO.GroupDto.getGroupAll;
+import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.Group;
 import com.example.demo.Models.User;
 import com.example.demo.Models.UserGroup;
@@ -125,6 +128,7 @@ public class GroupImplementations implements GroupServices {
 
         for (int i = 0; i < results.size(); i++) {
             groupsList.add(new getGroupAll(
+                    results.get(i).getIdGroup(),
                     results.get(i).getName(),
                     results.get(i).getDescription(),
                     results.get(i).getObjective()));
@@ -146,14 +150,25 @@ public class GroupImplementations implements GroupServices {
     }
 
     @Override
-    public ArrayList<User> getAllUserInGroup(Long idGroup) {
-        
-        ArrayList<User> users = userGroupRepo.findUsersInGroup(idGroup);
+    public ArrayList<UserData> getAllUserInGroup(Long idGroup) {
 
-        if (users.isEmpty()) {
-            return null;
+        List<Object[]> rawUsers = groupRepo.findUsersGroup(idGroup);
+
+        ArrayList<UserData> users = new ArrayList<>();
+
+        for (Object[] user : rawUsers) {
+            
+            UserData userInGroup = new UserData(
+                (Long) user[0],
+                (String) user[10],
+                (String) user[6],
+                (String) user[8],
+                (String) user[9]
+            );
+
+            users.add(userInGroup);
         }
-
+        
         return users;
     }
 }

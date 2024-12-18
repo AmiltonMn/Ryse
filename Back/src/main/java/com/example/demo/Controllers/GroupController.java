@@ -99,16 +99,9 @@ public class GroupController {
     @GetMapping("/{idGroup}/users")
     public ResponseEntity<GetUsersData> getAllUsersInGroup(@PathVariable("idGroup") Long idGroup) {
 
-        ArrayList<User> usersRaw = groupService.getAllUserInGroup(idGroup);
 
-        ArrayList<UserData> users = new ArrayList<>();
+        ArrayList<UserData> users = new ArrayList<>(groupService.getAllUserInGroup(idGroup));
 
-        for (User user : usersRaw) {
-            
-            UserData userInGroup = new UserData(user.getUsername(), user.getName(), user.getPhoto(), user.getUserState());
-
-            users.add(userInGroup);
-        }
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(new GetUsersData(null, false), HttpStatus.NOT_FOUND);

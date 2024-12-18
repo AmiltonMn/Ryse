@@ -1,6 +1,7 @@
 package com.example.demo.Services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,6 +10,7 @@ import com.example.demo.DTO.GroupDto.GroupGet;
 import com.example.demo.DTO.GroupDto.NewGroupData;
 import com.example.demo.DTO.GroupDto.UpdateGroupData;
 import com.example.demo.DTO.GroupDto.getGroupAll;
+import com.example.demo.DTO.UserDTO.UserData;
 import com.example.demo.Models.User;
 
 public interface GroupServices {
@@ -19,5 +21,5 @@ public interface GroupServices {
     ResponseEntity<CreateGroupData> deletePersonOnGroup(Long idUser, Long idGroup);
     ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit, String query);
     ResponseEntity<GroupGet> getGroupInfo(Long idUser, Long idGroup);
-    ArrayList<User> getAllUserInGroup(Long idGroup);
+    ArrayList<UserData> getAllUserInGroup(Long idGroup);
 }
