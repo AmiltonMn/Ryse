@@ -111,6 +111,7 @@ export default function Home() {
                 setMessages(res.data.messages);
                 setLoggedUser(res.data.loggedUser);
                 console.log(res.data.loggedUser);
+                console.log(res.data)
             })
             .catch((e) => {
                 console.error("Erro ao buscar mensagens:", e);
@@ -154,11 +155,8 @@ export default function Home() {
                         <div className="w-[90%] h-[100%] rounded-md flex flex-col ">
                             <div className="flex w-full flex-col">
                                 <div className="flex w-full h-12 rounded-t dark:bg-slate-100 bg-[#313131] items-center ">
-                                    <div className="w-full h-full flex items-center justify-start pl-4 group">
+                                    <div className="w-full h-full flex items-center justify-between px-4 group">
                                         <p className="text-[16px] font-semibold z-20">{localStorage.getItem("topicName")}</p>
-                                        <button>
-                                            <Image src={edit} alt="lapids" className="ml-2 w-4 h-4 hover:scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                        </button>
                                     </div>
                                 </div>
                                 <hr className="" />
@@ -199,9 +197,9 @@ export default function Home() {
                                                     )
                                                 ) : (
                                                     message.deleted === false ? (
-                                                        <OtherMsg key={index} foto={user.src} name={message.user.name} message={message.text} date={message.date} />
+                                                        <OtherMsg key={index} foto={`https://res.cloudinary.com/dxunnhglr/image/upload/${message.user.photo}`} name={message.user.name} message={message.text} date={message.date} />
                                                     ) : (
-                                                        <OtherMsgDeleted key={index} foto={user.src} name={message.user.name}/>
+                                                        <OtherMsgDeleted key={index} foto={`https://res.cloudinary.com/dxunnhglr/image/upload/${message.user.photo}`} name={message.user.name}/>
                                                     )
                                                 )
                                             ))

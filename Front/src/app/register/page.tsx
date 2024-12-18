@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ROUTES } from "@/constants/routes";
+import { useRouter } from 'next/navigation'
 import Image from "next/image";
 import google from "@/assets/google.png";
 import { api } from "@/constants/api";
@@ -15,6 +16,7 @@ export default function Register() {
   const [EDV, setEDV] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [username, setUsername] = useState<string>("")
+  const router = useRouter();
 
   const handleNewUser = async () => {
     await api.post("/register",
@@ -32,7 +34,8 @@ export default function Register() {
       })
       .then((res) => {
         alert("Usuário criado com sucesso")
-        window.location.reload();
+        window.location.reload()
+        router.push("/login")
       })
       .catch((e) => {
         alert(e.response.data.message)
