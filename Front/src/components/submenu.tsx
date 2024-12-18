@@ -49,6 +49,11 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
 
     const userState = localStorage.getItem("userState");
 
+    const logout = () => {
+        localStorage.setItem("token", "");
+        localStorage.setItem("userState", "");
+    }
+
     useEffect(() => {
         if (userState && userState.toLowerCase() === "instructor") {
             setIsInstructor(true);
@@ -142,7 +147,9 @@ export const Submenu: React.FC<SubmenuProps> = ({ home, chats, newGroup, myGroup
                     <></>
                 }
             </div>
-            <a className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6 ">To go out</a>
+            <Link href={ROUTES.login} className="text-white text-[16px] hover:text-gray-500 black transition easy-in-out pt-1 pb-2 mt-[90%] ml-[4%] fixed bottom-6" onClick={() => logout()}>
+                To go out
+            </Link>
         </div>
     )
 }
