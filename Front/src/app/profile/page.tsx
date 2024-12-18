@@ -436,6 +436,12 @@ const Profile: React.FC = () => {
     }
 
     useEffect(() => {
+        fetch('API_URL') // Substitua pela URL real
+          .then((response) => response.json())
+          .then((data) => sethardSkillsUser(data.hardSkills));
+      }, []);
+
+    useEffect(() => {
         api.get(
             "/perfil",
             {
