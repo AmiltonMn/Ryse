@@ -117,8 +117,7 @@ public class GroupImplementations implements GroupServices {
             groupsList.add(new getGroupAll(
                     results.get(i).getName(),
                     results.get(i).getDescription(),
-                    results.get(i).getObjective(),
-                    results.size() / 9));
+                    results.get(i).getObjective()));
         }
 
         return groupsList;

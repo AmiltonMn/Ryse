@@ -17,7 +17,7 @@ public interface GroupServices {
     ResponseEntity<CreateGroupData> updateGroup(UpdateGroupData data);
     ResponseEntity<CreateGroupData> addPersonToGroup(Long idUser, Long idGroup);
     ResponseEntity<CreateGroupData> deletePersonOnGroup(Long idUser, Long idGroup);
-    ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit);
+    ArrayList<getGroupAll> getGroupsPageable(Long idUser, Integer page, Integer limit,String query);
     ResponseEntity<GroupGet> getGroupInfo(Long idUser, Long idGroup);
     ArrayList<User> getAllUserInGroup(Long idGroup);
 }
