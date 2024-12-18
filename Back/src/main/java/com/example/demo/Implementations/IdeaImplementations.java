@@ -142,4 +142,13 @@ public class IdeaImplementations implements IdeaServices {
         return likeIdeaRepo.getLikesUserIdea(idIdea, IdUser);
     }
 
+    @Override
+    public ResponseEntity<IdeaReturn> updateStatus(Long idIdea, Integer status) {
+        var idea = ideaRepo.findById(idIdea);
+        idea.get().setStatus(status);
+        ideaRepo.save(idea.get());
+
+        return new ResponseEntity<>(new IdeaReturn("Status updated with success", true), HttpStatus.OK);
+    }
+
 }

@@ -21,4 +21,6 @@ public interface IdeaServices {
     Integer getAllLikesIdea(Long idIdea);
 
     Integer getLikeIdeaUser(Long idIdea, Long IdUser);
+
+    ResponseEntity<IdeaReturn> updateStatus(Long idIdea, Integer status);
 }

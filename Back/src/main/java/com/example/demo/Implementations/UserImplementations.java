@@ -13,6 +13,7 @@ import com.example.demo.DTO.Return;
 import com.example.demo.DTO.Token;
 import com.example.demo.DTO.UserDTO.AnswerComentarie;
 import com.example.demo.DTO.UserDTO.QuestionComentarie;
+import com.example.demo.DTO.UserDTO.UserProfileResponse;
 import com.example.demo.DTO.UserDTO.appearanceUser;
 import com.example.demo.DTO.UserDTO.perfilInfo;
 import com.example.demo.DTO.UserDTO.perfilLikesReturn;
@@ -22,8 +23,10 @@ import com.example.demo.Models.LikeAnswer;
 import com.example.demo.Models.Question;
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.AnswerRepository;
+import com.example.demo.Repositories.AreasOfInterestRepository;
 import com.example.demo.Repositories.LikeAnswerRepository;
 import com.example.demo.Repositories.QuestionRepository;
+import com.example.demo.Repositories.UserHardSkillRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.EncodeServices;
 import com.example.demo.Services.UserServices;
@@ -168,5 +171,13 @@ public class UserImplementations implements UserServices {
         return answerComentarie;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public UserProfileResponse getUserProfile(Long idUser) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUserProfile'");
+    }
+>>>>>>> instructor-features
 
 }
