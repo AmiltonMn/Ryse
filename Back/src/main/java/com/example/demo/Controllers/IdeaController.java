@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.Token;
 import com.example.demo.DTO.IdeaDTO.IdeaData;
 import com.example.demo.DTO.IdeaDTO.IdeaReturn;
+import com.example.demo.DTO.IdeaDTO.IdeaStatus;
 import com.example.demo.DTO.IdeaDTO.LikeData;
 import com.example.demo.DTO.IdeaDTO.newIdeaData;
+import com.example.demo.DTO.Token;
 import com.example.demo.Services.IdeaServices;
 
 @RestController
@@ -86,9 +87,9 @@ public class IdeaController {
     }
 
     @PutMapping
-    public ResponseEntity<IdeaReturn> updateStatus(@PathVariable Long idIdea, Integer status) {
+    public ResponseEntity<IdeaReturn> updateStatus(@RequestBody IdeaStatus data) {
 
-        var response = ideaServices.updateStatus(idIdea, status);
+        var response = ideaServices.updateStatus(data.idIdea(), data.status());
         return response;
     }
 }
