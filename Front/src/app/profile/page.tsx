@@ -449,6 +449,8 @@ const Profile: React.FC = () => {
             sethardSkillsUser(res.data.HardSkillUser)
             sethardSkills(res.data.HardSkills)
             setAreasofInterest(res.data.areas);
+            console.log(res.data.areas);
+            
             setBio(res.data.info.bio)
 
             if (res.data.info.photo === null) {
